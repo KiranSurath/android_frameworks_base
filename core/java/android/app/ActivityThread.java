@@ -130,7 +130,6 @@ import libcore.io.IoUtils;
 
 import dalvik.system.CloseGuard;
 import dalvik.system.VMRuntime;
-import android.os.SystemProperties;
 import java.lang.*;
 
 final class SuperNotCalledException extends AndroidRuntimeException {
@@ -4294,6 +4293,7 @@ public final class ActivityThread {
         }
     }
 
+<<<<<<< HEAD
     private void updateDefaultDensity() {
         if (mCurDefaultDisplayDpi != Configuration.DENSITY_DPI_UNDEFINED
                 && mCurDefaultDisplayDpi != DisplayMetrics.DENSITY_DEVICE
@@ -4304,6 +4304,31 @@ public final class ActivityThread {
             DisplayMetrics.DENSITY_DEVICE = mCurDefaultDisplayDpi;
             Bitmap.setDefaultDensity(DisplayMetrics.DENSITY_DEFAULT);
         }
+    }
+
+    /**
+     * hwui.use.blacklist allows to disable the hardware acceleration
+     * to specified applications processes, if files (process names)
+     * are present in /data/local/hwui.deny/
+     */
+    private boolean hwuiForbidden(String processName) {
+
+        boolean useBL = SystemProperties.getBoolean("hwui.use.blacklist", false);
+
+        // Default is allowed
+        boolean blacklisted = false;
+
+        if (!useBL || TextUtils.isEmpty(processName))
+            return blacklisted;
+
+        File hwuiConfig = new File("/data/local/hwui.deny/" + processName);
+        if (hwuiConfig.exists()) {
+            blacklisted = true;
+        }
+
+        hwuiConfig = null;
+
+        return blacklisted;
     }
 
     private void handleBindApplication(AppBindData data) {
@@ -4360,6 +4385,8 @@ public final class ActivityThread {
             if (!ActivityManager.isHighEndGfx()) {
                 HardwareRenderer.disable(false);
             }
+        } else if (hwuiForbidden(data.processName)) {
+            HardwareRenderer.disable(false);
         }
         
         if (mProfiler.profileFd != null) {

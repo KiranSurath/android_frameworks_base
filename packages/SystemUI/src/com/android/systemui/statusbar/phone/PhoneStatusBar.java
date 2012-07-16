@@ -1008,9 +1008,9 @@ public class PhoneStatusBar extends BaseStatusBar {
             mNavigationBarView.getRecentsButton().setOnClickListener(mRecentsClickListener);
             mNavigationBarView.getRecentsButton().setOnTouchListener(mRecentsPreloadOnTouchListener);
         }
-        if (mNavigationBarView.getHomeButton() != null) {
-            mNavigationBarView.getHomeButton().setOnTouchListener(mHomeSearchActionListener);
-        }
+//        if (mNavigationBarView.getHomeButton() != null) {
+//            mNavigationBarView.getHomeButton().setOnTouchListener(mHomeSearchActionListener);
+//        }
         mNavigationBarView.getSearchLight().setOnTouchListener(mHomeSearchActionListener);
         updateSearchPanel();
     }
