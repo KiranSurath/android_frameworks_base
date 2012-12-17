@@ -62,6 +62,7 @@ import android.os.Vibrator;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.ExtendedPropertiesUtils;
 import android.util.Slog;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
@@ -310,39 +311,49 @@ public class SearchPanelView extends FrameLayout implements
         // Custom Targets
         ArrayList<TargetDrawable> storedDraw = new ArrayList<TargetDrawable>();
 
-        int endPosOffset;
+        int endPosOffset = 0;
         int middleBlanks = 0;
 
-         if (screenLayout() == Configuration.SCREENLAYOUT_SIZE_LARGE || isScreenPortrait()) {
-             startPosOffset =  1;
-             endPosOffset =  (mNavRingAmount) + 1;
-         } else {
-            // next is landscape for lefty navbar is on left
-                if (mLefty) {
-                    startPosOffset =  1 - (mNavRingAmount % 2);
-                    middleBlanks = mNavRingAmount + 2;
-                    endPosOffset = 0;
+        int mSystemUiLayout = ExtendedPropertiesUtils.getActualProperty("com.android.systemui.layout");
 
-                } else {
-                //lastly the standard landscape with navbar on right
-                    startPosOffset =  (Math.min(1,mNavRingAmount / 2)) + 2;
-                    endPosOffset =  startPosOffset - 1;
-                }
-        }
+        if (mSystemUiLayout < 600) {
+           if (isScreenPortrait()) { // NavRing on Bottom
+               startPosOffset =  1;
+               endPosOffset =  (mNavRingAmount) + 1;
+           } else if (mLefty) { // either lefty or... (Ring is actually on right side of screen)
+               startPosOffset =  1 - (mNavRingAmount % 2);
+               middleBlanks = mNavRingAmount + 2;
+               endPosOffset = 0;
+           } else { // righty... (Ring actually on left side of tablet)
+               startPosOffset =  (Math.min(1,mNavRingAmount / 2)) + 2;
+               endPosOffset =  startPosOffset - 1;
+           }
+        } else if (mSystemUiLayout < 720) {
+               startPosOffset =  1;
+               endPosOffset =  (mNavRingAmount) + 1;
+        } else if (mSystemUiLayout == 1000) {
+           if (mLefty) { // either lefty or... (Ring is actually on right side of screen)
+               startPosOffset =  (mNavRingAmount) + 1;
+               endPosOffset =  (mNavRingAmount *2) + 1;
+           } else { // righty... (Ring actually on left side of tablet)
+               startPosOffset =  1;
+               endPosOffset = (mNavRingAmount * 3) + 1;
+           }
+        } 
 
         intentList.clear();
         longList.clear();
 
-         int middleStart = mNavRingAmount;
-         int tqty = middleStart;
-         int middleFinish = 0;
+        int middleStart = mNavRingAmount;
+        int tqty = middleStart;
+        int middleFinish = 0;
 
-         if (middleBlanks > 0) {
-             middleStart = (tqty/2) + (tqty%2);
-             middleFinish = (tqty/2);
-         }
+        if (middleBlanks > 0) {
+            middleStart = (tqty/2) + (tqty%2);
+            middleFinish = (tqty/2);
+        }
 
-         // Add Initial Place Holder Targets
+        // Add Initial Place Holder Targets
         for (int i = 0; i < startPosOffset; i++) {
             storedDraw.add(NavRingHelpers.getTargetDrawable(mContext, null));
             intentList.add(AwesomeConstant.ACTION_NULL.value());

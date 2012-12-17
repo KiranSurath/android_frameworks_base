@@ -1887,15 +1887,12 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
 
         private Handler mConfigHandler;
         private boolean mEnableSpen;
-        private SettingsObserver settingsObserver;
 
         public DecorView(Context context, int featureId) {
             super(context);
             mFeatureId = featureId;
 
             mConfigHandler = new Handler();
-            settingsObserver = new SettingsObserver(mConfigHandler);
-
             mSettingsObserver = new SettingsObserver();
 
             mActivityManager =
@@ -1946,6 +1943,8 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
                     Settings.System.GESTURE_SWIPE_DISTANCE), false, this);
                 getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SHOW_GESTURES), false, this);
+                getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.ENABLE_SPEN_ACTIONS), false, this);
             }
 
             public void unobserve() {
@@ -1956,6 +1955,13 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
             public void onChange(boolean selfChange) {
                 super.onChange(selfChange);
                 updateGestureSettings();
+                updateSettings();
+            }
+
+            void updateSettings() {
+                mEnableSpen = Settings.System.getBoolean(
+                        getContext().getContentResolver(),
+                        Settings.System.ENABLE_SPEN_ACTIONS, false);
             }
         }
 
@@ -2186,35 +2192,6 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
                 i.putExtra("action", action);
                 mContext.sendBroadcast(i);
         }
-
-    private final class SettingsObserver extends ContentObserver {
-        SettingsObserver(Handler handler) {
-            super(handler);
-        }
-
-        void observe() {
-            ContentResolver resolver = mContext.getContentResolver();
-            resolver.registerContentObserver(Settings.System
-                .getUriFor(Settings.System.ENABLE_SPEN_ACTIONS), false, this);
-            updateSettings();
-        }
-
-        void unobserve() {
-            ContentResolver resolver = mContext.getContentResolver();
-            resolver.unregisterContentObserver(this);
-        }
-
-         @Override
-        public void onChange(boolean selfChange) {
-            updateSettings();
-        }
-
-        void updateSettings() {
-            mEnableSpen = Settings.System.getBoolean(
-                    mContext.getContentResolver(),
-                    Settings.System.ENABLE_SPEN_ACTIONS, false);
-        }
-    }
 
         @Override
         public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -3021,8 +2998,6 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
             mSettingsObserver.observe();
 
             updateWindowResizeState();
-
-            settingsObserver.observe();
             
             final Callback cb = getCallback();
             if (cb != null && !isDestroyed() && mFeatureId < 0) {
@@ -3055,7 +3030,6 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
             super.onDetachedFromWindow();
             
             mSettingsObserver.unobserve();
-            settingsObserver.unobserve();
 
             final Callback cb = getCallback();
             if (cb != null && mFeatureId < 0) {

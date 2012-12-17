@@ -122,7 +122,6 @@ public class KeyguardPatternView extends LinearLayout implements KeyguardSecurit
         mLockPatternView.setFocusable(false);
         mLockPatternView.setOnPatternListener(new UnlockPatternListener());
         mLockPatternView.setLockPatternUtils(mLockPatternUtils);
-
         mLockPatternView.setVisibleDots(mLockPatternUtils.isVisibleDotsEnabled());
         mLockPatternView.setShowErrorPath(mLockPatternUtils.isShowErrorPath());
 

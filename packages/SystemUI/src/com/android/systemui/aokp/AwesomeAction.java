@@ -179,7 +179,6 @@ public class AwesomeAction {
                 weatherintent.putExtra("com.aokp.romcontrol.INTENT_EXTRA_TYPE", "updateweather");
                 weatherintent.putExtra("com.aokp.romcontrol.INTENT_EXTRA_ISMANUAL", true);
                 mContext.sendBroadcast(weatherintent);
-                Toast.makeText(mContext, R.string.weather_refreshing, Toast.LENGTH_SHORT).show();
                 break;
             case ACTION_TODAY:
                 long startMillis = System.currentTimeMillis();
