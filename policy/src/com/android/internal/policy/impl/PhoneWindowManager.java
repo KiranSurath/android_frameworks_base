@@ -387,6 +387,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     // HW overlays state
     int mDisableOverlays = 0;
 
+    // Power button torch
+    boolean mPowerButtonTorch;
+    boolean mTorchOn;
+
     private static final class PointerLocationInputEventReceiver extends InputEventReceiver {
         private final PointerLocationView mView;
 
@@ -676,6 +680,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.System.KEY_APP_SWITCH_LONG_PRESS_ACTION), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HARDWARE_KEY_REBINDING), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.POWER_BUTTON_TORCH), false, this);
 
             updateSettings();
         }
@@ -939,6 +945,22 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
         }
     };
+
+    private final Runnable mTorchLongPress = new Runnable() {
+        @Override
+        public void run() {
+            toggleTorch(true); // on
+        }
+    };
+
+    void toggleTorch(boolean on) {
+        boolean bright = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.EXPANDED_FLASH_MODE, 0) == 1;
+        Intent intent = new Intent("net.cactii.flash2.TOGGLE_FLASHLIGHT");
+        intent.putExtra("bright", bright);
+        mContext.sendBroadcast(intent);
+        mTorchOn = on;
+    }
 
     void showGlobalActionsDialog() {
         if (mGlobalActions == null) {
@@ -1382,6 +1404,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.Secure.RING_HOME_BUTTON_BEHAVIOR,
                     Settings.Secure.RING_HOME_BUTTON_BEHAVIOR_DEFAULT,
                     UserHandle.USER_CURRENT);
+
+            mPowerButtonTorch = (Settings.System.getIntForUser(resolver,
+                    Settings.System.POWER_BUTTON_TORCH, 0, UserHandle.USER_CURRENT) == 1);
 
             boolean keyRebindingEnabled = Settings.System.getInt(resolver,
                     Settings.System.HARDWARE_KEY_REBINDING, 0) == 1;
@@ -3921,6 +3946,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
 
         final boolean down = event.getAction() == KeyEvent.ACTION_DOWN;
+        final boolean up = event.getAction() == KeyEvent.ACTION_UP;
         final boolean canceled = event.isCanceled();
         final int keyCode = event.getKeyCode();
 
@@ -3997,7 +4023,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             // When the screen is off and the key is not injected, determine whether
             // to wake the device but don't pass the key to the application.
             result = 0;
-            if (down && isWakeKey) {
+            if (((down && !mPowerButtonTorch) || (up && !mTorchOn && mPowerButtonTorch))
+                    && isWakeKey) {
                 if (keyguardActive) {
                     // send power key code to wake the screen
                     if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP) || (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) && isWakeKey) {
@@ -4150,6 +4177,22 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
 
             case KeyEvent.KEYCODE_POWER: {
+                // handle power key long-press
+                if (mPowerButtonTorch && !isScreenOn) {
+                    if (down && !mTorchOn) {
+                        mHandler.postDelayed(mTorchLongPress, 1000);
+                        return 0;
+                    }
+
+                    if (up) {
+                        mHandler.removeCallbacks(mTorchLongPress);
+                        if (mTorchOn) {
+                            toggleTorch(false); // off
+                            return 0;
+                        }
+                    }
+                }
+
                 if ((mTopFullscreenOpaqueWindowState.getAttrs().flags
                         & WindowManager.LayoutParams.PREVENT_POWER_KEY) != 0){
                     return result;

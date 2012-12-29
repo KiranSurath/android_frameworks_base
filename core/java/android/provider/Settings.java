@@ -3826,6 +3826,12 @@ public final class Settings {
         public static final String MUTE_ANNOYING_NOTIFICATIONS_THRESHOLD = "mute_annoying_notifications_threshold";
 
         /**
+         * Whether to control torch by holding power button with screen off
+         * @hide
+         */
+        public static final String POWER_BUTTON_TORCH = "power_button_torch";
+
+        /**
          * @hide
          */
         public static final String GESTURE_ONE = "gesture_one";
@@ -3891,6 +3897,9 @@ public final class Settings {
         public static final String TOUCH_ZONE_ONE = "touch_zone_one";
 
         /**
+         * Show the pending notification counts as overlays on the status bar
+         * Whether to enable custom rebindings of the actions performed on
+         * certain key press events.
          * @hide
          */
         public static final String TOUCH_ZONE_TWO = "touch_zone_two";
