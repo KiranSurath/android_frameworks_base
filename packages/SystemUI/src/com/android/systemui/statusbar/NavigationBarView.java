@@ -105,9 +105,11 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
         mRecentsIcon, mRecentsLandIcon, mRecentsAltIcon, mRecentsAltLandIcon;
     private boolean mMenuArrowKeys;
     private boolean mColorAllIcons;
-    private SettingsObserver mSettingsObserver;
+
     public DelegateViewHelper mDelegateHelper;
 
+    private BaseStatusBar mBar;
+    private SettingsObserver mSettingsObserver;
     private Context mContext;
 
     private Canvas mCurrentCanvas;
@@ -931,7 +933,7 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
 
         // this takes care of making the buttons
         mSettingsObserver = new SettingsObserver(new Handler());
-	updateSettings();
+        updateSettings();
     }
 
     @Override
