@@ -59,7 +59,7 @@ public class KeyButtonView extends ImageView {
     private static final String TAG = "StatusBar.KeyButtonView";
 
     final float GLOW_MAX_SCALE_FACTOR = 1.8f;
-    float BUTTON_QUIESCENT_ALPHA = 1.0f;
+    float BUTTON_QUIESCENT_ALPHA = 0.70f;
 
     long mDownTime;
     int mCode;
@@ -329,7 +329,7 @@ public class KeyButtonView extends ImageView {
                         mGlowScale = mCustomGlowScale;
                     if (mGlowAlpha < BUTTON_QUIESCENT_ALPHA)
                         mGlowAlpha = BUTTON_QUIESCENT_ALPHA;
-                    setDrawingAlpha(BUTTON_QUIESCENT_ALPHA);
+                    setDrawingAlpha(1f);
                     as.playTogether(
                         ObjectAnimator.ofFloat(this, "glowAlpha", 1f),
                         ObjectAnimator.ofFloat(this, "glowScale", GLOW_MAX_SCALE_FACTOR)
