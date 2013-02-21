@@ -227,7 +227,6 @@ public class PhoneStatusBar extends BaseStatusBar {
     View mFlipSettingsView;
     QuickSettingsContainerView mSettingsContainer;
     int mSettingsPanelGravity;
-    private TilesChangedObserver mTilesChangedObserver;
 
     // top bar
     View mNotificationPanelHeader;
@@ -695,11 +694,6 @@ public class PhoneStatusBar extends BaseStatusBar {
                 mQS.setService(this);
                 mQS.setBar(mStatusBarView);
                 mQS.setupQuickSettings();
-
-                // Start observing for changes
-                mTilesChangedObserver = new TilesChangedObserver(mHandler);
-                mTilesChangedObserver.startObserving();
-
             } else {
                 mQS = null; // fly away, be free
             }
