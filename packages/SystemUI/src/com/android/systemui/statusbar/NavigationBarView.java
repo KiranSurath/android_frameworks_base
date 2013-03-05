@@ -894,8 +894,8 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
             Slog.d(TAG, "reorient(): rot=" + mDisplay.getRotation());
         }
         // Reset recents hints after reorienting
-        ((ImageView)getRecentsButton()).setImageDrawable(mVertical
-                ? mRecentsLandIcon : mRecentsIcon);
+        //((ImageView)getRecentsButton()).setImageDrawable(mVertical
+        //        ? mRecentsLandIcon : mRecentsIcon);
     }
 
     @Override
