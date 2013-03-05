@@ -114,4 +114,17 @@ public class QuickSettingsTile {
         mStatusbarService.collapse();
     }
 
+<<<<<<< HEAD:packages/SystemUI/src/com/android/systemui/statusbar/quicksettings/QuickSettingsTile.java
+=======
+    @Override
+    public final void onClick(View v) {
+        mOnClick.onClick(v);
+        ContentResolver resolver = mContext.getContentResolver();
+        boolean shouldCollapse = Settings.System.getInt(resolver, Settings.System.QS_COLLAPSE_PANEL, 0) == 1;
+        if (shouldCollapse || this instanceof DesktopModeTile) {
+            mQsc.mBar.collapseAllPanels(true);
+        }
+    }
+
+>>>>>>> 60c2d1c... SysUI: Add fullscreen/PIE toggle, change global action string:packages/SystemUI/src/com/android/systemui/quicksettings/QuickSettingsTile.java
 }

@@ -16,7 +16,35 @@
 
 package com.android.systemui.statusbar.phone;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
+=======
+import static com.android.internal.util.cm.QSConstants.TILES_DEFAULT;
+import static com.android.internal.util.cm.QSConstants.TILE_AIRPLANE;
+import static com.android.internal.util.cm.QSConstants.TILE_AUTOROTATE;
+import static com.android.internal.util.cm.QSConstants.TILE_BATTERY;
+import static com.android.internal.util.cm.QSConstants.TILE_BLUETOOTH;
+import static com.android.internal.util.cm.QSConstants.TILE_BRIGHTNESS;
+import static com.android.internal.util.cm.QSConstants.TILE_DELIMITER;
+import static com.android.internal.util.cm.QSConstants.TILE_GPS;
+import static com.android.internal.util.cm.QSConstants.TILE_LOCKSCREEN;
+import static com.android.internal.util.cm.QSConstants.TILE_MOBILEDATA;
+import static com.android.internal.util.cm.QSConstants.TILE_NETWORKMODE;
+import static com.android.internal.util.cm.QSConstants.TILE_NFC;
+import static com.android.internal.util.cm.QSConstants.TILE_RINGER;
+import static com.android.internal.util.cm.QSConstants.TILE_SCREENTIMEOUT;
+import static com.android.internal.util.cm.QSConstants.TILE_SETTINGS;
+import static com.android.internal.util.cm.QSConstants.TILE_SLEEP;
+import static com.android.internal.util.cm.QSConstants.TILE_SYNC;
+import static com.android.internal.util.cm.QSConstants.TILE_TORCH;
+import static com.android.internal.util.cm.QSConstants.TILE_USER;
+import static com.android.internal.util.cm.QSConstants.TILE_WIFI;
+import static com.android.internal.util.cm.QSConstants.TILE_WIFIAP;
+import static com.android.internal.util.cm.QSConstants.TILE_DESKTOPMODE;
+import static com.android.internal.util.cm.QSUtils.deviceSupportsBluetooth;
+import static com.android.internal.util.cm.QSUtils.deviceSupportsTelephony;
+import static com.android.internal.util.cm.QSUtils.deviceSupportsUsbTether;
+>>>>>>> 60c2d1c... SysUI: Add fullscreen/PIE toggle, change global action string
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.ContentResolver;
@@ -29,6 +57,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.android.systemui.statusbar.BaseStatusBar;
+<<<<<<< HEAD
 import com.android.systemui.statusbar.quicksettings.AirplaneModeTile;
 import com.android.systemui.statusbar.quicksettings.AlarmTile;
 import com.android.systemui.statusbar.quicksettings.AutoRotateTile;
@@ -53,6 +82,37 @@ import com.android.systemui.statusbar.quicksettings.VibrationModeTile;
 import com.android.systemui.statusbar.quicksettings.WiFiDisplayTile;
 import com.android.systemui.statusbar.quicksettings.WiFiTile;
 import com.android.systemui.statusbar.quicksettings.WifiAPTile;
+=======
+import com.android.systemui.quicksettings.AirplaneModeTile;
+import com.android.systemui.quicksettings.AlarmTile;
+import com.android.systemui.quicksettings.AutoRotateTile;
+import com.android.systemui.quicksettings.BatteryTile;
+import com.android.systemui.quicksettings.BluetoothTile;
+import com.android.systemui.quicksettings.BrightnessTile;
+import com.android.systemui.quicksettings.BugReportTile;
+import com.android.systemui.quicksettings.GPSTile;
+import com.android.systemui.quicksettings.InputMethodTile;
+import com.android.systemui.quicksettings.MobileNetworkTile;
+import com.android.systemui.quicksettings.MobileNetworkTypeTile;
+import com.android.systemui.quicksettings.NfcTile;
+import com.android.systemui.quicksettings.PreferencesTile;
+import com.android.systemui.quicksettings.QuickSettingsTile;
+import com.android.systemui.quicksettings.RingerModeTile;
+import com.android.systemui.quicksettings.ScreenTimeoutTile;
+import com.android.systemui.quicksettings.SleepScreenTile;
+import com.android.systemui.quicksettings.SyncTile;
+import com.android.systemui.quicksettings.ToggleLockscreenTile;
+import com.android.systemui.quicksettings.TorchTile;
+import com.android.systemui.quicksettings.UsbTetherTile;
+import com.android.systemui.quicksettings.UserTile;
+import com.android.systemui.quicksettings.WiFiDisplayTile;
+import com.android.systemui.quicksettings.WiFiTile;
+import com.android.systemui.quicksettings.WifiAPTile;
+import com.android.systemui.quicksettings.DesktopModeTile;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+>>>>>>> 60c2d1c... SysUI: Add fullscreen/PIE toggle, change global action string
 
 public class QuickSettingsController {
     private static String TAG = "QuickSettingsController";
@@ -187,6 +247,7 @@ public class QuickSettingsController {
             } else if (tile.equals(TILE_FLASHLIGHT)) {
                 mQuickSettings.add(FLASHLIGHT_TILE);
             } else if (tile.equals(TILE_SLEEP)) {
+<<<<<<< HEAD
                 mQuickSettings.add(SLEEP_TILE);
             } else if (tile.equals(TILE_WIMAX)) {
                 // Not available yet
@@ -194,6 +255,19 @@ public class QuickSettingsController {
                 // Not available yet
             } else if(tile.equals(TILE_NFC)) {
                 mQuickSettings.add(NFC_TILE);
+=======
+                qs = new SleepScreenTile(mContext, inflater, mContainerView, this);
+            } else if (tile.equals(TILE_NFC)) {
+                // User cannot add the NFC tile if the device does not support it
+                // No need to check again here
+                qs = new NfcTile(mContext, inflater, mContainerView, this);
+            } else if (tile.equals(TILE_DESKTOPMODE)) {
+                qs = new DesktopModeTile(mContext, inflater, mContainerView, this, mHandler);
+            }
+            if (qs != null) {
+                qs.setupQuickSettingsTile();
+                mQuickSettingsTiles.add(qs);
+>>>>>>> 60c2d1c... SysUI: Add fullscreen/PIE toggle, change global action string
             }
         }
 
