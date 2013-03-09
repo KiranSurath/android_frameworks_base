@@ -334,8 +334,6 @@ public class AokpSwipeRibbon extends LinearLayout {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.RIBBON_HIDE_TIMEOUT), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.NAV_HIDE_ENABLE), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SWIPE_RIBBON_COLOR), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SWIPE_RIBBON_OPACITY), false, this);
@@ -351,8 +349,6 @@ public class AokpSwipeRibbon extends LinearLayout {
             }
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_SHOW_NOW), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.NAVIGATION_BAR_HEIGHT), false, this);
 
         }
          @Override
@@ -387,13 +383,9 @@ public class AokpSwipeRibbon extends LinearLayout {
             mEnableSides[i] = Settings.System.getBoolean(cr,
                  Settings.System.ENABLE_RIBBON_LOCATION[i], false);
         }
-        boolean manualNavBarHide = Settings.System.getBoolean(mContext.getContentResolver(), Settings.System.NAVIGATION_BAR_SHOW_NOW, true);
-        boolean navHeightZero = Settings.System.getInt(mContext.getContentResolver(), Settings.System.NAVIGATION_BAR_HEIGHT, 10) < 5;
-        navAutoHide = Settings.System.getBoolean(cr, Settings.System.NAV_HIDE_ENABLE, false);
-        NavBarEnabled = Settings.System.getBoolean(cr, Settings.System.NAVIGATION_BAR_SHOW, false);
         hasNavBarByDefault = mContext.getResources().getBoolean(com.android.internal.R.bool.config_showNavigationBar);
-        mNavBarShowing = (NavBarEnabled || hasNavBarByDefault) && manualNavBarHide && !navHeightZero && !navAutoHide;
-        mEnableSides[0] = mEnableSides[0] && !(NavBarEnabled || hasNavBarByDefault);
+        mNavBarShowing = hasNavBarByDefault && Settings.System.getInt(mContext.getContentResolver(),Settings.System.EXPANDED_DESKTOP_STATE, 0) == 0;
+        mEnableSides[0] = mEnableSides[0] && !(hasNavBarByDefault);
         if (!showing && !animating) {
             createRibbonView();
         }
@@ -414,7 +406,6 @@ public class AokpSwipeRibbon extends LinearLayout {
                 }
             } else if (ACTION_SHOW_RIBBON.equals(action)) {
                 if (location.equals(mLocation)) {
-                    mHandler.removeCallbacks(delayHide);
                     if (!showing) {
                         showRibbonView();
                     }

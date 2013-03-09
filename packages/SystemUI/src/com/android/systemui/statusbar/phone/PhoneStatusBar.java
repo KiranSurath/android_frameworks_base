@@ -99,6 +99,7 @@ import com.android.systemui.statusbar.powerwidget.PowerWidget;
 import com.android.systemui.R;
 import com.android.systemui.statusbar.BaseStatusBar;
 import com.android.systemui.statusbar.CommandQueue;
+import com.android.systemui.statusbar.GestureCatcherView;
 import com.android.systemui.statusbar.GestureRecorder;
 import com.android.systemui.statusbar.NavigationBarView;
 import com.android.systemui.statusbar.NotificationData;
@@ -279,6 +280,7 @@ public class PhoneStatusBar extends BaseStatusBar {
 
     // on-screen navigation buttons
     private NavigationBarView mNavigationBarView = null;
+    private GestureCatcherView mGesturePanel;
 
     // the tracker view
     int mTrackingPosition; // the position of the top of the tracking view.
