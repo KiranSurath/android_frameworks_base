@@ -581,6 +581,9 @@
     <string name="toggle_ring_vib_silent">Ring/Vib/Silent - Toggle</string>
     <string name="app_killed_message">App Killed</string>
 
+    <!-- Lockscreen weather slash string -->
+    <string name="weatherpanel_slash">/</string>
+
     <!--  RamBar -->
     <string name="memory">RAM</string>
     <!-- [CHAR LIMIT=10] Running services, summary of background processes -->

@@ -191,6 +191,9 @@
     <!-- Height of the carrier/wifi name label -->
     <dimen name="carrier_label_height">24dp</dimen>
 
+   <!-- Height of carrier label + close handle -->
+    <dimen name="weather_text_margin">56dp</dimen>
+
     <!-- The distance you can pull a notification before it pops open -->
     <dimen name="one_finger_pop_limit">32dp</dimen>
 

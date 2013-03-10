@@ -3523,6 +3523,33 @@ public final class Settings {
         public static final String LOCKSCREEN_QUICK_UNLOCK_CONTROL = "lockscreen_quick_unlock_control";
 
         /**
+         * How to show weather on the statusbar
+         *
+         * @hide
+         */
+        public static final String STATUSBAR_WEATHER_STYLE = "statusbar_weather_style";
+
+        /**
+         * @hide
+         */
+        public static final String USE_WEATHER = "use_weather";
+
+        /**
+         * @hide
+         */
+        public static final String WEATHER_SHOW_LOCATION = "weather_show_location";
+
+        /**
+         * @hide
+         */
+        public static final String WEATHER_PANEL_SHORTCLICK = "weather_panel_shortclick";
+
+        /**
+         * @hide
+         */
+        public static final String WEATHER_PANEL_LONGCLICK = "weather_panel_longclick";
+
+        /**
          * Whether to use keyguard or homescreen widgets
          * @hide
          */
