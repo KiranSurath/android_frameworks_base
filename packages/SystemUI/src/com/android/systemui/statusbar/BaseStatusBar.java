@@ -158,7 +158,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     public PieControlPanel mPieControlPanel;
     public View mPieControlsTrigger;
     public PieExpandPanel mContainer;
-    public View[] mPieDummyTrigger = new View[4];
+    public View[] mPieDummytrigger = {null, null, null, null}
     int mIndex;
 
     // Policy
