@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="top|center_horizontal"
                 android:paddingTop="1dp"
-                android:src="@drawable/weather_condition" />
+                android:src="@android:drawable/weather_condition" />
         </LinearLayout>
 
         <LinearLayout
@@ -102,7 +102,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="1dp"
                     android:paddingRight="1dp"
-                    android:text="@string/weatherpanel_slash"
+                    android:text="@android:string/weatherpanel_slash"
                     android:textAppearance="@android:style/TextAppearance"
                     android:textSize="10.0sp"
                     android:textStyle="normal" />
