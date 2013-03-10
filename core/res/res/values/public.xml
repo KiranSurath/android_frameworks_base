@@ -2092,16 +2092,5 @@
   <java-symbol type="drawable" name="weather_45" />
   <java-symbol type="drawable" name="weather_46" />
   <java-symbol type="drawable" name="weather_47" />
-  <java-symbol type="id" name="city" />
-  <java-symbol type="id" name="condition" />
-  <java-symbol type="id" name="condition_image" />
-  <java-symbol type="id" name="current_temp" />
-  <java-symbol type="id" name="high_temp" />
-  <java-symbol type="id" name="humidity" />
-  <java-symbol type="id" name="low_temp" />
-  <java-symbol type="id" name="weather" />
-  <java-symbol type="id" name="weatherpanel" />
-  <java-symbol type="id" name="weatherpanel_slash" />
-  <java-symbol type="id" name="winds" />
 
 </resources>

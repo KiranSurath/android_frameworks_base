@@ -524,8 +524,13 @@ public class PhoneStatusBar extends BaseStatusBar {
             mDateTimeView.setEnabled(true);
         }
 
+        mWeatherPanel = (WeatherPanel) mStatusBarWindow.findViewById(R.id.weatherpanel);
+        mWeatherPanel.setOnClickListener(mWeatherPanelListener);
+        mWeatherPanel.setOnLongClickListener(mWeatherPanelLongClickListener);
+
         SettingsObserver settingsObserver = new SettingsObserver(new Handler());
         settingsObserver.observe();
+
         updateSettings();
 
         mSettingsButton = (ImageView) mStatusBarWindow.findViewById(R.id.settings_button);
@@ -625,10 +630,6 @@ public class PhoneStatusBar extends BaseStatusBar {
                     updateCarrierLabelVisibility(false);
                 }});
         }
-
-        mWeatherPanel = (WeatherPanel) mStatusBarWindow.findViewById(R.id.weatherpanel);
-        mWeatherPanel.setOnClickListener(mWeatherPanelListener);
-        mWeatherPanel.setOnLongClickListener(mWeatherPanelLongClickListener);
 
         mCarrierLabel = (TextView)mStatusBarWindow.findViewById(R.id.carrier_label);
         mShowCarrierInPanel = (mCarrierLabel != null);
@@ -2844,8 +2845,10 @@ public class PhoneStatusBar extends BaseStatusBar {
                     Settings.System.STATUSBAR_WEATHER_STYLE), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.USE_WEATHER), false, this);
-
-            update();
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.WEATHER_PANEL_SHORTCLICK), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.WEATHER_PANEL_LONGCLICK), false, this);
         }
 
         @Override

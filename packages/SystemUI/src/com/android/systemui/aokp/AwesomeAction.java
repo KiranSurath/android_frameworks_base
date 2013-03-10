@@ -85,6 +85,7 @@ public class AwesomeAction {
     public final static String ACTION_VOICEASSIST = "**voiceassist**";
     public final static String ACTION_TORCH = "**torch**";
     public final static String ACTION_SEARCH = "**search**";
+    public final static String ACTION_UPDATE = "**update**";
     public final static String ACTION_LAST_APP = "**lastapp**";
     public final static String ACTION_RECENTS_GB = "**recentsgb**";
     public final static String ACTION_NULL = "**null**";
@@ -142,6 +143,13 @@ public class AwesomeAction {
             return true;
         } else if (action.equals(ACTION_IME)) {
             mContext.sendBroadcast(new Intent("android.settings.SHOW_INPUT_METHOD_PICKER"));
+            return true;
+        } else if (action.equals(ACTION_UPDATE)) {
+            Intent weatherintent = new Intent("com.aokp.romcontrol.INTENT_WEATHER_REQUEST");
+            weatherintent.putExtra("com.aokp.romcontrol.INTENT_EXTRA_TYPE", "updateweather");
+            weatherintent.putExtra("com.aokp.romcontrol.INTENT_EXTRA_ISMANUAL", true);
+            mContext.sendBroadcast(weatherintent);
+            Toast.makeText(mContext, R.string.weather_refreshing, Toast.LENGTH_SHORT).show();
             return true;
         } else if (action.equals(ACTION_SCREENSHOT)) {
             takeScreenshot();
