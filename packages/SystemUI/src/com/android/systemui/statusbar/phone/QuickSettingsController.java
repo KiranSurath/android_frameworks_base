@@ -297,6 +297,10 @@ public class QuickSettingsController {
         registerInMap(action, tile, mReceiverMap);
     }
 
+    public void setService(PhoneStatusBar phoneStatusBar) {
+        mStatusBarService = phoneStatusBar;
+    }
+
     public void registerObservedContent(Uri uri, QuickSettingsTile tile) {
         registerInMap(uri, tile, mObserverMap);
     }
