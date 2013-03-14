@@ -2888,13 +2888,10 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         @Override
         public void onChange(boolean selfChange) {
-            boolean hideSettingsPanel = Settings.System.getInt(mContext.getContentResolver(),
-                                    Settings.System.QS_DISABLE_PANEL, 0) == 1;
             boolean uiModeIsToggled = Settings.Secure.getInt(mContext.getContentResolver(),
                                     Settings.Secure.UI_MODE_IS_TOGGLED, 0) == 1;
 
-            if (hideSettingsPanel != mHideSettingsPanel
-                || uiModeIsToggled != mUiModeIsToggled) {
+            if (uiModeIsToggled != mUiModeIsToggled) {
                 recreateStatusBar();
             }
 
@@ -2913,6 +2910,13 @@ public class PhoneStatusBar extends BaseStatusBar {
                     Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
             mBrightnessControl = !autoBrightness && Settings.System.getInt(
                     resolver, Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0) == 1;
+
+            boolean uiModeIsToggled = Settings.Secure.getInt(
+                    resolver, Settings.Secure.UI_MODE_IS_TOGGLED, 0) == 1;
+
+            if (uiModeIsToggled != mUiModeIsToggled) {
+                recreateStatusBar();
+            }
         }
     }
 
@@ -2930,6 +2934,9 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         mLongClickWeather = Settings.System.getString(cr,
                 Settings.System.WEATHER_PANEL_LONGCLICK);
+
+        mCurrentUIMode = Settings.System.getInt(cr,
+                Settings.System.CURRENT_UI_MODE, 0);
 
         if (mShortClickWeather == null || mShortClickWeather.equals("")) {
             mShortClickWeather = "**null**";
@@ -2959,8 +2966,6 @@ public class PhoneStatusBar extends BaseStatusBar {
         } else {
             mClockDoubleClicked = true;
         }
-        mCurrentUIMode = Settings.System.getInt(cr,
-                Settings.System.CURRENT_UI_MODE, 0);
     }
 
     public boolean skipToSettingsPanel() {
