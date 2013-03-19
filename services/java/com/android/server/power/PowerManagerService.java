@@ -1347,8 +1347,7 @@ public final class PowerManagerService extends IPowerManager.Stub
      */
     private void updateUserActivitySummaryLocked(long now, int dirty) {
 
-        int mTouchKeyTimeout = (Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.TOUCHKEY_LIGHT_DUR, BUTTON_ON_DURATION));
+        int mTouchKeyTimeout = BUTTON_ON_DURATION;
 
         // Update the status of the user activity timeout timer.
         if ((dirty & (DIRTY_USER_ACTIVITY | DIRTY_WAKEFULNESS | DIRTY_SETTINGS)) != 0) {
