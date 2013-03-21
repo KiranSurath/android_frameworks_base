@@ -885,10 +885,6 @@ public class InputMethodService extends AbstractInputMethodService {
      * is currently running in fullscreen mode.
      */
     public void updateFullscreenMode() {
-<<<<<<< HEAD
-        boolean isFullscreen = mShowInputRequested && onEvaluateFullscreenMode();
-=======
->>>>>>> github/cm-10.1
         boolean fullScreenOverride = Settings.System.getInt(getContentResolver(),
                 Settings.System.DISABLE_FULLSCREEN_KEYBOARD, 0) != 0;
         boolean isFullscreen;

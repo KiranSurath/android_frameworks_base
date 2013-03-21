@@ -1,7 +1,3 @@
-<<<<<<< HEAD:packages/SystemUI/src/com/android/systemui/quicksettings/MobileNetworkTypeTile.java
-package com.android.systemui.quicksettings;
-
-=======
 /*
  * Copyright (C) 2012 CyanogenMod Project
  *
@@ -22,7 +18,6 @@ package com.android.systemui.quicksettings;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
->>>>>>> github/cm-10.1:packages/SystemUI/src/com/android/systemui/quicksettings/MobileNetworkTypeTile.java
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
@@ -232,7 +227,6 @@ public class MobileNetworkTypeTile extends QuickSettingsTile implements NetworkS
     public void onWifiSignalChanged(boolean enabled, int wifiSignalIconId,
         String wifitSignalContentDescriptionId, String description) {
     }
-<<<<<<< HEAD:packages/SystemUI/src/com/android/systemui/quicksettings/MobileNetworkTypeTile.java
 
     @Override
     public void onMobileDataSignalChanged(boolean enabled,
@@ -240,19 +234,6 @@ public class MobileNetworkTypeTile extends QuickSettingsTile implements NetworkS
         int dataTypeIconId, String dataTypeContentDescriptionId,
         String description) {
         updateResources();
-=======
-
-    @Override
-    public void onMobileDataSignalChanged(boolean enabled,
-        int mobileSignalIconId, String mobileSignalContentDescriptionId,
-        int dataTypeIconId, String dataTypeContentDescriptionId,
-        String description) {
-        updateResources();
-    }
-
-    @Override
-    public void onAirplaneModeChanged(boolean enabled) {
->>>>>>> github/cm-10.1:packages/SystemUI/src/com/android/systemui/quicksettings/MobileNetworkTypeTile.java
     }
 
     @Override

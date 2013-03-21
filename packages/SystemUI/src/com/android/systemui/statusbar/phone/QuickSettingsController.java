@@ -297,13 +297,10 @@ public class QuickSettingsController {
         registerInMap(action, tile, mReceiverMap);
     }
 
-<<<<<<< HEAD
     public void setService(PhoneStatusBar phoneStatusBar) {
         mStatusBarService = phoneStatusBar;
     }
 
-=======
->>>>>>> github/cm-10.1
     public void registerObservedContent(Uri uri, QuickSettingsTile tile) {
         registerInMap(uri, tile, mObserverMap);
     }

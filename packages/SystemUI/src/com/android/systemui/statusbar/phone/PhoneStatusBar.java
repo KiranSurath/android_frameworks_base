@@ -579,7 +579,6 @@ public class PhoneStatusBar extends BaseStatusBar {
             mDateTimeView.setEnabled(true);
         }
 
-<<<<<<< HEAD
         mWeatherPanel = (WeatherPanel) mStatusBarWindow.findViewById(R.id.weatherpanel);
         mWeatherPanel.setOnClickListener(mWeatherPanelListener);
         mWeatherPanel.setOnLongClickListener(mWeatherPanelLongClickListener);
@@ -589,8 +588,6 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         updateSettings();
 
-=======
->>>>>>> github/cm-10.1
         mSettingsButton = (ImageView) mStatusBarWindow.findViewById(R.id.settings_button);
         if (mSettingsButton != null) {
             mSettingsButton.setOnClickListener(mSettingsButtonListener);
@@ -713,21 +710,12 @@ public class PhoneStatusBar extends BaseStatusBar {
         }
 
         mWifiLabel = (TextView)mStatusBarWindow.findViewById(R.id.wifi_text);
-<<<<<<< HEAD
 
         if (mWifiLabel != null) {
             mNetworkController.addWifiLabelView(mWifiLabel);
 
             mWifiLabel.addTextChangedListener(new TextWatcher() {
 
-=======
-
-        if (mWifiLabel != null) {
-            mNetworkController.addWifiLabelView(mWifiLabel);
-
-            mWifiLabel.addTextChangedListener(new TextWatcher() {
-
->>>>>>> github/cm-10.1
                 public void afterTextChanged(Editable s) {
                 }
                 public void beforeTextChanged(CharSequence s, int start, int count,
@@ -795,14 +783,11 @@ public class PhoneStatusBar extends BaseStatusBar {
                 mQS.setService(this);
                 mQS.setBar(mStatusBarView);
                 mQS.setupQuickSettings();
-<<<<<<< HEAD
-=======
 
                 // Start observing for changes
                 mTilesChangedObserver = new TilesChangedObserver(mHandler);
                 mTilesChangedObserver.startObserving();
 
->>>>>>> github/cm-10.1
             } else {
                 mQS = null; // fly away, be free
             }
@@ -1026,15 +1011,11 @@ public class PhoneStatusBar extends BaseStatusBar {
             mNavigationBarView.getRecentsButton().setOnClickListener(mRecentsClickListener);
             mNavigationBarView.getRecentsButton().setOnTouchListener(mRecentsPreloadOnTouchListener);
         }
-<<<<<<< HEAD
+
 //        if (mNavigationBarView.getHomeButton() != null) {
 //            mNavigationBarView.getHomeButton().setOnTouchListener(mHomeSearchActionListener);
 //        }
-=======
-        if (mNavigationBarView.getHomeButton() != null) {
-            mNavigationBarView.getHomeButton().setOnTouchListener(mHomeSearchActionListener);
-        }
->>>>>>> github/cm-10.1
+
         mNavigationBarView.getSearchLight().setOnTouchListener(mHomeSearchActionListener);
         updateSearchPanel();
     }
@@ -1822,25 +1803,11 @@ public class PhoneStatusBar extends BaseStatusBar {
                     ObjectAnimator.ofFloat(mPowerWidget, View.SCALE_X, 1f)
                         .setDuration(FLIP_DURATION_IN)
                     )));
-<<<<<<< HEAD
-        mPowerWidgetAnim = start(
-            startDelay(FLIP_DURATION_OUT * zeroOutDelays,
-                interpolator(mDecelerateInterpolator,
-                    ObjectAnimator.ofFloat(mPowerWidget, View.SCALE_X, 1f)
-                        .setDuration(FLIP_DURATION_IN)
-                    )));
         if (mPowerWidget.powerWidgetEnabled()) {
             mFlipSettingsViewAnim = start(
                 setVisibilityWhenDone(
                     interpolator(mAccelerateInterpolator,
                             ObjectAnimator.ofFloat(mFlipSettingsView, View.SCALE_X, 0f)
-=======
-        if (mPowerWidget.powerWidgetEnabled()) {
-        mFlipSettingsViewAnim = start(
-            setVisibilityWhenDone(
-                interpolator(mAccelerateInterpolator,
-                        ObjectAnimator.ofFloat(mFlipSettingsView, View.SCALE_X, 1f, 0f)
->>>>>>> github/cm-10.1
                             )
                         .setDuration(FLIP_DURATION_OUT),
                     mFlipSettingsView, View.INVISIBLE,
@@ -1850,15 +1817,9 @@ public class PhoneStatusBar extends BaseStatusBar {
                 setVisibilityWhenDone(
                     interpolator(mAccelerateInterpolator,
                             ObjectAnimator.ofFloat(mFlipSettingsView, View.SCALE_X, 0f)
-<<<<<<< HEAD
                             )
                         .setDuration(FLIP_DURATION_OUT),
                     mFlipSettingsView, View.INVISIBLE));
-=======
-                        )
-                    .setDuration(FLIP_DURATION_OUT),
-                mFlipSettingsView, View.INVISIBLE));
->>>>>>> github/cm-10.1
         }
 
         mNotificationButtonAnim = start(
@@ -3150,7 +3111,6 @@ public class PhoneStatusBar extends BaseStatusBar {
             super(handler);
         }
 
-<<<<<<< HEAD
         void observe() {
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -3241,27 +3201,13 @@ public class PhoneStatusBar extends BaseStatusBar {
                     Settings.System.NOTIFICATION_SHORTCUTS_HIDE_CARRIER, 0, UserHandle.USER_CURRENT) != 0;
             if (mCarrierLabel != null) {
                 toggleCarrierAndWifiLabelVisibility();
-=======
-        @Override
-        public void onChange(boolean selfChange) {
-            onChange(selfChange, null);
-        }
-
-        @Override
-        public void onChange(boolean selfChange, Uri uri) {
-            if (mSettingsContainer != null) {
-                mQS.setupQuickSettings();
->>>>>>> github/cm-10.1
             }
         }
+    }
 
-        public void startObserving() {
-            final ContentResolver cr = mContext.getContentResolver();
-            cr.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.QUICK_SETTINGS),
-                    false, this);
+    protected void updateSettings() {
+        ContentResolver cr = mContext.getContentResolver();
 
-<<<<<<< HEAD
         mWeatherPanelEnabled = (Settings.System.getInt(cr,
                 Settings.System.STATUSBAR_WEATHER_STYLE, 2) == 1)
                 && (Settings.System.getBoolean(cr, Settings.System.USE_WEATHER, false));
@@ -3286,21 +3232,10 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         mClockActions[shortClick] = Settings.System.getString(cr,
                 Settings.System.NOTIFICATION_CLOCK[shortClick]);
-=======
-            cr.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.QS_DYNAMIC_ALARM),
-                    false, this);
->>>>>>> github/cm-10.1
 
-            cr.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.QS_DYNAMIC_BUGREPORT),
-                    false, this);
+        mClockActions[longClick] = Settings.System.getString(cr,
+                Settings.System.NOTIFICATION_CLOCK[longClick]);
 
-            cr.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.QS_DYNAMIC_IME),
-                    false, this);
-
-<<<<<<< HEAD
         if (mClockActions[shortClick]  == null ||mClockActions[shortClick].equals("")) {
             mClockActions[shortClick] = "**clockoptions**";
         }
@@ -3314,15 +3249,28 @@ public class PhoneStatusBar extends BaseStatusBar {
             mClockDoubleClicked = true;
         }
     }
-=======
-            cr.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.QS_DYNAMIC_USBTETHER),
-                    false, this);
->>>>>>> github/cm-10.1
 
-            cr.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.QS_DYNAMIC_WIFI),
-                    false, this);
+    public boolean skipToSettingsPanel() {
+        if (mPile == null || mNotificationData == null) return false;
+
+        int N = mNotificationData.size();
+        int thisUsersNotifications = 0;
+        for (int i=0; i<N; i++) {
+            Entry ent = mNotificationData.get(N-i-1);
+            if(ent != null
+                    && ent.notification != null
+                    && notificationIsForCurrentUser(ent.notification)) {
+                switch(ent.notification.id) {
+                    // ignore adb icon
+                    case com.android.internal.R.drawable.stat_sys_adb:
+                        continue;
+                }
+                thisUsersNotifications++;
+            }
         }
+        if(thisUsersNotifications == 0)
+            return true;
+
+        return false;
     }
 }

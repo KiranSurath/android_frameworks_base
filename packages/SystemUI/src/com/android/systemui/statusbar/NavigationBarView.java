@@ -104,13 +104,9 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
     private boolean mColorAllIcons;
     private SettingsObserver mSettingsObserver;
     public DelegateViewHelper mDelegateHelper;
-<<<<<<< HEAD
 
     private Context mContext;
 
-=======
-    private Context mContext;
->>>>>>> github/cm-10.1
     private Canvas mCurrentCanvas;
     private Canvas mNewCanvas;
     private TransitionDrawable mTransition;
@@ -915,12 +911,6 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
         if (DEBUG) {
             Slog.d(TAG, "reorient(): rot=" + mDisplay.getRotation());
         }
-<<<<<<< HEAD
-        // Reset recents hints after reorienting
-        //((ImageView)getRecentsButton()).setImageDrawable(mVertical
-        //        ? mRecentsLandIcon : mRecentsIcon);
-=======
->>>>>>> github/cm-10.1
     }
 
     @Override
