@@ -40,7 +40,10 @@ import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+<<<<<<< HEAD
 import android.content.ContentResolver;
+=======
+>>>>>>> github/cm-10.1
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
@@ -50,7 +53,10 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.UserInfo;
 import android.content.res.Resources;
+<<<<<<< HEAD
 import android.database.ContentObserver;
+=======
+>>>>>>> github/cm-10.1
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -114,6 +120,7 @@ public class QuickSettings {
 
     private LevelListDrawable mBatteryLevels;
     private LevelListDrawable mChargingBatteryLevels;
+<<<<<<< HEAD
 
     boolean mTilesSetUp = false;
 
@@ -121,6 +128,12 @@ public class QuickSettings {
 
     private int mTileTextSize;
     private int mTileTextColor;
+=======
+
+    boolean mTilesSetUp = false;
+
+    private Handler mHandler;
+>>>>>>> github/cm-10.1
 
     // The set of QuickSettingsTiles that have dynamic spans (and need to be updated on
     // configuration change)
@@ -146,6 +159,7 @@ public class QuickSettings {
         mBluetoothState = new QuickSettingsModel.BluetoothState();
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+<<<<<<< HEAD
 
         mHandler = new Handler();
 
@@ -167,6 +181,26 @@ public class QuickSettings {
 
         SettingsObserver settingsObserver = new SettingsObserver(new Handler());
         settingsObserver.observe();
+=======
+
+        mHandler = new Handler();
+
+        Resources r = mContext.getResources();
+        mBatteryLevels = (LevelListDrawable) r.getDrawable(R.drawable.qs_sys_battery);
+        mChargingBatteryLevels =
+                (LevelListDrawable) r.getDrawable(R.drawable.qs_sys_battery_charging);
+        mBrightnessDialogLongTimeout =
+                r.getInteger(R.integer.quick_settings_brightness_dialog_long_timeout);
+        mBrightnessDialogShortTimeout =
+                r.getInteger(R.integer.quick_settings_brightness_dialog_short_timeout);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(DisplayManager.ACTION_WIFI_DISPLAY_STATUS_CHANGED);
+        filter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED);
+        filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
+        filter.addAction(Intent.ACTION_USER_SWITCHED);
+        mContext.registerReceiver(mReceiver, filter);
+>>>>>>> github/cm-10.1
     }
 
     public void setBar(PanelBar bar) {
@@ -183,6 +217,7 @@ public class QuickSettings {
 
     public void setImeWindowStatus(boolean visible) {
         mModel.onImeWindowStatusChanged(visible);
+<<<<<<< HEAD
     }
 
     public void setup(NetworkController networkController, BluetoothController bluetoothController,
@@ -201,6 +236,26 @@ public class QuickSettings {
                 UserHandle.USER_ALL);
     }
 
+=======
+    }
+
+    public void setup(NetworkController networkController, BluetoothController bluetoothController,
+            BatteryController batteryController, LocationController locationController) {
+        mBluetoothController = bluetoothController;
+
+        setupQuickSettings();
+        updateWifiDisplayStatus();
+        updateResources();
+
+        networkController.addNetworkSignalChangedCallback(mModel);
+        bluetoothController.addStateChangedCallback(mModel);
+        batteryController.addStateChangedCallback(mModel);
+        locationController.addStateChangedCallback(mModel);
+        RotationPolicy.registerRotationPolicyListener(mContext, mRotationPolicyListener,
+                UserHandle.USER_ALL);
+    }
+
+>>>>>>> github/cm-10.1
     private void queryForUserInformation() {
         Context currentUserContext = null;
         UserInfo userInfo = null;
@@ -332,10 +387,13 @@ public class QuickSettings {
                 ImageView iv = (ImageView) view.findViewById(R.id.user_imageview);
                 TextView tv = (TextView) view.findViewById(R.id.user_textview);
                 tv.setText(state.label);
+<<<<<<< HEAD
                 tv.setTextSize(1, mTileTextSize);
                 if (mTileTextColor != -2) {
                     tv.setTextColor(mTileTextColor);
                 }
+=======
+>>>>>>> github/cm-10.1
                 iv.setImageDrawable(us.avatar);
                 view.setContentDescription(mContext.getString(
                         R.string.accessibility_quick_settings_user, state.label));
@@ -361,10 +419,13 @@ public class QuickSettings {
                 TextView tv = (TextView) view.findViewById(R.id.brightness_textview);
                 tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                 tv.setText(state.label);
+<<<<<<< HEAD
                 tv.setTextSize(1, mTileTextSize);
                 if (mTileTextColor != -2) {
                     tv.setTextColor(mTileTextColor);
                 }
+=======
+>>>>>>> github/cm-10.1
                 dismissBrightnessDialog(mBrightnessDialogShortTimeout);
             }
         });
@@ -406,10 +467,13 @@ public class QuickSettings {
             public void refreshView(QuickSettingsTileView view, State state) {
                 TextView tv = (TextView) view.findViewById(R.id.settings_tileview);
                 tv.setText(state.label);
+<<<<<<< HEAD
                 tv.setTextSize(1, mTileTextSize);
                 if (mTileTextColor != -2) {
                     tv.setTextColor(mTileTextColor);
                 }
+=======
+>>>>>>> github/cm-10.1
             }
         });
         parent.addView(settingsTile);
@@ -458,10 +522,13 @@ public class QuickSettings {
                 TextView tv = (TextView) view.findViewById(R.id.wifi_textview);
                 tv.setCompoundDrawablesWithIntrinsicBounds(0, wifiState.iconId, 0, 0);
                 tv.setText(wifiState.label);
+<<<<<<< HEAD
                 tv.setTextSize(1, mTileTextSize);
                 if (mTileTextColor != -2) {
                     tv.setTextColor(mTileTextColor);
                 }
+=======
+>>>>>>> github/cm-10.1
                 view.setContentDescription(mContext.getString(
                         R.string.accessibility_quick_settings_wifi,
                         wifiState.signalContentDescription,
@@ -500,10 +567,13 @@ public class QuickSettings {
                         iov.setImageDrawable(null);
                     }
                     tv.setText(state.label);
+<<<<<<< HEAD
                     tv.setTextSize(1, mTileTextSize);
                     if (mTileTextColor != -2) {
                         tv.setTextColor(mTileTextColor);
                     }
+=======
+>>>>>>> github/cm-10.1
                     view.setContentDescription(mContext.getResources().getString(
                             R.string.accessibility_quick_settings_mobile,
                             rssiState.signalContentDescription, rssiState.dataContentDescription,
@@ -531,10 +601,13 @@ public class QuickSettings {
                     TextView tv = (TextView) view.findViewById(R.id.rotation_lock_textview);
                     tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                     tv.setText(state.label);
+<<<<<<< HEAD
                     tv.setTextSize(1, mTileTextSize);
                     if (mTileTextColor != -2) {
                         tv.setTextColor(mTileTextColor);
                     }
+=======
+>>>>>>> github/cm-10.1
                 }
             });
             parent.addView(rotationLockTile);
@@ -573,10 +646,13 @@ public class QuickSettings {
                 iv.setImageDrawable(d);
                 iv.setImageLevel(batteryState.batteryLevel);
                 tv.setText(t);
+<<<<<<< HEAD
                 tv.setTextSize(1, mTileTextSize);
                 if (mTileTextColor != -2) {
                     tv.setTextColor(mTileTextColor);
                 }
+=======
+>>>>>>> github/cm-10.1
                 view.setContentDescription(
                         mContext.getString(R.string.accessibility_quick_settings_battery, t));
             }
@@ -599,10 +675,13 @@ public class QuickSettings {
                 view.setContentDescription(
                         mContext.getString(R.string.accessibility_quick_settings_airplane, airplaneState));
                 tv.setText(state.label);
+<<<<<<< HEAD
                 tv.setTextSize(1, mTileTextSize);
                 if (mTileTextColor != -2) {
                     tv.setTextColor(mTileTextColor);
                 }
+=======
+>>>>>>> github/cm-10.1
             }
         });
         parent.addView(airplaneTile);
@@ -657,10 +736,13 @@ public class QuickSettings {
                             R.string.accessibility_quick_settings_bluetooth,
                             bluetoothState.stateContentDescription));
                     tv.setText(label);
+<<<<<<< HEAD
                     tv.setTextSize(1, mTileTextSize);
                     if (mTileTextColor != -2) {
                         tv.setTextColor(mTileTextColor);
                     }
+=======
+>>>>>>> github/cm-10.1
                 }
             });
             parent.addView(bluetoothTile);
@@ -689,10 +771,13 @@ public class QuickSettings {
             public void refreshView(QuickSettingsTileView view, State alarmState) {
                 TextView tv = (TextView) view.findViewById(R.id.alarm_textview);
                 tv.setText(alarmState.label);
+<<<<<<< HEAD
                 tv.setTextSize(1, mTileTextSize);
                 if (mTileTextColor != -2) {
                     tv.setTextColor(mTileTextColor);
                 }
+=======
+>>>>>>> github/cm-10.1
                 view.setVisibility(alarmState.enabled ? View.VISIBLE : View.GONE);
                 view.setContentDescription(mContext.getString(
                         R.string.accessibility_quick_settings_alarm, alarmState.label));
@@ -715,10 +800,13 @@ public class QuickSettings {
             public void refreshView(QuickSettingsTileView view, State state) {
                 TextView tv = (TextView) view.findViewById(R.id.location_textview);
                 tv.setText(state.label);
+<<<<<<< HEAD
                 tv.setTextSize(1, mTileTextSize);
                 if (mTileTextColor != -2) {
                     tv.setTextColor(mTileTextColor);
                 }
+=======
+>>>>>>> github/cm-10.1
                 view.setVisibility(state.enabled ? View.VISIBLE : View.GONE);
             }
         });
@@ -739,10 +827,13 @@ public class QuickSettings {
             public void refreshView(QuickSettingsTileView view, State state) {
                 TextView tv = (TextView) view.findViewById(R.id.wifi_display_textview);
                 tv.setText(state.label);
+<<<<<<< HEAD
                 tv.setTextSize(1, mTileTextSize);
                 if (mTileTextColor != -2) {
                     tv.setTextColor(mTileTextColor);
                 }
+=======
+>>>>>>> github/cm-10.1
                 tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                 view.setVisibility(state.enabled ? View.VISIBLE : View.GONE);
             }
@@ -771,10 +862,13 @@ public class QuickSettings {
                     TextView tv = (TextView) view.findViewById(R.id.ime_textview);
                     if (state.label != null) {
                         tv.setText(state.label);
+<<<<<<< HEAD
                         tv.setTextSize(1, mTileTextSize);
                         if (mTileTextColor != -2) {
                             tv.setTextColor(mTileTextColor);
                         }
+=======
+>>>>>>> github/cm-10.1
                     }
                     view.setVisibility(state.enabled ? View.VISIBLE : View.GONE);
                 }
@@ -999,6 +1093,7 @@ public class QuickSettings {
 
         }
     };
+<<<<<<< HEAD
 
     class SettingsObserver extends ContentObserver {
         SettingsObserver(Handler handler) {
@@ -1018,4 +1113,6 @@ public class QuickSettings {
             updateResources();
         }
     }
+=======
+>>>>>>> github/cm-10.1
 }

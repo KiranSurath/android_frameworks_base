@@ -16,9 +16,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.systemui.R;
+<<<<<<< HEAD:packages/SystemUI/src/com/android/systemui/quicksettings/QuickSettingsTile.java
 import com.android.systemui.statusbar.BaseStatusBar;
 import com.android.systemui.statusbar.phone.PhoneStatusBar;
+=======
+>>>>>>> github/cm-10.1:packages/SystemUI/src/com/android/systemui/quicksettings/QuickSettingsTile.java
 import com.android.systemui.statusbar.phone.QuickSettingsController;
+import com.android.systemui.statusbar.BaseStatusBar;
 import com.android.systemui.statusbar.phone.QuickSettingsContainerView;
 import com.android.systemui.statusbar.phone.QuickSettingsTileView;
 
@@ -67,11 +71,19 @@ public class QuickSettingsTile implements OnClickListener {
     }
 
     void onPostCreate(){}
+<<<<<<< HEAD:packages/SystemUI/src/com/android/systemui/quicksettings/QuickSettingsTile.java
 
     public void onReceive(Context context, Intent intent) {}
 
     public void onChangeUri(ContentResolver resolver, Uri uri) {}
 
+=======
+
+    public void onReceive(Context context, Intent intent) {}
+
+    public void onChangeUri(ContentResolver resolver, Uri uri) {}
+
+>>>>>>> github/cm-10.1:packages/SystemUI/src/com/android/systemui/quicksettings/QuickSettingsTile.java
     public void updateResources() {
         if(mTile != null) {
             updateQuickSettings();

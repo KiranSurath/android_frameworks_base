@@ -51,6 +51,7 @@ public class BatteryTile extends QuickSettingsTile implements BatteryStateChange
         batteryLevel = level;
         charging = pluggedIn;
         updateResources();
+<<<<<<< HEAD:packages/SystemUI/src/com/android/systemui/quicksettings/BatteryTile.java
     }
 
     @Override
@@ -59,6 +60,16 @@ public class BatteryTile extends QuickSettingsTile implements BatteryStateChange
         super.updateResources();
     }
 
+=======
+    }
+
+    @Override
+    public void updateResources() {
+        updateTile();
+        super.updateResources();
+    }
+
+>>>>>>> github/cm-10.1:packages/SystemUI/src/com/android/systemui/quicksettings/BatteryTile.java
     private synchronized void updateTile() {
         batteryLevels = (LevelListDrawable) mContext.getResources().getDrawable(R.drawable.qs_sys_battery);
         chargingBatteryLevels = (LevelListDrawable) mContext.getResources().getDrawable(R.drawable.qs_sys_battery_charging);

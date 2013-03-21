@@ -1,5 +1,28 @@
+<<<<<<< HEAD:packages/SystemUI/src/com/android/systemui/quicksettings/MobileNetworkTypeTile.java
 package com.android.systemui.quicksettings;
 
+=======
+/*
+ * Copyright (C) 2012 CyanogenMod Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.android.systemui.quicksettings;
+
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+>>>>>>> github/cm-10.1:packages/SystemUI/src/com/android/systemui/quicksettings/MobileNetworkTypeTile.java
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
@@ -209,6 +232,7 @@ public class MobileNetworkTypeTile extends QuickSettingsTile implements NetworkS
     public void onWifiSignalChanged(boolean enabled, int wifiSignalIconId,
         String wifitSignalContentDescriptionId, String description) {
     }
+<<<<<<< HEAD:packages/SystemUI/src/com/android/systemui/quicksettings/MobileNetworkTypeTile.java
 
     @Override
     public void onMobileDataSignalChanged(boolean enabled,
@@ -216,6 +240,19 @@ public class MobileNetworkTypeTile extends QuickSettingsTile implements NetworkS
         int dataTypeIconId, String dataTypeContentDescriptionId,
         String description) {
         updateResources();
+=======
+
+    @Override
+    public void onMobileDataSignalChanged(boolean enabled,
+        int mobileSignalIconId, String mobileSignalContentDescriptionId,
+        int dataTypeIconId, String dataTypeContentDescriptionId,
+        String description) {
+        updateResources();
+    }
+
+    @Override
+    public void onAirplaneModeChanged(boolean enabled) {
+>>>>>>> github/cm-10.1:packages/SystemUI/src/com/android/systemui/quicksettings/MobileNetworkTypeTile.java
     }
 
     @Override

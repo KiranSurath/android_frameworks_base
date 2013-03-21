@@ -40,5 +40,9 @@ public class QSConstants {
             TILES_DEFAULT.add(TILE_BATTERY);
             TILES_DEFAULT.add(TILE_AIRPLANE);
             TILES_DEFAULT.add(TILE_BLUETOOTH);
+<<<<<<< HEAD
+=======
+            TILES_DEFAULT.add(TILE_DESKTOPMODE);
+>>>>>>> github/cm-10.1
         }
 }
