@@ -4293,7 +4293,6 @@ public final class ActivityThread {
         }
     }
 
-<<<<<<< HEAD
     private void updateDefaultDensity() {
         if (mCurDefaultDisplayDpi != Configuration.DENSITY_DPI_UNDEFINED
                 && mCurDefaultDisplayDpi != DisplayMetrics.DENSITY_DEVICE
