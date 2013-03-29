@@ -23,7 +23,6 @@ import com.android.internal.util.MemInfoReader;
 import com.android.server.wm.WindowManagerService;
 
 import android.graphics.Point;
-import android.os.SystemProperties;
 import android.util.Slog;
 import android.view.Display;
 
