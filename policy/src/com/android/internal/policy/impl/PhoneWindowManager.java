@@ -560,11 +560,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mVolumeWakeScreen;
     private boolean mVolBtnMusicControls;
     private boolean mIsLongPress;
-	
-	// HW overlays state
-	int mDisableOverlays = 0;
     
-	private int mSystemDpi = 0;
+    private int mSystemDpi = 0;
     private int mSystemUiDpi = 0;
     private int mSystemUiLayout = 0;
     private int mNavigationBarDpi = 0;
@@ -1087,42 +1084,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 }
             }
         });
-    }
-	
-    private int updateFlingerOptions() {
-        int disableOverlays = 0;
-        try {
-            IBinder flinger = ServiceManager.getService("SurfaceFlinger");
-            if (flinger != null) {
-                Parcel data = Parcel.obtain();
-                Parcel reply = Parcel.obtain();
-                data.writeInterfaceToken("android.ui.ISurfaceComposer");
-                flinger.transact(1010, data, reply, 0);
-                reply.readInt();
-                reply.readInt();
-                reply.readInt();
-                reply.readInt();
-                disableOverlays = reply.readInt();
-                reply.recycle();
-                data.recycle();
-            }
-        } catch (RemoteException ex) {
-        }
-        return disableOverlays;
-    }
-
-    private void writeDisableOverlaysOption(int state) {
-        try {
-            IBinder flinger = ServiceManager.getService("SurfaceFlinger");
-            if (flinger != null) {
-                Parcel data = Parcel.obtain();
-                data.writeInterfaceToken("android.ui.ISurfaceComposer");
-                data.writeInt(state);
-                flinger.transact(1008, data, null, 0);
-                data.recycle();
-            }
-        } catch (RemoteException ex) {
-        }
     }
 
     private int updateFlingerOptions() {

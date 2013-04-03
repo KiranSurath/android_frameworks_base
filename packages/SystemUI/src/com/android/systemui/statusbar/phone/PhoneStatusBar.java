@@ -583,9 +583,6 @@ public class PhoneStatusBar extends BaseStatusBar {
         mWeatherPanel.setOnClickListener(mWeatherPanelListener);
         mWeatherPanel.setOnLongClickListener(mWeatherPanelLongClickListener);
 
-        SettingsObserver settingsObserver = new SettingsObserver(new Handler());
-        settingsObserver.observe();
-
         updateSettings();
 
         mSettingsButton = (ImageView) mStatusBarWindow.findViewById(R.id.settings_button);
@@ -786,7 +783,7 @@ public class PhoneStatusBar extends BaseStatusBar {
 
                 // Start observing for changes
                 mTilesChangedObserver = new TilesChangedObserver(mHandler);
-                mTilesChangedObserver.startObserving();
+                mTilesChangedObserver.observe();
 
             } else {
                 mQS = null; // fly away, be free
@@ -2726,7 +2723,6 @@ public class PhoneStatusBar extends BaseStatusBar {
 
     private View.OnClickListener mClockClickListener = new View.OnClickListener() {
         public void onClick(View v) {
-<<<<<<< HEAD
             if (mClockDoubleClicked) {
                 if (doubleClickCounter > 0) {
                     mHandler.removeCallbacks(DelayShortPress);
@@ -2771,10 +2767,6 @@ public class PhoneStatusBar extends BaseStatusBar {
             animateCollapsePanels();
             AwesomeAction.launchAction(mContext, mLongClickWeather);
             return true;
-=======
-            startActivityDismissingKeyguard(
-                    new Intent(Intent.ACTION_QUICK_CLOCK), true); // have fun, everyone
->>>>>>> github/cm-10.1
         }
     };
 
