@@ -36,6 +36,9 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.CustomTheme;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.database.ContentObserver;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -228,8 +231,8 @@ public class PhoneStatusBar extends BaseStatusBar {
 
     // settings
     QuickSettingsController mQS;
-    boolean mHasSettingsPanel, mHasFlipSettings;
     boolean mUiModeIsToggled;
+    boolean mHasSettingsPanel, mHideSettingsPanel, mHasFlipSettings;
     SettingsPanelView mSettingsPanel;
     View mFlipSettingsView;
     QuickSettingsContainerView mSettingsContainer;
@@ -571,11 +574,23 @@ public class PhoneStatusBar extends BaseStatusBar {
                               Settings.Secure.UI_MODE_IS_TOGGLED, 0) == 1;
 
         mHasSettingsPanel = res.getBoolean(R.bool.config_hasSettingsPanel);
+
+        if (mStatusBarView.hasFullWidthNotifications()) {
+            mHideSettingsPanel = Settings.System.getInt(mContext.getContentResolver(),
+                                    Settings.System.QS_DISABLE_PANEL, 0) == 1;
+            mHasSettingsPanel = res.getBoolean(R.bool.config_hasSettingsPanel) && !mHideSettingsPanel;
+        } else {
+            mHideSettingsPanel = false;
+            mHasSettingsPanel = res.getBoolean(R.bool.config_hasSettingsPanel);
+        }
+
         mHasFlipSettings = res.getBoolean(R.bool.config_hasFlipSettingsPanel);
 
         mDateTimeView = mNotificationPanelHeader.findViewById(R.id.datetime);
-        if (mHasFlipSettings) {
+       
+        if (mDateTimeView != null) {
             mDateTimeView.setOnClickListener(mClockClickListener);
+            mDateTimeView.setOnLongClickListener(mClockLongClickListener);
             mDateTimeView.setEnabled(true);
         }
 
@@ -584,7 +599,6 @@ public class PhoneStatusBar extends BaseStatusBar {
         mWeatherPanel.setOnLongClickListener(mWeatherPanelLongClickListener);
 
         updateSettings();
-
         mSettingsButton = (ImageView) mStatusBarWindow.findViewById(R.id.settings_button);
         if (mSettingsButton != null) {
             mSettingsButton.setOnClickListener(mSettingsButtonListener);
@@ -789,6 +803,10 @@ public class PhoneStatusBar extends BaseStatusBar {
                 mQS = null; // fly away, be free
             }
         }
+
+        // Start observing for changes on QuickSettings (needed here for enable/hide qs)
+        mTilesChangedObserver = new TilesChangedObserver(mHandler);
+        mTilesChangedObserver.observe();
 
         mClingShown = ! (DEBUG_CLINGS
             || !Prefs.read(mContext).getBoolean(Prefs.SHOWN_QUICK_SETTINGS_HELP, false));
@@ -1403,6 +1421,10 @@ public class PhoneStatusBar extends BaseStatusBar {
         }
     }
 
+    boolean hasClearableNotifications() {
+        return mNotificationData.hasClearableItems();
+    }
+
     protected void updateNotificationShortcutsVisibility(boolean vis) {
         updateNotificationShortcutsVisibility(vis, false);
     }
@@ -1791,7 +1813,7 @@ public class PhoneStatusBar extends BaseStatusBar {
         mScrollViewAnim = start(
             startDelay(FLIP_DURATION_OUT * zeroOutDelays,
                 interpolator(mDecelerateInterpolator,
-                    ObjectAnimator.ofFloat(mScrollView, View.SCALE_X, 0f, 1f)
+                    ObjectAnimator.ofFloat(mScrollView, View.SCALE_X, 1f)
                         .setDuration(FLIP_DURATION_IN)
                     )));
         mPowerWidgetAnim = start(
@@ -1958,7 +1980,7 @@ public class PhoneStatusBar extends BaseStatusBar {
         mFlipSettingsViewAnim = start(
             startDelay(FLIP_DURATION_OUT * zeroOutDelays,
                 interpolator(mDecelerateInterpolator,
-                    ObjectAnimator.ofFloat(mFlipSettingsView, View.SCALE_X, 0f, 1f)
+                    ObjectAnimator.ofFloat(mFlipSettingsView, View.SCALE_X, 1f)
                         .setDuration(FLIP_DURATION_IN)
                     )));
         mPowerWidgetAnim = start(
@@ -1972,7 +1994,7 @@ public class PhoneStatusBar extends BaseStatusBar {
         mScrollViewAnim = start(
             setVisibilityWhenDone(
                 interpolator(mAccelerateInterpolator,
-                        ObjectAnimator.ofFloat(mScrollView, View.SCALE_X, 1f, 0f)
+                        ObjectAnimator.ofFloat(mScrollView, View.SCALE_X, 0f)
                         )
                     .setDuration(FLIP_DURATION_OUT),
                 mScrollView, View.INVISIBLE));
@@ -2053,7 +2075,8 @@ public class PhoneStatusBar extends BaseStatusBar {
             mSettingsButton.setAlpha(1f);
             mSettingsButton.setVisibility(View.VISIBLE);
             mNotificationPanel.setVisibility(View.GONE);
-            mFlipSettingsView.setVisibility(View.GONE);
+            if (!mHideSettingsPanel)
+                mFlipSettingsView.setVisibility(View.GONE);
             mNotificationButton.setVisibility(View.GONE);
             setAreThereNotifications(); // show the clear button
             if (mPowerWidget.powerWidgetEnabled()) {
@@ -2410,7 +2433,6 @@ public class PhoneStatusBar extends BaseStatusBar {
     }
 
     public void topAppWindowChanged(boolean showMenu) {
-
         if (mPieControlPanel != null)
             mPieControlPanel.setMenu(showMenu);
 
@@ -3096,7 +3118,7 @@ public class PhoneStatusBar extends BaseStatusBar {
     /**
      *  ContentObserver to watch for Quick Settings tiles changes
      * @author dvtonder
-     *
+     * @author kufikugel
      */
     private class TilesChangedObserver extends ContentObserver {
         public TilesChangedObserver(Handler handler) {
@@ -3153,19 +3175,31 @@ public class PhoneStatusBar extends BaseStatusBar {
 		    Settings.System.NOTIFICATION_SHORTCUTS_TOGGLE), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NOTIFICATION_SHORTCUTS_HIDE_CARRIER), false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_DISABLE_PANEL), false, this);
+
         }
 
         @Override
         public void onChange(boolean selfChange) {
             boolean uiModeIsToggled = Settings.Secure.getInt(mContext.getContentResolver(),
                                     Settings.Secure.UI_MODE_IS_TOGGLED, 0) == 1;
+            boolean hideSettingsPanel = Settings.System.getInt(mContext.getContentResolver(),
+                                    Settings.System.QS_DISABLE_PANEL, 0) == 1;
+
+            if (hideSettingsPanel != mHideSettingsPanel) {
+                recreateStatusBar();
+            }
 
             if (uiModeIsToggled != mUiModeIsToggled) {
                 recreateStatusBar();
             }
 
             if (mSettingsContainer != null) {
+                // Refresh the container
+                mSettingsContainer.removeAllViews();
                 mQS.setupQuickSettings();
+                mSettingsContainer.updateResources();
             }
 
             update();

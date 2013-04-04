@@ -1858,7 +1858,7 @@ public final class Settings {
          */
         public static final String MODE_RINGER_STREAMS_AFFECTED = "mode_ringer_streams_affected";
 
-         /**
+        /**
           * Determines which streams are affected by mute. The
           * stream type's bit should be set to 1 if it should be muted when a mute request
           * is received.
@@ -2547,6 +2547,89 @@ public final class Settings {
         public static final String POINTER_SPEED = "pointer_speed";
 
         /**
+         * Quick Settings Panel Tiles to Use
+         *
+         * @hide
+         */
+        public static final String QUICK_SETTINGS_TILES = "quick_settings_tiles";
+
+	/**
+         * number of tiles per row in quick settings
+         *
+         * @hide
+         */
+        public static final String QUICK_TILES_PER_ROW = "quick_tiles_per_row";
+
+        /**
+         * number of tiles per row in quick settings
+         *
+         * @hide
+         */
+        public static final String QUICK_TILES_PER_ROW_DUPLICATE_LANDSCAPE = "quick_tiles_per_row_duplicate_landscape";
+        /**
+         * Quick Settings Panel Dynamic Tiles
+         *
+         * @hide
+         */
+        public static final String QS_DYNAMIC_ALARM = "qs_dyanmic_alarm";
+
+        /**
+         * Quick Settings Panel Dynamic Tiles
+         *
+         * @hide
+         */
+        public static final String QS_DYNAMIC_BUGREPORT = "qs_dyanmic_bugreport";
+
+        /**
+         * Quick Settings Panel Dynamic Tiles
+         *
+         * @hide
+         */
+        public static final String QS_DYNAMIC_IME = "qs_dyanmic_ime";
+
+        /**
+         * Quick Settings Panel Dynamic Tiles
+         *
+         * @hide
+         */
+        public static final String QS_DYNAMIC_USBTETHER = "qs_dyanmic_usbtether";
+
+        /**
+         * Quick Settings Panel Dynamic Tiles
+         *
+         * @hide
+         */
+        public static final String QS_DYNAMIC_WIFI = "qs_dyanmic_wifi";
+
+         /**
+         * Quick Settings Quick Pulldown if no notifications are present
+         *
+         * @hide
+         */
+        public static final String QS_NO_NOTIFICATION_PULLDOWN = "qs_no_notification_pulldown";
+
+        /**
+         * Quick Settings Quick Pulldown
+         *
+         * @hide
+         */
+        public static final String QS_QUICK_PULLDOWN = "qs_quick_pulldown";
+
+        /**
+         * Quick Settings Collapse Pane
+         *
+         * @hide
+         */
+        public static final String QS_COLLAPSE_PANEL = "qs_collapse_panel";
+
+        /**
+         * Quick Settings Disable Panel
+         *
+         * @hide
+         */
+        public static final String QS_DISABLE_PANEL = "qs_disable_panel";
+
+        /**
          * Use the Notification Power Widget? (Who wouldn't!)
          *
          * @hide
@@ -2816,6 +2899,12 @@ public final class Settings {
         public static final String STATUS_ICON_COLOR = "status_icon_color";
 
         /**
+         * Foreground App
+         * @hide
+         */
+        public static final String FOREGROUND_APP = "foreground_app";
+
+        /**
          * Pie menu, should default to 1 (yes, show)
          * @hide
          */
@@ -2966,50 +3055,6 @@ public final class Settings {
          * @hide
          */
         public static final String QUICK_SETTINGS = "quick_settings";
-
-        /**
-         * QuickSettings panel dynamic alarm tile
-         * @hide
-         */
-        public static final String QS_DYNAMIC_ALARM = "qs_dyanmic_alarm";
-
-        /**
-         * QuickSettings panel dynamic bug-report tile
-         * @hide
-         */
-        public static final String QS_DYNAMIC_BUGREPORT = "qs_dyanmic_bugreport";
-
-        /**
-         * QuickSettings panel dynamic IME tile
-         * @hide
-         */
-        public static final String QS_DYNAMIC_IME = "qs_dyanmic_ime";
-
-        /**
-         * QuickSettings panel dynamic wifi tile
-         *
-         * @hide
-         */
-        public static final String QS_DYNAMIC_USBTETHER = "qs_dyanmic_usbtether";
-
-        /**
-         * Quick Settings Panel Dynamic Tiles
-         *
-         * @hide
-         */
-        public static final String QS_DYNAMIC_WIFI = "qs_dyanmic_wifi";
-
-	/**
-         * Quick Settings Quick Pulldown
-         * @hide
-         */
-        public static final String QS_QUICK_PULLDOWN = "qs_quick_pulldown";
-
-	/**
-         * Quick Settings Collapse Pane
-         * @hide
-         */
-        public static final String QS_COLLAPSE_PANEL = "qs_collapse_panel";
 
         /**
          * Volume keys control cursor in text fields (default is 0)
@@ -3460,20 +3505,6 @@ public final class Settings {
         public static final String QUIET_HOURS_DIM = "quiet_hours_dim";
 
         /**
-         * number of tiles per row in quick settings
-         *
-         * @hide
-         */
-        public static final String QUICK_TILES_PER_ROW = "quick_tiles_per_row";
-
-        /**
-         * number of tiles per row in quick settings
-         *
-         * @hide
-         */
-        public static final String QUICK_TILES_PER_ROW_DUPLICATE_LANDSCAPE = "quick_tiles_per_row_duplicate_landscape";
-
-        /**
          * text color on qs tiles
          *
          * @hide
@@ -3535,6 +3566,18 @@ public final class Settings {
          * @hide
          */
         public static final String POWER_DIALOG_SHOW_NAVBAR_HIDE = "power_dialog_show_navbar_hide";
+
+        /**
+         *
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_WIDTH_PORT = "navigation_bar_width_port";
+
+        /**
+        *
+        * @hide
+        */
+        public static final String NAVIGATION_BAR_WIDTH_LAND = "navigation_bar_width_land";
 
         /**
          * @hide
