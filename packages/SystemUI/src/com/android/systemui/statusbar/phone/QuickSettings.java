@@ -120,6 +120,7 @@ public class QuickSettings {
     private Handler mHandler;
 
     private int mTileTextSize;
+
     private int mTileTextColor;
 
     // The set of QuickSettingsTiles that have dynamic spans (and need to be updated on
@@ -362,6 +363,7 @@ public class QuickSettings {
                 tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                 tv.setText(state.label);
                 tv.setTextSize(1, mTileTextSize);
+
                 if (mTileTextColor != -2) {
                     tv.setTextColor(mTileTextColor);
                 }
