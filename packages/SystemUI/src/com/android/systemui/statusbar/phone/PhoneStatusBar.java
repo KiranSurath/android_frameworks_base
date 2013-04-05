@@ -51,6 +51,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.Rect;
 import android.inputmethodservice.InputMethodService;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
@@ -982,6 +983,17 @@ public class PhoneStatusBar extends BaseStatusBar {
         }
     };
 
+    private final View.OnClickListener mVolumeClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final AudioManager am = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+            final int stream = am.isMusicActive() ? AudioManager.STREAM_MUSIC :
+                    AudioManager.STREAM_NOTIFICATION;
+            final int volume = am.getStreamVolume(stream);
+            am.setStreamVolume(stream, volume, AudioManager.FLAG_SHOW_UI);
+        }
+    };
+
     private int mShowSearchHoldoff = 0;
     private Runnable mShowSearchPanel = new Runnable() {
         public void run() {
@@ -1032,6 +1044,7 @@ public class PhoneStatusBar extends BaseStatusBar {
 //        }
 
         mNavigationBarView.getSearchLight().setOnTouchListener(mHomeSearchActionListener);
+        mNavigationBarView.setListener(mVolumeClickListener);
         updateSearchPanel();
     }
 
