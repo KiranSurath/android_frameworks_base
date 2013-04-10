@@ -6173,12 +6173,12 @@ public final class Settings {
         public static final String POWER_SOUNDS_ENABLED = "power_sounds_enabled";
 
         /**
-<<<<<<< HEAD
          * Whether to allow killing of the foreground app by long-pressing the Back button
          * @hide
          */
         public static final String KILL_APP_LONGPRESS_BACK = "kill_app_longpress_back";
-=======
+
+        /**
          * Whether to sound when charger power is connected/disconnected
          * @hide
          */
@@ -6189,7 +6189,6 @@ public final class Settings {
          * @hide
          */
         public static final String POWER_NOTIFICATIONS_RINGTONE = "power_notifications_ringtone";
->>>>>>> d936133... [1/2] Power connect/disconnect notification support
 
         /**
          * URI for the "wireless charging started" sound.
