@@ -2756,6 +2756,11 @@ public final class Settings {
         public static final String STATUS_BAR_BRIGHTNESS_CONTROL = "status_bar_brightness_control";
 
         /**
+         * @hide
+         */
+        public static final String GOOGLE_MUSIC_IS_PLAYING = "google_music_is_playing";
+
+        /**
          * Whether to show the IME switcher in the status bar
          * @hide
          */
@@ -5948,6 +5953,56 @@ public final class Settings {
             LOCK_SCREEN_OWNER_INFO,
             LOCK_SCREEN_OWNER_INFO_ENABLED
         };
+
+        /**
+         * @hide
+         */
+        public static final String POWER_SAVER_MODE = "power_saver_mode";
+
+        /**
+         * @hide
+         */
+        public static final String POWER_SAVER_DATA_MODE = "power_saver_data_mode";
+
+        /**
+         * @hide
+         */
+        public static final String POWER_SAVER_ORIGINAL_NETWORK_ON = "power_saver_original_network_on";
+
+        /**
+         * @hide
+         */
+        public static final String POWER_SAVER_ORIGINAL_NETWORK_MODE = "power_saver_original_network_mode";
+
+        /**
+         * @hide
+         */
+        public static final String POWER_SAVER_SYNC_MODE = "power_saver_sync_mode";
+
+        /**
+         * @hide
+         */
+        public static final String POWER_SAVER_SYNC_INTERVAL = "power_saver_sync_interval";
+
+        /**
+         * @hide
+         */
+        public static final String POWER_SAVER_DATA_DELAY = "power_saver_data_delay";
+
+        /**
+         * @hide
+         */
+        public static final String POWER_SAVER_WIFI_MODE = "power_saver_wifi_mode";
+
+        /**
+         * @hide
+         */
+        public static final String POWER_SAVER_SYNC_DATA_MODE = "power_saver_sync_data_mode";
+        
+        /**
+         * @hide
+         */
+        public static final String POWER_SAVER_SYNC_MOBILE_PREFERENCE = "power_saver_sync_mobile_preference";
 
         /**
          * Helper method for determining if a location provider is enabled.
