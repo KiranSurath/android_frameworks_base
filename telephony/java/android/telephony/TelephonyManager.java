@@ -534,6 +534,16 @@ public class TelephonyManager {
         return SystemProperties.get(TelephonyProperties.PROPERTY_OPERATOR_ISO_COUNTRY);
     }
 
+    /**
+     * @hide
+     */
+    public void toggle2G(boolean twoGees) {
+        try {
+            getITelephony().toggle2G(twoGees);
+        } catch (RemoteException e) {
+        }
+    }
+
     /** Network type is unknown */
     public static final int NETWORK_TYPE_UNKNOWN = 0;
     /** Current network is GPRS */
