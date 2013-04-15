@@ -25,13 +25,17 @@ public class QSUtils {
             return (dm.getWifiDisplayStatus().getFeatureState() != WifiDisplayStatus.FEATURE_STATE_UNAVAILABLE);
         }
 
-        public static boolean deviceSupportsTelephony(Context ctx) {
-            PackageManager pm = ctx.getPackageManager();
-            return pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY);
+        public static boolean deviceSupportsMobileData(Context ctx) {
+            ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+            return cm.isNetworkSupported(ConnectivityManager.TYPE_MOBILE);
         }
 
         public static boolean deviceSupportsBluetooth() {
             return (BluetoothAdapter.getDefaultAdapter() != null);
+        }
+
+        public static boolean systemProfilesEnabled(ContentResolver resolver) {
+            return (Settings.System.getInt(resolver, Settings.System.SYSTEM_PROFILES_ENABLED, 1) == 1);
         }
 
         public static boolean deviceSupportsNfc(Context ctx) {

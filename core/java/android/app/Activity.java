@@ -2397,6 +2397,9 @@ public class Activity extends ContextThemeWrapper
         return onKeyShortcut(event.getKeyCode(), event);
     }
 
+    boolean mightBeMyGesture = false;
+    float tStatus;
+
     /**
      * Called to process touch screen events.  You can override this to
      * intercept all touch screen events before they are dispatched to the
@@ -2408,6 +2411,34 @@ public class Activity extends ContextThemeWrapper
      * @return boolean Return true if this event was consumed.
      */
     public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                tStatus = ev.getY();
+                if (tStatus < getStatusBarHeight()) {
+                    mightBeMyGesture = true;
+                    return true;
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (mightBeMyGesture) {
+                    if(ev.getY() > tStatus) {
+                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                        mHandler.postDelayed(new Runnable() {
+                            public void run() {
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+                                getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);     
+                            }
+                        }, 10000);
+                    }
+                    mightBeMyGesture = false;
+                    return true;
+                }
+                break;
+            default:
+                mightBeMyGesture = false;
+                break;
+        }
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             onUserInteraction();
         }
@@ -2415,6 +2446,10 @@ public class Activity extends ContextThemeWrapper
             return true;
         }
         return onTouchEvent(ev);
+    }
+
+    public int getStatusBarHeight() {
+        return getResources().getDimensionPixelSize(com.android.internal.R.dimen.status_bar_height);
     }
     
     /**

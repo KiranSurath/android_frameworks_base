@@ -523,9 +523,8 @@ public abstract class BaseStatusBar extends SystemUI implements
         if (mPieControlsTrigger != null) mWindowManager.removeView(mPieControlsTrigger);
         if (mPieControlPanel != null)  mWindowManager.removeView(mPieControlPanel);
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++ )
             if (mPieDummyTrigger[i] != null)  mWindowManager.removeView(mPieDummyTrigger[i]);
-        }
 
         attachPie();
     }
@@ -582,7 +581,7 @@ public abstract class BaseStatusBar extends SystemUI implements
 
         // Overload screen with views that literally do nothing, thank you Google
         int dummyGravity[] = {Gravity.LEFT, Gravity.TOP, Gravity.RIGHT, Gravity.BOTTOM};  
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++ ) {
             mPieDummyTrigger[i] = new View(mContext);
             mWindowManager.addView(mPieDummyTrigger[i], getDummyTriggerLayoutParams(mContext, dummyGravity[i]));
         }
@@ -1303,10 +1302,6 @@ public abstract class BaseStatusBar extends SystemUI implements
                     // the stack trace isn't very helpful here.  Just log the exception message.
                     Slog.w(TAG, "Sending contentIntent failed: " + e);
                 }
-
-                KeyguardManager kgm =
-                    (KeyguardManager) mContext.getSystemService(Context.KEYGUARD_SERVICE);
-                if (kgm != null) kgm.exitKeyguardSecurely(null);
             }
 
             try {

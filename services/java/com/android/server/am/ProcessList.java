@@ -57,7 +57,7 @@ class ProcessList {
     // This is a process holding the home application -- we want to try
     // avoiding killing it, even if it would normally be in the background,
     // because the user interacts with it so much.
-    static final int HOME_APP_ADJ = 3;
+    static final int HOME_APP_ADJ = 1;
 
     // This is a process holding an application service -- killing it will not
     // have much of an impact as far as the user is concerned.
@@ -79,7 +79,7 @@ class ProcessList {
 
     // This is a process only hosting activities that are visible to the
     // user, so we'd prefer they don't disappear.
-    static final int VISIBLE_APP_ADJ = 1;
+    static final int VISIBLE_APP_ADJ = 3;
 
     // This is the process running the current foreground app.  We'd really
     // rather not kill it!
@@ -102,20 +102,8 @@ class ProcessList {
     // The maximum number of hidden processes we will keep around before
     // killing them; this is just a control to not let us go too crazy with
     // keeping around processes on devices with large amounts of RAM.
+    static final int MAX_HIDDEN_APPS = 24;
 
-    static final int MAX_HIDDEN_APPS;
-
-    static {
-        // Allow more hidden apps on huge memory devices (1.5GB or higher)
-        // or fetch from the system property
-        // <512MB - 15
-        // <1.5GB - 25
-        // >1.5GB - 40
-        MemInfoReader mi = new MemInfoReader();
-        MAX_HIDDEN_APPS = SystemProperties.getInt("sys.mem.max_hidden_apps",
-                (mi.getTotalSize() > (1.5*1024*1024)) ? 40 :
-                (mi.getTotalSize() < (512*1024)) ? 15 : 25);
-    }
     // We allow empty processes to stick around for at most 30 minutes.
     static final long MAX_EMPTY_TIME = 30*60*1000;
 

@@ -2,18 +2,26 @@
 package com.android.systemui.statusbar.policy.key;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.UserHandle;
+import android.os.ServiceManager;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 
 import static com.android.internal.util.aokp.AwesomeConstants.*;
+//import com.android.server.power.PowerManagerService;
 import com.android.systemui.R;
 import com.android.systemui.aokp.AwesomeAction;
+import com.android.systemui.recent.RecentTasksLoader;
+import com.android.systemui.recent.RecentsActivity;
 import com.android.systemui.statusbar.policy.KeyButtonView;
 
 public class ExtensibleKeyButtonView extends KeyButtonView {
 
     public String mClickAction, mLongpress;
+//    private final PowerManagerService mPm;
 
     public ExtensibleKeyButtonView(Context context, AttributeSet attrs, String clickAction,
             String longPress) {
@@ -22,6 +30,7 @@ public class ExtensibleKeyButtonView extends KeyButtonView {
         mLongpress = longPress;
         setActions(clickAction, longPress);
         setLongPress();
+//        mPm = (PowerManagerService) ServiceManager.getService("power");
     }
 
     public void setActions(String clickAction, String longPress) {
@@ -45,6 +54,26 @@ public class ExtensibleKeyButtonView extends KeyButtonView {
                 break;
             case ACTION_SEARCH:
                 setCode(KeyEvent.KEYCODE_SEARCH);
+                break;
+            case ACTION_RECENTS:
+                setId(R.id.recent_apps);
+                setOnClickListener(mClickListener);
+                setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        int action = event.getAction() & MotionEvent.ACTION_MASK;
+                        if (action == MotionEvent.ACTION_DOWN) {
+                            preloadRecentTasksList();
+                        } else if (action == MotionEvent.ACTION_CANCEL) {
+                            cancelPreloadingRecentTasksList();
+                        } else if (action == MotionEvent.ACTION_UP) {
+                            if (!v.isPressed()) {
+                                cancelPreloadingRecentTasksList();
+                            }
+                        }
+                        return false;
+                    }
+                });
                 break;
             default:
                 setOnClickListener(mClickListener);
@@ -79,4 +108,24 @@ public class ExtensibleKeyButtonView extends KeyButtonView {
             return AwesomeAction.launchAction(mContext, mLongpress);
         }
     };
+
+    protected void preloadRecentTasksList() {
+//        mPm.cpuBoost(1500000);
+        Intent intent = new Intent(RecentsActivity.PRELOAD_INTENT);
+        intent.setClassName("com.android.systemui",
+                "com.android.systemui.recent.RecentsPreloadReceiver");
+        mContext.sendBroadcastAsUser(intent, new UserHandle(UserHandle.USER_CURRENT));
+
+        RecentTasksLoader.getInstance(mContext).preloadFirstTask();
+    }
+
+    protected void cancelPreloadingRecentTasksList() {
+//        mPm.cpuBoost(1500000);
+        Intent intent = new Intent(RecentsActivity.CANCEL_PRELOAD_INTENT);
+        intent.setClassName("com.android.systemui",
+                "com.android.systemui.recent.RecentsPreloadReceiver");
+        mContext.sendBroadcastAsUser(intent, new UserHandle(UserHandle.USER_CURRENT));
+
+        RecentTasksLoader.getInstance(mContext).cancelPreloadingFirstTask();
+    }
 }

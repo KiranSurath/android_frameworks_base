@@ -2440,12 +2440,6 @@ public final class Settings {
         public static final String LOCKSCREEN_DISABLED = "lockscreen.disabled";
 
         /**
-         * Stores values for custom lockscreen targets
-         * @hide
-         */
-        public static final String LOCKSCREEN_TARGETS = "lockscreen_targets";
-
-        /**
          * @deprecated Use {@link android.provider.Settings.Global#LOW_BATTERY_SOUND}
          * instead
          * @hide
@@ -3360,12 +3354,33 @@ public final class Settings {
          */
         public static final String VOLUME_MUSIC_CONTROLS = "volume_music_controls";
 
-        /**
-         * whether to hide the Ram Usage Bar on recent switcher
-         *
-         * @hide
-         */
-        public static final String RAM_USAGE_BAR = "ram_usage_bar";
+       /**
+        * whether which Ram Usage Bar mode is used on recent switcher
+        * 0 = none, 1 = only app use, 2 = app and cache use, 3 = app, cache and system use
+        * @hide
+        */
+        public static final String RECENTS_RAM_BAR_MODE = "recents_ram_bar_mode";
+
+       /**
+        * Ram Usage Bar system mem color
+        *
+        * @hide
+        */
+        public static final String RECENTS_RAM_BAR_MEM_COLOR = "recents_ram_bar_mem_color";
+
+       /**
+        * Ram Usage Bar cached mem color
+        *
+        * @hide
+        */
+        public static final String RECENTS_RAM_BAR_CACHE_COLOR = "recents_ram_bar_cache_color";
+
+       /**
+        * Ram Usage Bar app mem color
+        *
+        * @hide
+        */
+        public static final String RECENTS_RAM_BAR_ACTIVE_APPS_COLOR = "recents_ram_bar_active_apps_color";
 
        /**
         * Key to store Torch state.
@@ -3610,6 +3625,13 @@ public final class Settings {
          * @hide
          */
         public static final String POWER_DIALOG_SHOW_NAVBAR_HIDE = "power_dialog_show_navbar_hide";
+
+        /**
+         * Show the Reboot on lockscreen dialog in Power menu
+         * @hide
+         */
+        public static final String POWER_DIALOG_SHOW_REBOOT_KEYGUARD = "power_dialog_show_reboot_keyguard";
+
 
         /**
          *
@@ -3976,6 +3998,19 @@ public final class Settings {
         * @hide
         */
         public static final String DISABLE_FULLSCREEN_KEYBOARD = "disable_fullscreen_keyboard";
+
+        /**
+         * Whether Status bar should be hiidden when there are no
+         * notifications
+         * @hide
+         */
+        public static final String AUTO_HIDE_STATUSBAR = "auto_hide_statusbar";
+
+        /**
+         * Whether Status Bar is currently hidden or not
+         * @hide
+         */
+        public static final String HIDE_STATUSBAR = "hide_statusbar";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
