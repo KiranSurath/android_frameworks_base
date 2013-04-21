@@ -245,7 +245,6 @@ public class PowerWidget extends FrameLayout {
         // cycle through setting the buttons to null
         for (PowerButton pb : mButtons.values()) {
             pb.setupButton(null);
-            pb = null;
         }
 
         // clear our list
@@ -393,13 +392,6 @@ public class PowerWidget extends FrameLayout {
         BUTTON_LAYOUT_PARAMS.width = mContext.getResources().getDisplayMetrics().widthPixels / LAYOUT_SCROLL_BUTTON_THRESHOLD;
     }
 
-    public boolean powerWidgetEnabled() {
-        // now check if we need to display the widget still
-        boolean displayPowerWidget = Settings.System.getInt(mContext.getContentResolver(),
-                   Settings.System.EXPANDED_VIEW_WIDGET, 0) == 1;
-        return displayPowerWidget;
-    }
-
     public void updateVisibility() {
         // now check if we need to display the widget still
         boolean displayPowerWidget = Settings.System.getInt(mContext.getContentResolver(),
@@ -519,12 +511,7 @@ public class PowerWidget extends FrameLayout {
                 setupWidget();
             // now check if we change visibility
             } else if(uri.equals(Settings.System.getUriFor(Settings.System.EXPANDED_VIEW_WIDGET))) {
-                if(!powerWidgetEnabled()) {
-                    setVisibility(View.GONE);
-                } else {
-                    setVisibility(View.VISIBLE);
-                    setScaleX(1f);
-                }
+                updateVisibility();
             // now check for scrollbar hiding
             } else if(uri.equals(Settings.System.getUriFor(Settings.System.EXPANDED_HIDE_SCROLLBAR))) {
                 updateScrollbar();
