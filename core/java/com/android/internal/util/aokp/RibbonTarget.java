@@ -87,7 +87,7 @@ public class RibbonTarget {
      */
 
     public RibbonTarget(Context context, final String sClick, final String lClick,
-            final String cIcon, final boolean text, final int color, final int size, final boolean touchVib) {
+            final String cIcon, final boolean text, final int color, final int size, final boolean touchVib, final boolean colorize) {
         mContext = context;
         b = new Intent();
         b.setAction("com.android.systemui.ACTION_HIDE_RIBBON");
@@ -150,6 +150,9 @@ public class RibbonTarget {
                 }
             }
         }
+        if ((sClick.equals("**null**") ? lClick.startsWith("**") : sClick.startsWith("**")) && colorize) {
+            mIcon.setColorFilter(color);
+        }
         mIcon.setImageDrawable(newIcon);
         if (!sClick.equals("**null**")) {
             mIcon.setOnClickListener(new OnClickListener() {
@@ -189,7 +192,7 @@ public class RibbonTarget {
     }
 
     private void sendIt(String action) {
-        if (!action.equals(AwesomeConstants.AwesomeConstant.ACTION_TORCH.value())) {
+        if (shouldUnlock(action)) {
             try {		
                 if (mWm.isKeyguardLocked() && !mWm.isKeyguardSecure()) {		
                     ActivityManagerNative.getDefault().dismissKeyguardOnNextActivity();		
@@ -203,6 +206,16 @@ public class RibbonTarget {
         i.putExtra("action", action);
         mContext.sendBroadcastAsUser(i, UserHandle.ALL);
         mContext.sendBroadcastAsUser(b, UserHandle.ALL);
+    }
+
+    private boolean shouldUnlock(String action) {
+        if (action.equals(AwesomeConstants.AwesomeConstant.ACTION_TORCH.value()) ||
+            action.equals(AwesomeConstants.AwesomeConstant.ACTION_NOTIFICATIONS.value()) ||
+            action.equals(AwesomeConstants.AwesomeConstant.ACTION_POWER.value())) {
+            return false;
+        }
+
+        return true;
     }
 
     public int mapChosenDpToPixels(int dp) {
