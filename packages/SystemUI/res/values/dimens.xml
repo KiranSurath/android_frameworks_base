@@ -254,8 +254,36 @@
     <!-- Constant for hidden navbar drag handle -->
     <dimen name="drag_handle_height">10dp</dimen>
     
-    <!-- SideBar -->
-    <dimen name="app_sidebar_item_size">60dp</dimen>
+    <!-- Height of the brightness slider in the toggles tab -->
+    <dimen name="toggles_slider_panel_height">48dp</dimen>
 
+    <!-- Toggles row height for page layout -->
+    <dimen name="status_bar_toggles_row_height">100dp</dimen>
+
+    <!-- Height of trigger for revealing a hidden status bar or navbar -->
+    <dimen name="trigger_view_height">2dip</dimen>
+
+    <!-- The padding of the items of the battery cluster -->
+    <dimen name="status_bar_battery_cluster_padding">2dip</dimen>
+    <!-- The margin adjusment of the text items of the battery cluster -->
+    <dimen name="status_bar_battery_cluster_text_margin">-1dip</dimen>
+
+    <dimen name="wifi_combo_margin_right">-6dp</dimen>
+
+    <!-- App sidebar -->
+    <dimen name="app_sidebar_item_size">60dp</dimen>
     <dimen name="app_sidebar_item_padding">2dp</dimen>
+    <dimen name="tab_width">16dp</dimen>
+    <dimen name="tab_height">32dp</dimen>
+
+    <dimen name="drag_item_size">80dp</dimen>
+    <dimen name="icon_size">48dp</dimen>
+    <dimen name="item_title_text_size">12sp</dimen>
+    <dimen name="item_above_below_delta">16dp</dimen>
+    <dimen name="folder_padding">0dp</dimen>
+    <dimen name="folder_name_padding">10dp</dimen>
+    <dimen name="folder_width">290dp</dimen>
+    <dimen name="folder_height">480dp</dimen>
+    <dimen name="setup_sidebar_width">90dp</dimen>
+
 </resources>
