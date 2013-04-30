@@ -36,7 +36,6 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
-import com.android.server.power.PowerManagerService;
 import com.android.systemui.R;
 import com.android.systemui.SwipeHelper;
 import com.android.systemui.recent.RecentsPanelView.TaskDescriptionAdapter;
@@ -57,7 +56,6 @@ public class RecentsHorizontalScrollView extends HorizontalScrollView
     private HashSet<View> mRecycledViews;
     private int mNumItemsInOneScreenful;
     private Handler mHandler;
-    private final PowerManagerService mPm;
 
     public RecentsHorizontalScrollView(Context context, AttributeSet attrs) {
         super(context, attrs, 0);
@@ -67,7 +65,6 @@ public class RecentsHorizontalScrollView extends HorizontalScrollView
         mPerformanceHelper = RecentsScrollViewPerformanceHelper.create(context, attrs, this, false);
         mRecycledViews = new HashSet<View>();
         mHandler = new Handler();
-        mPm = (PowerManagerService) ServiceManager.getService("power");
     }
 
     public void setMinSwipeAlpha(float minAlpha) {
@@ -251,7 +248,6 @@ public class RecentsHorizontalScrollView extends HorizontalScrollView
     }
 
     public void onBeginDrag(View v) {
-        mPm.cpuBoost(1500000);
         // We do this so the underlying ScrollView knows that it won't get
         // the chance to intercept events anymore
         requestDisallowInterceptTouchEvent(true);
