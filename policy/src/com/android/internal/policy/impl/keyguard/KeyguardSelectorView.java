@@ -229,7 +229,9 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
             Settings.System.getInt(cr,
                 Settings.System.RIBBON_ICON_SIZE[AokpRibbonHelper.LOCKSCREEN], 0),
             Settings.System.getInt(cr,
-                Settings.System.RIBBON_ICON_SPACE[AokpRibbonHelper.LOCKSCREEN], 5)));
+                Settings.System.RIBBON_ICON_SPACE[AokpRibbonHelper.LOCKSCREEN], 5),
+            Settings.System.getBoolean(cr,
+                Settings.System.RIBBON_ICON_VIBRATE[AokpRibbonHelper.LOCKSCREEN], true)));
         updateTargets();
 
         mSecurityMessageDisplay = new KeyguardMessageArea.Helper(this);

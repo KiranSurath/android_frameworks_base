@@ -84,7 +84,7 @@ public class RibbonTarget {
      * size = size used to resize icons 0 is default and will not resize the icons at all.
      */
 
-    public RibbonTarget(Context context, final String sClick, final String lClick, final String cIcon, final boolean text, final int color, final int size) {
+    public RibbonTarget(Context context, final String sClick, final String lClick, final String cIcon, final boolean text, final int color, final int size, final boolean touchVib) {
         mContext = context;
         b = new Intent();
         b.setAction("com.android.systemui.ACTION_HIDE_RIBBON");
@@ -106,7 +106,7 @@ public class RibbonTarget {
         mText.setOnClickListener(new OnClickListener() {
             @Override
             public final void onClick(View v) {
-                if(vib != null) {
+                if(vib != null && touchVib) {
                     vib.vibrate(10);
                 }
                 collapseStatusBar();
@@ -151,7 +151,7 @@ public class RibbonTarget {
         mIcon.setOnClickListener(new OnClickListener() {
             @Override
             public final void onClick(View v) {
-                if(vib != null) {
+                if(vib != null && touchVib) {
                     vib.vibrate(10);
                 }
                 collapseStatusBar();

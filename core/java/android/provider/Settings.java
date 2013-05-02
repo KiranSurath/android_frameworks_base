@@ -3967,6 +3967,18 @@ public final class Settings {
         public static final String RIBBON_ICON_SPACE_VERTICAL = "ribbon_icon_space_vertical";
 
         /**
+         * Ribbon Targets
+         *
+         * @hide
+         */
+        public static final String[] RIBBON_ICON_VIBRATE = new String[] {
+            "ribbon_icon_lockscreen_vibrate",
+            "ribbon_icon_notification_vibrate",
+            "ribbon_icon_swipe_vibrate",
+            "ribbon_icon_quicksettings_vibrate",
+        };
+
+        /**
          *
          * @hide
          */
