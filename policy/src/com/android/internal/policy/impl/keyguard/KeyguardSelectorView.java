@@ -86,7 +86,6 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
     private int mTargetOffset;
     private boolean mIsScreenLarge;
     private int mCreationOrientation;
-    private Resources res;
 
     OnTriggerListener mOnTriggerListener = new OnTriggerListener() {
 
@@ -207,8 +206,6 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        res = getResources();
-        ContentResolver cr = mContext.getContentResolver();
         mGlowPadView = (GlowPadView) findViewById(R.id.glow_pad_view);
         mGlowPadView.setOnTriggerListener(mOnTriggerListener);
         ribbonView = (LinearLayout) findViewById(R.id.keyguard_ribbon_and_battery);

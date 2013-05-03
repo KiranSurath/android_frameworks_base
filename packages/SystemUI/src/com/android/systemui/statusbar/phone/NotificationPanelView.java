@@ -35,8 +35,8 @@ import com.android.systemui.statusbar.GestureRecorder;
 
 public class NotificationPanelView extends PanelView {
 
-    private static final float STATUS_BAR_SETTINGS_LEFT_PERCENTAGE = 0.8f;
-    private static final float STATUS_BAR_SETTINGS_RIGHT_PERCENTAGE = 0.2f;
+    private static final float STATUS_BAR_SETTINGS_FLIP_PERCENTAGE_RIGHT = 0.15f;
+    private static final float STATUS_BAR_SETTINGS_FLIP_PERCENTAGE_LEFT = 0.85f;
     //Final Variables for Notification Bar Swipe action - Switch between Notifications & Quick Settings
     static final float STATUS_BAR_SWIPE_TRIGGER_PERCENTAGE = 0.05f;
     static final float STATUS_BAR_SWIPE_VERTICAL_MAX_PERCENTAGE = 0.025f;
@@ -239,7 +239,6 @@ public class NotificationPanelView extends PanelView {
                 if (maxy - miny < mHandleBarHeight) {
                      if (getMeasuredHeight() < mHandleBarHeight) {
                          mStatusBar.switchToSettings();
-                     }
                 } else {
                     mStatusBar.flipToSettings();
                 }

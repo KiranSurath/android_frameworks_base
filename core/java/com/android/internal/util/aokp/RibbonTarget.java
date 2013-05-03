@@ -87,6 +87,8 @@ public class RibbonTarget {
 
     public RibbonTarget(Context context, final String sClick, final String lClick, final String cIcon, final boolean text, final int color, final int size, final boolean touchVib) {
         mContext = context;
+        u = new Intent();
+        u.setAction("com.android.lockscreen.ACTION_UNLOCK_RECEIVER");
         b = new Intent();
         b.setAction("com.android.systemui.ACTION_HIDE_RIBBON");
         mWm = IWindowManager.Stub.asInterface(ServiceManager.getService("window"));
@@ -111,6 +113,7 @@ public class RibbonTarget {
                     vib.vibrate(10);
                 }
                 collapseStatusBar();
+                maybeSkipKeyguard();
                 sendIt(sClick);
             }
         });
@@ -119,6 +122,7 @@ public class RibbonTarget {
                 @Override
                 public boolean onLongClick(View v) {
                     collapseStatusBar();
+                    maybeSkipKeyguard();
                     sendIt(lClick);
                     return true;
                 }
@@ -156,6 +160,7 @@ public class RibbonTarget {
                     vib.vibrate(10);
                 }
                 collapseStatusBar();
+                maybeSkipKeyguard();
                 sendIt(sClick);
             }
         });
@@ -164,6 +169,7 @@ public class RibbonTarget {
                 @Override
                 public boolean onLongClick(View v) {
                     collapseStatusBar();
+                    maybeSkipKeyguard();
                     sendIt(lClick);
                     return true;
                 }
@@ -185,10 +191,7 @@ public class RibbonTarget {
     }
 
     private void sendIt(String action) {
-        if (!action.equals(AwesomeConstants.AwesomeConstant.ACTION_TORCH.value())) {
-            maybeSkipKeyguard();
-        }
-
+        mContext.sendBroadcastAsUser(u, UserHandle.ALL);
         Intent i = new Intent();
         i.setAction("com.android.systemui.aokp.LAUNCH_ACTION");
         i.putExtra("action", action);

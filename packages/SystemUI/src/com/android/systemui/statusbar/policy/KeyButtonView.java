@@ -69,7 +69,6 @@ public class KeyButtonView extends ImageView {
     int mGlowWidth, mGlowHeight;
     int mDurationSpeedOn = 500;
     int mDurationSpeedOff = 50;
-    float mCustomGlowScale = GLOW_MAX_SCALE_FACTOR;
     float mGlowAlpha = 0f, mGlowScale = 1f, mDrawingAlpha = 1f, mOldDrawingAlpha = 1f;
     boolean mSupportsLongpress = true;
     boolean mShouldTintIcons = true;
@@ -268,25 +267,12 @@ public class KeyButtonView extends ImageView {
         return mGlowScale;
     }
 
-    public void setCustomGlowScale (float x) {
-        mCustomGlowScale = x;
-        // GlowScale is to be calculated by the NavBar based on the number of buttons used.
-        // However, we should never let it be less than 1.0 (the size of our view) or greater
-        // than GLOW_MAX_SCALE_FACTOR 
-        if (mCustomGlowScale > GLOW_MAX_SCALE_FACTOR) {
-            mCustomGlowScale = GLOW_MAX_SCALE_FACTOR;
-        }
-        if (mCustomGlowScale < 1) {
-            mCustomGlowScale = 1.0f;
-        }
-    }
-
     public void setGlowScale(float x) {
         if (mGlowBG == null) return;
         mGlowScale = x;
         final float w = getWidth();
         final float h = getHeight();
-        if (mCustomGlowScale <= 1.0f) {
+        if (GLOW_MAX_SCALE_FACTOR <= 1.0f) {
             // this only works if we know the glow will never leave our bounds
             invalidate();
         } else {
@@ -325,8 +311,8 @@ public class KeyButtonView extends ImageView {
                 }
                 final AnimatorSet as = mPressedAnim = new AnimatorSet();
                 if (pressed) {
-                    if (mGlowScale < mCustomGlowScale) 
-                        mGlowScale = mCustomGlowScale;
+                    if (mGlowScale < GLOW_MAX_SCALE_FACTOR) 
+                        mGlowScale = GLOW_MAX_SCALE_FACTOR;
                     if (mGlowAlpha < BUTTON_QUIESCENT_ALPHA)
                         mGlowAlpha = BUTTON_QUIESCENT_ALPHA;
                     setDrawingAlpha(BUTTON_QUIESCENT_ALPHA);
