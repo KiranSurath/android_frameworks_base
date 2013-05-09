@@ -250,9 +250,6 @@
 
     <dimen name="pie_panel_padding">20dp</dimen>
     <!-- PIE PIE PIE PIE PIE PIE PIE PIE PIE PIE PIE PIE PIE PIE -->
-
-    <!-- Constant for hidden navbar drag handle -->
-    <dimen name="drag_handle_height">10dp</dimen>
     
     <!-- Height of the brightness slider in the toggles tab -->
     <dimen name="toggles_slider_panel_height">48dp</dimen>
@@ -287,5 +284,11 @@
     <dimen name="setup_sidebar_width">90dp</dimen>
 
     <dimen name="halo_content_max_width">250dp</dimen>
+
+    <!-- Constant for hidden navbar drag handle -->
+    <dimen name="drag_handle_height">10dp</dimen>
+
+    <!-- Constant for hidden ribbon drag handle -->
+    <dimen name="ribbon_drag_handle_height">25dp</dimen>
 
 </resources>
