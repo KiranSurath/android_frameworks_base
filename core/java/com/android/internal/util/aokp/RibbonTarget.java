@@ -53,7 +53,6 @@ import android.widget.TextView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import com.android.internal.statusbar.IStatusBarService;
 import com.android.internal.util.aokp.NavBarHelpers;
@@ -66,7 +65,6 @@ public class RibbonTarget {
     private static final String TAG = "Ribbon Target";
 
     private View mView;
-    private LinearLayout mContainer;
     private Context mContext;
     private IWindowManager mWm;
     private ImageButton mIcon;
@@ -95,7 +93,6 @@ public class RibbonTarget {
         wm.getDefaultDisplay().getMetrics(metrics);
         vib = (Vibrator) mContext.getSystemService(mContext.VIBRATOR_SERVICE);
         mView = View.inflate(mContext, R.layout.target_button, null);
-        mContainer = (LinearLayout) mView.findViewById(R.id.container);
         mText = (TextView) mView.findViewById(R.id.label);
         if (!text) {
             mText.setVisibility(View.GONE);
@@ -228,14 +225,6 @@ public class RibbonTarget {
 
     public View getView() {
         return mView;
-    }
-
-    public void setVerticalPadding(int pad, int side) {
-        mContainer.setPadding(side, 0, side, pad);
-    }
-
-    public void setPadding(int pad, int top) {
-        mContainer.setPadding(pad, top, pad, top);
     }
 
     public static Drawable getCustomDrawable(Context context, String action) {
