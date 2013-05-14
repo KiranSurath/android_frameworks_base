@@ -253,5 +253,8 @@
 
     <!-- Constant for hidden navbar drag handle -->
     <dimen name="drag_handle_height">10dp</dimen>
+    
+    <!-- SideBar -->
+    <dimen name="app_sidebar_item_height">64dp</dimen>
 
 </resources>
