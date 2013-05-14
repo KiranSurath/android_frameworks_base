@@ -236,13 +236,7 @@ public class RibbonTarget {
     private void sendIt(String action) {
         mContext.sendBroadcastAsUser(a, UserHandle.ALL);
         if (shouldUnlock(action)) {
-            try {		
-                if (mWm.isKeyguardLocked() && !mWm.isKeyguardSecure()) {		
-                    ActivityManagerNative.getDefault().dismissKeyguardOnNextActivity();		
-                }		
-            } catch (RemoteException ignored) {		
-            }
-            mContext.sendBroadcastAsUser(u, UserHandle.ALL);
+            maybeSkipKeyguard();
         }
         Intent i = new Intent();
         i.setAction("com.android.systemui.aokp.LAUNCH_ACTION");
@@ -271,6 +265,15 @@ public class RibbonTarget {
                 return mContext.getResources().getDimensionPixelSize(R.dimen.icon_size_15);
         }
         return -1;
+    }
+
+    private void maybeSkipKeyguard() {
+        try {
+            if (mWm.isKeyguardLocked() && !mWm.isKeyguardSecure()) {
+                ActivityManagerNative.getDefault().dismissKeyguardOnNextActivity();
+            }
+        } catch (RemoteException ignored) {
+        }
     }
 
     private void collapseStatusBar() {
