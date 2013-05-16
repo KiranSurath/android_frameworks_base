@@ -1138,7 +1138,7 @@ public abstract class BaseStatusBar extends SystemUI implements
                          cancelPreloadingRecentTasksList();
                          toggleRecentsActivity();
                      }
-                 }, 50);
+                 }, 20);
                  break;
              case MSG_CLOSE_RECENTS_PANEL:
                  if (DEBUG) Slog.d(TAG, "closing recents panel");
