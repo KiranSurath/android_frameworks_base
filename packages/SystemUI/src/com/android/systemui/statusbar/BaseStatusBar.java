@@ -525,7 +525,7 @@ public abstract class BaseStatusBar extends SystemUI implements
 
         attachPie();
 
-        mActivityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVI
+        mActivityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
 
         SettingsObserver settingsObserver = new SettingsObserver(new Handler());
         settingsObserver.observe();
