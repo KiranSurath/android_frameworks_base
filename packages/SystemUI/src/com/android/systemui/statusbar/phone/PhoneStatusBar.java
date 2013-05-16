@@ -487,7 +487,7 @@ public class PhoneStatusBar extends BaseStatusBar {
                 mWindowManager.removeView(mAppSidebar);
         }
         mAppSidebar = (AppSidebar)View.inflate(context, R.layout.app_sidebar, null);
-        mWindowManager.addView(mAppSidebar, getAppSidebarLayoutParams());
+        mWindowManager.addView(mAppSidebar, getAppSidebarLayoutParams(mSidebarPosition));
 
         if (ENABLE_INTRUDERS) {
             mIntruderAlertView = (IntruderAlertView) View.inflate(context, R.layout.intruder_alert, null);
@@ -812,7 +812,7 @@ public class PhoneStatusBar extends BaseStatusBar {
         return lp;
     }
 
-    private WindowManager.LayoutParams getAppSidebarLayoutParams() {
+    private WindowManager.LayoutParams getAppSidebarLayoutParams(int position) {
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
                 LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -2740,7 +2740,6 @@ public class PhoneStatusBar extends BaseStatusBar {
                 try {
                     // position app sidebar on left if in landscape orientation and device has a navbar
                     if (mWindowManagerService.hasNavigationBar() &&
-                            NavbarEditor.isDevicePhone(mContext) &&
                             config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         mWindowManager.updateViewLayout(mAppSidebar,
                                 getAppSidebarLayoutParams(AppSidebar.SIDEBAR_POSITION_LEFT));
