@@ -107,6 +107,7 @@ import com.android.systemui.aokp.AppWindow;
 
 import java.util.ArrayList;
 import java.math.BigInteger;
+import java.util.List;
 
 public abstract class BaseStatusBar extends SystemUI implements
         CommandQueue.Callbacks {
@@ -123,6 +124,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected static final int MSG_CLOSE_SEARCH_PANEL = 1025;
     protected static final int MSG_SHOW_INTRUDER = 1026;
     protected static final int MSG_HIDE_INTRUDER = 1027;
+    protected static final int MSG_SWITCH_APPS = 1028;
 
     private WidgetView mWidgetView;
     private AppWindow mAppWindow;
@@ -199,6 +201,8 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected Display mDisplay;
 
     private boolean mDeviceProvisioned = false;
+
+    private ActivityManager mActivityManager;
 
     public void collapse() {
     }
@@ -437,6 +441,17 @@ public abstract class BaseStatusBar extends SystemUI implements
                 }
             }}, filter);
 
+        IntentFilter switchFilter = new IntentFilter();
+        switchFilter.addAction("com.android.systemui.APP_SWITCH");
+        mContext.registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int msg = MSG_SWITCH_APPS;
+                mHandler.removeMessages(msg);
+                mHandler.sendEmptyMessage(msg);
+            }
+        }, switchFilter);
+
         // Only watch for per app color changes when the setting is in check
         if (ColorUtils.getPerAppColorState(mContext)) {
 
@@ -509,6 +524,8 @@ public abstract class BaseStatusBar extends SystemUI implements
         }
 
         attachPie();
+
+        mActivityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVI
 
         SettingsObserver settingsObserver = new SettingsObserver(new Handler());
         settingsObserver.observe();
@@ -1143,6 +1160,25 @@ public abstract class BaseStatusBar extends SystemUI implements
                     mSearchPanelView.show(false, true);
                 }
                 break;
+             case MSG_SWITCH_APPS:
+                final List<ActivityManager.RecentTaskInfo> recentTasks = mActivityManager.getRecentTasksForUser(
+                        99, ActivityManager.RECENT_IGNORE_UNAVAILABLE, UserHandle.CURRENT.getIdentifier());
+                if (recentTasks.size() > 1) {
+                    ActivityManager.RecentTaskInfo recentInfo = recentTasks.get(recentTasks.size() - 1);
+                    Intent switchIntent = new Intent(recentInfo.baseIntent);
+                    if (recentInfo.origActivity != null) {
+                        switchIntent.setComponent(recentInfo.origActivity);
+                    }
+                    // Don't load ourselves
+                    if (switchIntent.getComponent().getPackageName().equals(mContext.getPackageName())) {
+                        return;
+                    }
+                    ActivityOptions opts = ActivityOptions.makeCustomAnimation(mContext,
+                            com.android.internal.R.anim.slide_in_right,
+                            com.android.internal.R.anim.slide_out_left);
+                    mContext.startActivityAsUser(switchIntent, opts.toBundle(), new UserHandle(
+                            UserHandle.USER_CURRENT));
+                }
             }
         }
     }
