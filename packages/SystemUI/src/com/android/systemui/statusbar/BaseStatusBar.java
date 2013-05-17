@@ -124,7 +124,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected static final int MSG_CLOSE_SEARCH_PANEL = 1025;
     protected static final int MSG_SHOW_INTRUDER = 1026;
     protected static final int MSG_HIDE_INTRUDER = 1027;
-    protected static final int MSG_SWITCH_APPS = 1028;
+    protected static final int MSG_SWITCH_APPS = 1029;
 
     private WidgetView mWidgetView;
     private AppWindow mAppWindow;
