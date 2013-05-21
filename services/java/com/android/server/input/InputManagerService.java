@@ -1162,7 +1162,7 @@ public class InputManagerService extends IInputManager.Stub
 
     public void registerVolumeKeysRotationSettingObserver() {
         mContext.getContentResolver().registerContentObserver(
-                Settings.System.getUriFor(Settings.System.SWAP_VOLUME_KEYS_ON_ROTATION), false,
+                Settings.System.getUriFor(Settings.System.SWAP_VOLUME_KEYS_BY_ROTATE), false,
                 new ContentObserver(mHandler) {
                     @Override
                     public void onChange(boolean selfChange) {
@@ -1175,7 +1175,7 @@ public class InputManagerService extends IInputManager.Stub
         int result = defaultValue;
         try {
             result = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.SWAP_VOLUME_KEYS_ON_ROTATION);
+                Settings.System.SWAP_VOLUME_KEYS_BY_ROTATE);
         } catch (SettingNotFoundException snfe) {
         }
         return result;

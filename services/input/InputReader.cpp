@@ -135,7 +135,7 @@ static const size_t keyCodeRotationMapSize =
         sizeof(keyCodeRotationMap) / sizeof(keyCodeRotationMap[0]);
 
 static int32_t rotateKeyCode(int32_t keyCode, int32_t orientation,
-			        int32_t rotationMapStartInde) {
+        int32_t rotationMapStartIndex) {
     return rotateValueUsingRotationMap(keyCode, orientation,
             keyCodeRotationMap, keyCodeRotationMapSize,
             rotationMapStartIndex);
