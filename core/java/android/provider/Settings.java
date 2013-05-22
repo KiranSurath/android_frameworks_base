@@ -6510,7 +6510,7 @@ public final class Settings {
             UI_NIGHT_MODE,
             UI_INVERTED_MODE,
             LOCK_SCREEN_OWNER_INFO,
-            LOCK_SCREEN_OWNER_INFO_ENABLED
+            LOCK_SCREEN_OWNER_INFO_ENABLED,
             PRIVACY_GUARD_DEFAULT
         };
 
