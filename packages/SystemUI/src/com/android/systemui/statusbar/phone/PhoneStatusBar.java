@@ -64,6 +64,7 @@ import android.provider.Settings;
 import android.service.dreams.DreamService;
 import android.service.dreams.IDreamManager;
 import android.util.DisplayMetrics;
+import android.util.ExtendedPropertiesUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.util.Slog;
@@ -72,6 +73,7 @@ import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
+import android.util.ExtendedPropertiesUtils;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
@@ -190,6 +192,8 @@ public class PhoneStatusBar extends BaseStatusBar {
     private AppSidebar mAppSidebar;
     private int mSidebarPosition;
 
+    public int mSystemUiLayout = ExtendedPropertiesUtils.getActualProperty("com.android.systemui.layout");
+
     // These are no longer handled by the policy, because we need custom strategies for them
     BluetoothController mBluetoothController;
     DockBatteryController mDockBatteryController;
@@ -200,9 +204,8 @@ public class PhoneStatusBar extends BaseStatusBar {
     int mIconHPadding = -1;
     Display mDisplay;
     Point mCurrentDisplaySize = new Point();
-    int mCurrentUIMode = 0; 
-
     private boolean mHasDockBattery;
+    int mCurrUiInvertedMode;
 
     IDreamManager mDreamManager;
 
@@ -240,7 +243,6 @@ public class PhoneStatusBar extends BaseStatusBar {
 
     // settings
     QuickSettingsController mQS;
-    boolean mUiModeIsToggled;
     boolean mHasSettingsPanel, mHideSettingsPanel, mHasFlipSettings;
     SettingsPanelView mSettingsPanel;
     View mFlipSettingsView;
@@ -409,6 +411,8 @@ public class PhoneStatusBar extends BaseStatusBar {
         mDreamManager = IDreamManager.Stub.asInterface(
                 ServiceManager.checkService(DreamService.DREAM_SERVICE));
 
+        mCurrUiInvertedMode = mContext.getResources().getConfiguration().uiInvertedMode;
+
         CustomTheme currentTheme = mContext.getResources().getConfiguration().customTheme;
         if (currentTheme != null) {
             mCurrentTheme = (CustomTheme)currentTheme.clone();
@@ -546,9 +550,6 @@ public class PhoneStatusBar extends BaseStatusBar {
         mClearButton.setVisibility(View.INVISIBLE);
         mClearButton.setEnabled(false);
         mDateView = (DateView)mStatusBarWindow.findViewById(R.id.date);
-
-        mUiModeIsToggled = Settings.Secure.getInt(mContext.getContentResolver(),
-                              Settings.Secure.UI_MODE_IS_TOGGLED, 0) == 1;
 
         mHasSettingsPanel = res.getBoolean(R.bool.config_hasSettingsPanel);
 
@@ -2735,7 +2736,7 @@ public class PhoneStatusBar extends BaseStatusBar {
                     // if We are in Landscape/Phone Mode then swap the XY coordinates for NaVRing Swipe
                     mNavigationBarView.mDelegateHelper.setSwapXY((
                             mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) 
-                            && (mCurrentUIMode == 0));
+                            && (mSystemUiLayout <= 360));
                 }
                 try {
                     // position app sidebar on left if in landscape orientation and device has a navbar
@@ -2864,11 +2865,20 @@ public class PhoneStatusBar extends BaseStatusBar {
         final Context context = mContext;
         final Resources res = context.getResources();
 
+        // detect inverted ui mode change
+        int uiInvertedMode =
+            mContext.getResources().getConfiguration().uiInvertedMode;
+
         // detect theme change.
         CustomTheme newTheme = res.getConfiguration().customTheme;
-        if (newTheme != null &&
-                (mCurrentTheme == null || !mCurrentTheme.equals(newTheme))) {
-            mCurrentTheme = (CustomTheme)newTheme.clone();
+        if ((newTheme != null &&
+                (mCurrentTheme == null || !mCurrentTheme.equals(newTheme)))
+            || uiInvertedMode != mCurrUiInvertedMode) {
+            if (uiInvertedMode != mCurrUiInvertedMode) {
+                mCurrUiInvertedMode = uiInvertedMode;
+            } else {
+                mCurrentTheme = (CustomTheme) newTheme.clone();
+            }
             recreateStatusBar();
         } else {
 
@@ -3076,8 +3086,6 @@ public class PhoneStatusBar extends BaseStatusBar {
                     Settings.System.QUICK_TILES_BG_PRESSED_COLOR), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QUICK_TILES_TEXT_COLOR), false, this);
-            resolver.registerContentObserver(Settings.Secure.getUriFor(
-                    Settings.Secure.UI_MODE_IS_TOGGLED), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_DISABLE_PANEL), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -3124,16 +3132,10 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         @Override
         public void onChange(boolean selfChange) {
-            boolean uiModeIsToggled = Settings.Secure.getInt(mContext.getContentResolver(),
-                                    Settings.Secure.UI_MODE_IS_TOGGLED, 0) == 1;
             boolean hideSettingsPanel = Settings.System.getInt(mContext.getContentResolver(),
                                     Settings.System.QS_DISABLE_PANEL, 0) == 1;
 
             if (hideSettingsPanel != mHideSettingsPanel) {
-                recreateStatusBar();
-            }
-
-            if (uiModeIsToggled != mUiModeIsToggled) {
                 recreateStatusBar();
             }
 
@@ -3158,13 +3160,6 @@ public class PhoneStatusBar extends BaseStatusBar {
             mBrightnessControl = !autoBrightness && Settings.System.getInt(
                     resolver, Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0) == 1;
 
-            boolean uiModeIsToggled = Settings.Secure.getInt(
-                    resolver, Settings.Secure.UI_MODE_IS_TOGGLED, 0) == 1;
-
-            if (uiModeIsToggled != mUiModeIsToggled) {
-                recreateStatusBar();
-            }
-
             int sidebarPosition = Settings.System.getInt(
                     resolver, Settings.System.APP_SIDEBAR_POSITION, AppSidebar.SIDEBAR_POSITION_LEFT);
             if (sidebarPosition != mSidebarPosition) {
@@ -3188,9 +3183,6 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         mLongClickWeather = Settings.System.getString(cr,
                 Settings.System.WEATHER_PANEL_LONGCLICK);
-
-        mCurrentUIMode = Settings.System.getInt(cr,
-                Settings.System.CURRENT_UI_MODE, 0);
 
         if (mShortClickWeather == null || mShortClickWeather.equals("")) {
             mShortClickWeather = "**null**";
