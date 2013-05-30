@@ -2678,7 +2678,7 @@ public final class Settings {
          */
         public static final String QS_DYNAMIC_WIFI = "qs_dyanmic_wifi";
 
-         /**
+        /**
          * Quick Settings Quick Pulldown if no notifications are present
          *
          * @hide
@@ -3017,7 +3017,7 @@ public final class Settings {
         public static final String PIE_GAP = "pie_gap";
 
         /**
-         * Pie empty angle, should default to 0
+         * Pie empty angle, should default to 12
          * @hide
          */
         public static final String PIE_ANGLE = "pie_angle";
