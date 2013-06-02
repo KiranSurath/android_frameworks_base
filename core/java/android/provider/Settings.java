@@ -2707,12 +2707,6 @@ public final class Settings {
         public static final String QS_DISABLE_PANEL = "qs_disable_panel";
 
         /**
-<<<<<<< HEAD
-         * Use the Notification Power Widget? (Who wouldn't!)
-         *
-=======
-         * Pie size fraction, default is 1.0f (normal)
->>>>>>> 83b26e9... Pie: updates (2/2)
          * @hide
          */
         public static final String EXPANDED_VIEW_WIDGET = "expanded_view_widget";
@@ -3053,7 +3047,7 @@ public final class Settings {
         public static final String PIE_MODE = "pie_mode";
 
         /**
-         * Pie size fraction
+         * Pie size fraction, default is 1.0f (normal)
          * @hide
          */
         public static final String PIE_SIZE = "pie_size";
