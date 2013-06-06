@@ -237,13 +237,14 @@ public class NotificationPanelView extends PanelView {
                     if (y > maxy) maxy = y;
                 }
                 if (maxy - miny < mHandleBarHeight) {
-                     if (getMeasuredHeight() < mHandleBarHeight) {
+                    if (mJustPeeked || getMeasuredHeight() < mHandleBarHeight) {
+                        mStatusBar.switchToSettings();
                          mStatusBar.switchToSettings();
-                     }
-                } else {
-                    mStatusBar.flipToSettings();
+                     } else {
+                        mStatusBar.flipToSettings();
+                    }
+                    mOkToFlip = false;
                 }
-                mOkToFlip = false;
             } else if (mSwipeTriggered) {
                 final float deltaX = (event.getX(0) - mGestureStartX) * mSwipeDirection;
                 mStatusBar.partialFlip(mFlipOffset +
