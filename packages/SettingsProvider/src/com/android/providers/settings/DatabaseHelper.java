@@ -2231,13 +2231,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             loadStringSetting(stmt, Settings.Global.WIRELESS_CHARGING_STARTED_SOUND,
                     R.string.def_wireless_charging_started_sound);
 
-            loadBooleanSetting(stmt, Settings.Global.POWER_NOTIFICATIONS_ENABLED,
-                    R.bool.def_power_notifications_enabled);
-            loadBooleanSetting(stmt, Settings.Global.POWER_NOTIFICATIONS_VIBRATE,
-                    R.bool.def_power_notifications_vibrate);
-            loadStringSetting(stmt, Settings.Global.POWER_NOTIFICATIONS_RINGTONE,
-                    R.string.def_power_notifications_ringtone);
-
             loadIntegerSetting(stmt, Settings.Global.POWER_NOTIFICATIONS_ENABLED,
                     R.integer.def_power_notifications_enabled);
             loadStringSetting(stmt, Settings.Global.POWER_NOTIFICATIONS_RINGTONE,

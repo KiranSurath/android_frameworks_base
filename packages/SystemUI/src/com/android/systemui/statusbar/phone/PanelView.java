@@ -90,6 +90,7 @@ public class PanelView extends FrameLayout {
     private TimeAnimator mTimeAnimator;
     private ObjectAnimator mPeekAnimator;
     private FlingTracker mVelocityTracker;
+    private SettingsObserver mSettingsObserver;
 
     /**
      * A very simple low-pass velocity filter for motion events; not nearly as sophisticated as
