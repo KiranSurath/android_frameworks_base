@@ -1162,7 +1162,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 			
                 updateHybridLayout();
                 update(false);
-                updateHWOverlays();
             }
         });
 
