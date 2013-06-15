@@ -3015,6 +3015,12 @@ public final class Settings {
         public static final String HALO_PAUSE = "halo_pause";
 
         /**
+         * HALO being minimal.
+         * @hide
+         */
+        public static final String HALO_STYLE = "halo_style";
+
+        /**
          * Pie menu, should default to 1 (yes, show)
          * @hide
          */
