@@ -187,7 +187,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     public Clock mClock;
     public ClockCenter mCClock;
 
-    // left-hand icons 
+    // left-hand icons
     public LinearLayout mStatusIcons;
 
     // Statusbar view container
@@ -534,22 +534,22 @@ public abstract class BaseStatusBar extends SystemUI implements
                             }
                         }
                     }});
-            // Listen for PIE gravity
-            mContext.getContentResolver().registerContentObserver(
-                Settings.System.getUriFor(Settings.System.PIE_GRAVITY), false, new ContentObserver(new Handler()) {
-                    @Override
-                    public void onChange(boolean selfChange) {
-                        if (Settings.System.getInt(mContext.getContentResolver(),
-                                Settings.System.PIE_STICK, 1) == 0) {
-                            updatePieControls();
-                        }}});
         }
 
         attachPie();
 
-        mActivityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        // Listen for PIE gravity
+        mContext.getContentResolver().registerContentObserver(
+                Settings.System.getUriFor(Settings.System.PIE_GRAVITY), false, new ContentObserver(new Handler()) {
+            @Override
+            public void onChange(boolean selfChange) {
+                if (Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.PIE_STICK, 1) == 0) {
+                    updatePieControls();
+                }
+            }});
 
-        // Listen for HALO state
+        // Listen for HALO enabled switch
         mContext.getContentResolver().registerContentObserver(
                 Settings.System.getUriFor(Settings.System.HALO_ACTIVE), false, new ContentObserver(new Handler()) {
             @Override
@@ -644,7 +644,7 @@ public abstract class BaseStatusBar extends SystemUI implements
             if (mContainer == null) {
                 // Add panel window, one to be used by all pies that is
                 LayoutInflater inflater = (LayoutInflater) mContext
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE); 
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 mContainer = (PieExpandPanel)inflater.inflate(R.layout.pie_expanded_panel, null);
                 mContainer.init(mPile, mContainer.findViewById(R.id.content_scroll));
                 mWindowManager.addView(mContainer, PieStatusPanel.getFlipPanelLayoutParams());
@@ -753,7 +753,7 @@ public abstract class BaseStatusBar extends SystemUI implements
         lp.gravity = gravity;
         return lp;
     }
-    
+
     private void updateIconColor() {
         ColorUtils.ColorSettingInfo colorInfo = ColorUtils.getColorSettingInfo(mContext,
                 Settings.System.STATUS_ICON_COLOR);
@@ -1695,7 +1695,7 @@ public abstract class BaseStatusBar extends SystemUI implements
         boolean orderUnchanged = notification.notification.when==oldNotification.notification.when
                 && notification.score == oldNotification.score;
                 // score now encompasses/supersedes isOngoing()
-        
+
         boolean updateTicker = (notification.notification.tickerText != null
                 && !TextUtils.equals(notification.notification.tickerText,
                         oldEntry.notification.notification.tickerText)) || mHaloActive;
