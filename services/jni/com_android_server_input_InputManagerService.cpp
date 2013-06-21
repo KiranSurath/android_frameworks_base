@@ -178,6 +178,8 @@ public:
     void setShowTouches(bool enabled);
     void setStylusIconEnabled(bool enabled);
     void setVolumeKeysRotation(int mode);
+    void setTouchpadMode(int32_t mode);
+    void setTouchpadStatus(int32_t status);
 
     /* --- InputReaderPolicyInterface implementation --- */
 
@@ -238,6 +240,12 @@ private:
         // Show touches feature enable/disable.
         bool showTouches;
 
+        // The touchpad gesture mode.
+        int32_t touchpadMode;
+
+        // Touchpad status.
+        int32_t touchpadStatus;
+
         // Show icon when stylus is used
         bool stylusIconEnabled;
 
@@ -284,6 +292,8 @@ NativeInputManager::NativeInputManager(jobject contextObj,
         mLocked.showTouches = false;
         mLocked.stylusIconEnabled = false;
         mLocked.volumeKeysRotationMapStartIndex = 4;
+        mLocked.touchpadMode = 0;
+        mLocked.touchpadStatus = 1;
     }
 
     sp<EventHub> eventHub = new EventHub();
@@ -421,6 +431,8 @@ void NativeInputManager::getReaderConfiguration(InputReaderConfiguration* outCon
 
         outConfig->setDisplayInfo(false /*external*/, mLocked.internalViewport);
         outConfig->setDisplayInfo(true /*external*/, mLocked.externalViewport);
+        outConfig->touchpadMode = mLocked.touchpadMode;
+        outConfig->touchpadStatus = mLocked.touchpadStatus;
 
     } // release lock
 }
@@ -740,6 +752,38 @@ void NativeInputManager::setShowTouches(bool enabled) {
 
     mInputManager->getReader()->requestRefreshConfiguration(
             InputReaderConfiguration::CHANGE_SHOW_TOUCHES);
+}
+
+void NativeInputManager::setTouchpadMode(int32_t mode) {
+    { // acquire lock
+        AutoMutex _l(mLock);
+
+        if (mLocked.touchpadMode == mode) {
+            return;
+        }
+
+        ALOGI("Setting touchpad mode to %d.", mode);
+        mLocked.touchpadMode = mode;
+    } // release lock
+
+    mInputManager->getReader()->requestRefreshConfiguration(
+            InputReaderConfiguration::CHANGE_TOUCHPAD_MODE);
+}
+
+void NativeInputManager::setTouchpadStatus(int32_t status) {
+    { // acquire lock
+        AutoMutex _l(mLock);
+
+        if (mLocked.touchpadStatus == status) {
+            return;
+        }
+
+        ALOGI("Setting touchpad status to %d.", status);
+        mLocked.touchpadStatus = status;
+    } // release lock
+
+    mInputManager->getReader()->requestRefreshConfiguration(
+            InputReaderConfiguration::CHANGE_TOUCHPAD_STATUS);
 }
 
 void NativeInputManager::setStylusIconEnabled(bool enabled) {
@@ -1348,6 +1392,20 @@ static void nativeMonitor(JNIEnv* env, jclass clazz, jint ptr) {
     im->getInputManager()->getDispatcher()->monitor();
 }
 
+static void nativeSetTouchpadMode(JNIEnv* env,
+        jclass clazz, jint ptr, jint mode) {
+    NativeInputManager* im = reinterpret_cast<NativeInputManager*>(ptr);
+
+    im->setTouchpadMode(mode);
+}
+
+static void android_server_InputManager_nativeSetTouchpadStatus(JNIEnv* env,
+        jclass clazz, jint ptr, jint status) {
+    NativeInputManager* im = reinterpret_cast<NativeInputManager*>(ptr);
+
+    im->setTouchpadStatus(status);
+}
+
 // ----------------------------------------------------------------------------
 
 static JNINativeMethod gInputManagerMethods[] = {
@@ -1406,6 +1464,10 @@ static JNINativeMethod gInputManagerMethods[] = {
             (void*) nativeDump },
     { "nativeMonitor", "(I)V",
             (void*) nativeMonitor },
+    { "nativeSetTouchpadMode", "(II)V",
+            (void*) nativeSetTouchpadMode },
+    { "nativeSetTouchpadStatus", "(II)V",
+            (void*) android_server_InputManager_nativeSetTouchpadStatus },
 };
 
 #define FIND_CLASS(var, className) \

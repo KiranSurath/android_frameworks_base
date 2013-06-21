@@ -681,8 +681,11 @@ public class KeyCharacterMap implements Parcelable {
      * @param keyCode The key code to query.
      * @return True if at least one attached keyboard supports the specified key code.
      */
-    public static boolean deviceHasKey(int keyCode) {
-        return InputManager.getInstance().deviceHasKeys(new int[] { keyCode })[0];
+        public static boolean deviceHasKey(int keyCode) {
+        int[] codeArray = new int[1];
+        codeArray[0] = keyCode;
+        boolean[] ret = deviceHasKeys(codeArray);
+        return ret[0];
     }
 
     /**
@@ -695,7 +698,7 @@ public class KeyCharacterMap implements Parcelable {
      * are set to true if at least one attached keyboard supports the corresponding key code
      * at the same index in the key codes array.
      */
-    public static boolean[] deviceHasKeys(int[] keyCodes) {
+        public static boolean[] deviceHasKeys(int[] keyCodes) {
         return InputManager.getInstance().deviceHasKeys(keyCodes);
     }
 
@@ -711,6 +714,7 @@ public class KeyCharacterMap implements Parcelable {
     public int describeContents() {
         return 0;
     }
+
 
     /**
      * Thrown by {@link KeyCharacterMap#load} when a key character map could not be loaded.

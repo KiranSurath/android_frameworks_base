@@ -137,6 +137,12 @@ struct InputReaderConfiguration {
         // The device name alias supplied by the may have changed for some devices.
         CHANGE_DEVICE_ALIAS = 1 << 5,
 
+        // The touchpad gesture mode has changed.
+        CHANGE_TOUCHPAD_MODE = 1 << 6,
+
+        // The touchpad status has changed.
+        CHANGE_TOUCHPAD_STATUS = 1 << 7,
+
         // Stylus icon option changed.
         CHANGE_STYLUS_ICON_ENABLED = 1 << 6,
 
@@ -230,6 +236,13 @@ struct InputReaderConfiguration {
     // True to show the location of touches on the touch screen as spots.
     bool showTouches;
 
+    // The touchpad gesture mode.
+    int32_t touchpadMode;
+
+    // Touchpad status.
+    int32_t touchpadStatus;
+
+
     // True to show the pointer icon when a stylus is used.
     bool stylusIconEnabled;
 
@@ -257,6 +270,8 @@ struct InputReaderConfiguration {
             pointerGestureMovementSpeedRatio(0.8f),
             pointerGestureZoomSpeedRatio(0.3f),
             showTouches(false),
+            touchpadMode(0),
+            touchpadStatus(1),
             stylusIconEnabled(false),
             stylusPalmRejectionTime(50 * 10000000LL), // 50 ms
             volumeKeysRotationMapStartIndex(4)
