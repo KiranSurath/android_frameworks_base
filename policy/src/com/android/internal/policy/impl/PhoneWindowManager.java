@@ -4303,21 +4303,21 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 break;
             }
 
-            case KeyEvent.KEYCODE_WIRELESS:
-            case KeyEvent.KEYCODE_BLUETOOTH:
-            case KeyEvent.KEYCODE_TOUCHPAD:
-            case KeyEvent.KEYCODE_CAPTURE:
+            case KeyEvent.KEYCODE_TOGGLE_WIFI:
+            case KeyEvent.KEYCODE_TOGGLE_BT:
+            case KeyEvent.KEYCODE_TOGGLE_TOUCHPAD:
+            case KeyEvent.KEYCODE_SCREENSHOT:
             case KeyEvent.KEYCODE_SETTINGS:{
                 if (down) {
                     mHandler.post(new Runnable() {
                         public void run() {
-                            if (keyCode == KeyEvent.KEYCODE_WIRELESS) {
+                            if (keyCode == KeyEvent.KEYCODE_TOGGLE_WIFI) {
                                 wifiToggle();
-                            } else if (keyCode == KeyEvent.KEYCODE_BLUETOOTH) {
+                            } else if (keyCode == KeyEvent.KEYCODE_TOGGLE_BT) {
                                 bluetoothToggle();
-                            } else if (keyCode == KeyEvent.KEYCODE_TOUCHPAD) {
+                            } else if (keyCode == KeyEvent.KEYCODE_TOGGLE_TOUCHPAD) {
                                 touchpadToggle();
-                            } else if (keyCode == KeyEvent.KEYCODE_CAPTURE) {
+                            } else if (keyCode == KeyEvent.KEYCODE_SCREENSHOT) {
                                 takeScreenshot();
                             } else if (keyCode == KeyEvent.KEYCODE_SETTINGS) {
                                 launchSettings();
@@ -4342,7 +4342,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
         }
 
-        }
         return result;
     }
 

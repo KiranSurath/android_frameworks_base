@@ -281,6 +281,7 @@
   <java-symbol type="bool" name="config_speed_up_audio_on_mt_calls" />
   <java-symbol type="bool" name="rro_test_usually_false" />
   <java-symbol type="bool" name="rro_test_always_true" />
+  <java-symbol type="bool" name="config_hasTouchpad" />
 
   <java-symbol type="integer" name="config_cursorWindowSize" />
   <java-symbol type="integer" name="config_longPressOnPowerBehavior" />
@@ -1921,7 +1922,6 @@
   <java-symbol type="string" name="config_legacyUmsLunFile" />
   <java-symbol type="bool" name="config_hasRemovableLid" />
   <java-symbol type="bool" name="config_hasDockBattery" />
-  <java-symbol type="bool" name="config_hasTouchpad" />
   <java-symbol type="bool" name="config_noDelayInATwoDP" />
   <java-symbol type="string" name="config_deviceKeyHandlerLib" />
   <java-symbol type="string" name="config_deviceKeyHandlerClass" />
