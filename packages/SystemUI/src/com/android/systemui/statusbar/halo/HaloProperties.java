@@ -69,7 +69,23 @@ public class HaloProperties extends FrameLayout {
     private static final int PURPLE = 3;
     private static final int RED = 4;
     private static final int YELLOW = 5;
-    private static final int BLACK = 6;
+    private static final int PINK = 6;
+    private static final int MINION1 = 7;
+    private static final int MINION2 = 8;
+    private static final int MINION3 = 9;
+    private static final int ORIGINAL_WHITE = 10;
+    private static final int ORIGINAL_BLUE = 11;
+    private static final int ORIGINAL_GREEN = 12;
+    private static final int ORIGINAL_PURPLE = 13;
+    private static final int ORIGINAL_RED = 14;
+    private static final int ORIGINAL_YELLOW = 15;
+    private static final int PA_FACE = 16;
+    private static final int SUPERMAN_BLUE = 17;
+    private static final int SUPERMAN_TRANSPARENT = 18;
+    private static final int SUPERMAN_WHITE = 19;
+    private static final int TROLL = 20;
+    private static final int BLACK = 21;
+
 
     Handler mHandler;
 
@@ -237,6 +253,90 @@ public class HaloProperties extends FrameLayout {
             break;
             case YELLOW:
             mHaloBubble = mInflater.inflate(R.layout.halo_bubble_yellow, null);
+            mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
+            mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
+            originalDrawables();
+            break;
+            case PINK:
+            mHaloBubble = mInflater.inflate(R.layout.halo_bubble_pink, null);
+            mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
+            mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
+            originalDrawables();
+            break;
+            case MINION1:
+            mHaloBubble = mInflater.inflate(R.layout.halo_bubble_minion1, null);
+            mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
+            mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
+            originalDrawables();
+            break;
+            case MINION2:
+            mHaloBubble = mInflater.inflate(R.layout.halo_bubble_minion2, null);
+            mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
+            mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
+            originalDrawables();
+            break;
+            case MINION3:
+            mHaloBubble = mInflater.inflate(R.layout.halo_bubble_minion3, null);
+            mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
+            mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
+            originalDrawables();
+            break;
+            case ORIGINAL_WHITE:
+            mHaloBubble = mInflater.inflate(R.layout.halo_bubble_original_white, null);
+            mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
+            mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
+            originalDrawables();
+            break;
+            case ORIGINAL_BLUE:
+            mHaloBubble = mInflater.inflate(R.layout.halo_bubble_original_blue, null);
+            mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
+            mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
+            originalDrawables();
+            break;
+            case ORIGINAL_GREEN:
+            mHaloBubble = mInflater.inflate(R.layout.halo_bubble_original_green, null);
+            mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
+            mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
+            originalDrawables();
+            break;
+            case ORIGINAL_PURPLE:
+            mHaloBubble = mInflater.inflate(R.layout.halo_bubble_original_purple, null);
+            mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
+            mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
+            originalDrawables();
+            break;
+            case ORIGINAL_RED:
+            mHaloBubble = mInflater.inflate(R.layout.halo_bubble_original_red, null);
+            mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
+            mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
+            originalDrawables();
+            break;
+            case ORIGINAL_YELLOW:
+            mHaloBubble = mInflater.inflate(R.layout.halo_bubble_original_yellow, null);
+            mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
+            mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
+            originalDrawables();
+            break;
+            case SUPERMAN_BLUE:
+            mHaloBubble = mInflater.inflate(R.layout.halo_bubble_superman_blue, null);
+            mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
+            mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
+            originalDrawables();
+            break;
+            case SUPERMAN_TRANSPARENT:
+            mHaloBubble = mInflater.inflate(R.layout.halo_bubble_superman_transparent, null);
+            mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
+            mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
+            originalDrawables();
+            break;
+            case SUPERMAN_WHITE:
+            mHaloBubble = mInflater.inflate(R.layout.halo_bubble_superman_white, null);
+            mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
+            mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
+            originalDrawables();
+            break;
+            case TROLL:
+            mHaloBubble = mInflater.inflate(R.layout.halo_bubble_troll, null);
             mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
             mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
             originalDrawables();
