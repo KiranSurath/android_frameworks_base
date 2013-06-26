@@ -317,6 +317,12 @@ public class HaloProperties extends FrameLayout {
             mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
             originalDrawables();
             break;
+            case PA_FACE:
+            mHaloBubble = mInflater.inflate(R.layout.halo_bubble_pa_face, null);
+            mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
+            mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
+            originalDrawables();
+            break;
             case SUPERMAN_BLUE:
             mHaloBubble = mInflater.inflate(R.layout.halo_bubble_superman_blue, null);
             mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
