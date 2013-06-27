@@ -73,10 +73,7 @@ public class HaloProperties extends FrameLayout {
     private static final int PINK = 6;
     private static final int BLACK = 7;
 
-    private boolean mAttached = false;
-
-    private SettingsObserver mSettingsObserver;
-    private Handler mHandler;
+    Handler mHandler;
 
     CustomObjectAnimator mHaloOverlayAnimator;
 
@@ -110,29 +107,9 @@ public class HaloProperties extends FrameLayout {
 
         mHaloOverlayAnimator = new CustomObjectAnimator(this);
         mHandler = new Handler();
-    }
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-
-        if (!mAttached) {
-            mAttached = true;
-            mSettingsObserver = new SettingsObserver(new Handler());
-            mSettingsObserver.observe();
-            updateColorView();
-        }
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-
-        if (mAttached) {
-            mContext.getContentResolver().unregisterContentObserver(mSettingsObserver);
-            mAttached = false;
-        }
-    } 
+        SettingsObserver settingsObserver = new SettingsObserver(mHandler);
+        settingsObserver.observe();
+    }        
 
     public void setHaloX(int value) {
         mHaloX = value;
