@@ -25,7 +25,6 @@ import com.android.systemui.statusbar.phone.QuickSettingsTileView;
 public class QuickSettingsTile implements OnClickListener {
 
     protected final Context mContext;
-    protected QuickSettingsContainerView mContainer;
     protected final ViewGroup mContainerView;
     protected final LayoutInflater mInflater;
     protected QuickSettingsTileView mTile;
@@ -64,7 +63,6 @@ public class QuickSettingsTile implements OnClickListener {
     void createQuickSettings() {
         mTile = (QuickSettingsTileView) mInflater.inflate(R.layout.quick_settings_tile, mContainerView, false);
         mTile.setContent(mTileLayout, mInflater);
-        mContainer = container;
         mContainerView.addView(mTile);
     }
 
@@ -82,7 +80,6 @@ public class QuickSettingsTile implements OnClickListener {
 
     void updateQuickSettings() {
         TextView tv = (TextView) mTile.findViewById(R.id.tile_textview);
-        if (tv != null) {
         tv.setCompoundDrawablesWithIntrinsicBounds(0, mDrawable, 0, 0);
         tv.setText(mLabel);
         tv.setTextSize(1, mTileTextSize);
@@ -90,7 +87,6 @@ public class QuickSettingsTile implements OnClickListener {
             tv.setTextColor(mTileTextColor);
         }
     }
-}
 
     void startSettingsActivity(String action) {
         Intent intent = new Intent(action);
@@ -115,10 +111,7 @@ public class QuickSettingsTile implements OnClickListener {
 
     @Override
     public final void onClick(View v) {
-        if (mOnClick != null) {
         mOnClick.onClick(v);
-        }
-
         ContentResolver resolver = mContext.getContentResolver();
         boolean shouldCollapse = Settings.System.getInt(resolver, Settings.System.QS_COLLAPSE_PANEL, 0) == 1;
         if (shouldCollapse || this instanceof DesktopModeTile || this instanceof HybridTile) {
