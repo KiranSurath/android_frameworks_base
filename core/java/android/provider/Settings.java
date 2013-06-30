@@ -2720,6 +2720,12 @@ public final class Settings {
         public static final String QS_DISABLE_PANEL = "qs_disable_panel";
 
         /**
+         * Network speed indicator
+         * @hide
+         */
+        public static final String STATUS_BAR_TRAFFIC = "status_bar_traffic";
+
+        /**
          * @hide
          */
         public static final String EXPANDED_VIEW_WIDGET = "expanded_view_widget";
