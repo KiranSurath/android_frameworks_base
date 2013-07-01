@@ -419,6 +419,7 @@
         <item>@string/reboot_reboot</item>
         <item>@string/reboot_recovery</item>
         <item>@string/reboot_fastboot</item>
+        <item>@string/reboot_hot</item>
     </string-array>
 
     <!-- Do not translate. Defines the shutdown actions passed to the kernel.
@@ -427,12 +428,14 @@
         <item></item>
         <item>recovery</item>
         <item>bootloader</item>
+        <item>hot</item>
     </string-array>
 
     <array name="shutdown_reboot_icons">
         <item>@drawable/ic_lock_reboot</item>
         <item>@drawable/ic_lock_reboot_recovery</item>
         <item>@drawable/ic_lock_reboot_bootloader</item>
+        <item>@drawable/ic_lock_reboot</item>
     </array>
 
     <!-- Defines the mapping of notification package names
