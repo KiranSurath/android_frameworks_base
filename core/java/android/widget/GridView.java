@@ -137,8 +137,10 @@ public class GridView extends AbsListView {
         if (index >= 0) {
             setGravity(index);
         }
-        
+
         a.recycle();
+
+        setGridView(true);
     }
 
     @Override
