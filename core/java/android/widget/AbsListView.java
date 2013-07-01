@@ -713,6 +713,7 @@ import android.os.SystemProperties;     * Determines speed during touch scrollin
     boolean mIsTap = false;
     boolean mIsGridView = false;
 
+    /**
      * Interface definition for a callback to be invoked when the list or grid
      * has been scrolled.
      */
@@ -2245,7 +2246,7 @@ import android.os.SystemProperties;     * Determines speed during touch scrollin
     }
 
     View setAnimation(View view) {
-        int mAnim = Settings.System.getInt(mContext.getContentResolver(),Settings.System.LISTVIEW_ANIMATION, 1);
+        int mAnim = Settings.System.getInt(mContext.getContentResolver(),Settings.System.LISTVIEW_ANIMATION, 0);
         int scrollY = 0;
         boolean mDown = false;
 
@@ -2326,7 +2327,9 @@ import android.os.SystemProperties;     * Determines speed during touch scrollin
                 anim.setInterpolator(AnimationUtils.loadInterpolator(mContext, android.R.anim.bounce_interpolator));
                 break;
         }
-        view.startAnimation(anim);
+        if (view != null) {
+            view.startAnimation(anim);
+        }
         return view;
     }
 
@@ -5379,6 +5382,7 @@ import android.os.SystemProperties;     * Determines speed during touch scrollin
 
     @Override
     protected void handleDataChanged() {
+        mIsScrolling = false;
         int count = mItemCount;
         int lastHandledItemCount = mLastHandledItemCount;
         mLastHandledItemCount = mItemCount;
