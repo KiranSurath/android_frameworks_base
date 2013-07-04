@@ -707,6 +707,7 @@ import android.os.SystemProperties;     * Determines speed during touch scrollin
     /**
      * * for ListView Animations
      */
+    boolean mIsWidget;
     boolean mIsScrolling;
     int mWidth, mHeight = 0;
     int mvPosition;
@@ -2032,7 +2033,7 @@ import android.os.SystemProperties;     * Determines speed during touch scrollin
             }
             mRecycler.markChildrenDirty();
         }
-        
+
         if (mFastScroller != null && mItemCount != mOldItemCount) {
             mFastScroller.onItemCountChanged(mOldItemCount, mItemCount);
         }
@@ -2190,7 +2191,7 @@ import android.os.SystemProperties;     * Determines speed during touch scrollin
         if (scrapView != null) {
             child = mAdapter.getView(position, scrapView, this);
 
-            if(mIsScrolling) {
+            if(mIsScrolling && !mIsWidget) {
                 child = setAnimation(child);
             }
 
@@ -3192,6 +3193,7 @@ import android.os.SystemProperties;     * Determines speed during touch scrollin
                     mScrollProfilingStarted = true;
                 }
             }
+            mIsWidget = false;
 
             if (mScrollStrictSpan == null) {
                 // If it's non-null, we're already in a scroll.
@@ -5208,7 +5210,7 @@ import android.os.SystemProperties;     * Determines speed during touch scrollin
         requestLayout();
         invalidate();
     }
-    
+
     /**
      * If there is a selection returns false.
      * Otherwise resurrects the selection and returns true if resurrected.
@@ -5382,7 +5384,7 @@ import android.os.SystemProperties;     * Determines speed during touch scrollin
 
     @Override
     protected void handleDataChanged() {
-        mIsScrolling = false;
+        mIsWidget = true;
         int count = mItemCount;
         int lastHandledItemCount = mLastHandledItemCount;
         mLastHandledItemCount = mItemCount;
@@ -6043,9 +6045,9 @@ import android.os.SystemProperties;     * Determines speed during touch scrollin
 
     /**
      * Sets up the onClickHandler to be used by the RemoteViewsAdapter when inflating RemoteViews
-     * 
+     *
      * @param handler The OnClickHandler to use when inflating RemoteViews.
-     * 
+     *
      * @hide
      */
     public void setRemoteViewsOnClickHandler(OnClickHandler handler) {
