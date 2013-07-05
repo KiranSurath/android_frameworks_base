@@ -95,15 +95,6 @@ public class TabletTicker
                     + " mQueuePos=" + mQueuePos + " mQueue=" + Arrays.toString(mQueue));
         }
 
-        if (notification.notification.tickerText == null) {
-            notification.notification.tickerText = "";
-        }
-
-        if (isDisabled()) {
-            mEvent.updateTicker(notification, notification.notification.tickerText.toString());
-            return;
-        }
-
         // If it's already in here, remove whatever's in there and put the new one at the end.
         remove(key, false);
 
@@ -125,10 +116,6 @@ public class TabletTicker
     }
 
     public void remove(IBinder key, boolean advance) {
-        if (isDisabled()) {
-            mEvent.updateTicker(null);
-            return;
-        }
         if (mCurrentKey == key) {
             // Showing now
             if (advance) {
@@ -155,7 +142,6 @@ public class TabletTicker
     }
 
     public void halt() {
-        if (isDisabled()) return;
         removeMessages(MSG_ADVANCE);
         if (mCurrentView != null || mQueuePos != 0) {
             for (int i=0; i<QUEUE_LENGTH; i++) {
@@ -175,12 +161,7 @@ public class TabletTicker
         }
     }
 
-    private boolean isDisabled() {
-+        return Settings.System.getIntForUser(mContext.getContentResolver(),
-+                Settings.System.HALO_ACTIVE, 0, UserHandle.USER_CURRENT) == 1;
-
     private void advance() {
-        if (isDisabled()) return;
         // Out with the old...
         if (mCurrentView != null) {
             if (mWindow != null) {
@@ -239,7 +220,6 @@ public class TabletTicker
         final int width = res.getDimensionPixelSize(R.dimen.notification_ticker_width);
         int windowFlags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
                     | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                    | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
                     | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
         if (CLICKABLE_TICKER) {
             windowFlags |= WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
@@ -358,4 +338,3 @@ public class TabletTicker
         return group;
     }
 }
-
