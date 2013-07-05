@@ -1172,4 +1172,7 @@
         <item>19</item>
     </integer-array>
 
+    <!-- Boolean to enable adb by default on a per-device basis -->
+    <bool name="config_enableAdbByDefault">true</bool>
+
 </resources>
