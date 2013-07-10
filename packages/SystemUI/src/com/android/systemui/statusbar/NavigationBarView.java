@@ -301,7 +301,13 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
     protected void updateResources() {
         final Resources res = mContext.getResources();
         mBackIcon = NavBarHelpers.getIconImage(mContext, AwesomeConstant.ACTION_BACK.value());
-        mBackAltIcon = ((KeyButtonView)generateKey(false, KEY_BACK_ALT)).getDrawable();
+        mBackLandIcon = res.getDrawable(R.drawable.ic_sysbar_back_land);
+        mBackAltIcon = ((KeyButtonView)generateKey(false, KEY_BACK_ALT)).getDrawable(); //res.getDrawable(R.drawable.ic_sysbar_back_ime);
+        mBackAltLandIcon = ((KeyButtonView)generateKey(true, KEY_BACK_ALT)).getDrawable(); // res.getDrawable(R.drawable.ic_sysbar_back_ime);
+        mRecentsIcon = res.getDrawable(R.drawable.ic_sysbar_recent);
+        mRecentsLandIcon = res.getDrawable(R.drawable.ic_sysbar_recent_land);
+        mRecentsAltIcon = res.getDrawable(R.drawable.ic_sysbar_recent_clear);
+        mRecentsAltLandIcon = res.getDrawable(R.drawable.ic_sysbar_recent_clear_land);
         mButtonWidth = res.getDimensionPixelSize(R.dimen.navigation_key_width);
         mMenuWidth = res.getDimensionPixelSize(R.dimen.navigation_menu_key_width);
 
