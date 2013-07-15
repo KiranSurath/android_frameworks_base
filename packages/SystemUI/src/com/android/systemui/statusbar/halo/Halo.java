@@ -876,7 +876,7 @@ public class Halo extends FrameLayout implements Ticker.TickerCallback, TabletTi
         protected int pingMaxRadius = 0;
         private boolean mPingAllowed = true;
 
-        private Bitmap mMarker, mMarkerT, mMarkerB;
+        private Bitmap mMarkerL, mMarkerT, mMarkerR, mMarkerB;
         private Bitmap mBigRed;
         private Paint mMarkerPaint = new Paint();
         private Paint xPaint = new Paint();
@@ -893,10 +893,12 @@ public class Halo extends FrameLayout implements Ticker.TickerCallback, TabletTi
 
             mBigRed = BitmapFactory.decodeResource(mContext.getResources(),
                     R.drawable.halo_bigred);
-            mMarker = BitmapFactory.decodeResource(mContext.getResources(),
-                    R.drawable.halo_marker);
+            mMarkerL = BitmapFactory.decodeResource(mContext.getResources(),
+                    R.drawable.halo_marker_l);
             mMarkerT = BitmapFactory.decodeResource(mContext.getResources(),
                     R.drawable.halo_marker_t);
+            mMarkerR = BitmapFactory.decodeResource(mContext.getResources(),
+                    R.drawable.halo_marker_r);
             mMarkerB = BitmapFactory.decodeResource(mContext.getResources(),
                     R.drawable.halo_marker_b);
 
@@ -1081,16 +1083,16 @@ public class Halo extends FrameLayout implements Ticker.TickerCallback, TabletTi
             // Horizontal Marker
             if (mGesture == Gesture.TASK) {
                 if (y > 0 && mNotificationData != null && mNotificationData.size() > 0) {
-                    int pulseY = (int)(mHaloY - mIconSize * 0.1f);
+                    int pulseY = mHaloY + mIconHalfSize - mMarkerR.getHeight() / 2;
                     int items = mNotificationData.size();
                     int indexLength = (mScreenWidth - mIconSize * 2) / items;
 
                     for (int i = 0; i < items; i++) {
-                        float pulseX = mTickerLeft ? (mIconSize * 1.15f + indexLength * i)
-                                : (mScreenWidth - mIconSize * 1.15f - indexLength * i - mMarker.getWidth());
+                        float pulseX = mTickerLeft ? (mIconSize * 1.5f + indexLength * i)
+                                : (mScreenWidth - mIconSize * 1.5f - indexLength * i - mMarkerR.getWidth());
                         boolean markerState = mTickerLeft ? mMarkerIndex >= 0 && i < items-mMarkerIndex : i <= mMarkerIndex;
                         mMarkerPaint.setAlpha(markerState ? 255 : 100);
-                        canvas.drawBitmap(mMarker, pulseX, pulseY, mMarkerPaint);
+                        canvas.drawBitmap(mTickerLeft ? mMarkerR : mMarkerL, pulseX, pulseY, mMarkerPaint);
                     }
                 }
             }
