@@ -55,13 +55,6 @@ public class Traffic extends TextView {
             mLastTextColor = ColorUtils.getColorSettingInfo(mContext, Settings.System.STATUS_ICON_COLOR);
 
             updateTextColor();
-
-            mContext.getContentResolver().registerContentObserver(
-            Settings.System.getUriFor(Settings.System.STATUS_ICON_COLOR), false, new ContentObserver(new Handler()) {
-                @Override
-                public void onChange(boolean selfChange) {
-                    updateTextColor();
-                }});
         }
     }
 
@@ -119,11 +112,15 @@ public class Traffic extends TextView {
             resolver.registerContentObserver(
                 Settings.System.getUriFor(Settings.System.STATUS_BAR_TRAFFIC_TEXT_COLOR), false,
                 this);
+            resolver.registerContentObserver(
+                Settings.System.getUriFor(Settings.System.STATUS_ICON_COLOR), false,
+                this);
         }
 
         @Override
         public void onChange(boolean selfChange) {
             updateSettings();
+            updateTextColor();
         }
     }
 
