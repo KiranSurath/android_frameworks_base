@@ -38,9 +38,9 @@ public class NotificationPanelView extends PanelView {
     private static final float STATUS_BAR_SETTINGS_LEFT_PERCENTAGE = 0.8f;
     private static final float STATUS_BAR_SETTINGS_RIGHT_PERCENTAGE = 0.2f;
     //Final Variables for Notification Bar Swipe action - Switch between Notifications & Quick Settings
-    static final float STATUS_BAR_SWIPE_TRIGGER_PERCENTAGE = 0.05f;
-    static final float STATUS_BAR_SWIPE_VERTICAL_MAX_PERCENTAGE = 0.025f;
-    static final float STATUS_BAR_SWIPE_MOVE_PERCENTAGE = 0.2f;
+    private static final float STATUS_BAR_SWIPE_TRIGGER_PERCENTAGE = 0.05f;
+    private static final float STATUS_BAR_SWIPE_VERTICAL_MAX_PERCENTAGE = 0.025f;
+    private static final float STATUS_BAR_SWIPE_MOVE_PERCENTAGE = 0.2f;
 
     Drawable mHandleBar;
     int mHandleBarHeight;
@@ -48,7 +48,7 @@ public class NotificationPanelView extends PanelView {
     int mFingers;
     PhoneStatusBar mStatusBar;
     boolean mOkToFlip;
-    
+
     //Variables for Notification Bar Swipe action - Switch between Notifications & Quick Settings
     float mGestureStartX;
     float mGestureStartY;
@@ -56,7 +56,7 @@ public class NotificationPanelView extends PanelView {
     float mSwipeDirection;
     boolean mTrackingSwipe;
     boolean mSwipeTriggered;
-    
+
     boolean mFastToggleEnabled;
     int mFastTogglePos;
     ContentObserver mEnableObserver;
@@ -178,7 +178,7 @@ public class NotificationPanelView extends PanelView {
                         flip = true;
                     }
                     break;
-                
+
                 case MotionEvent.ACTION_MOVE:
                     if (mStatusBar.mHideSettingsPanel)
                         break;
@@ -221,7 +221,7 @@ public class NotificationPanelView extends PanelView {
                     if (!mStatusBar.mHideSettingsPanel)
                         flip = true;
                     break;
-                    
+
                 case MotionEvent.ACTION_UP:
                     swipeFlipJustFinished = mSwipeTriggered;
                     mSwipeTriggered = false;
@@ -239,9 +239,14 @@ public class NotificationPanelView extends PanelView {
                 if (maxy - miny < mHandleBarHeight) {
                     if (mJustPeeked || getExpandedHeight() < mHandleBarHeight) {
                         mStatusBar.switchToSettings();
-                         mStatusBar.switchToSettings();
-                     } else {
-                        mStatusBar.flipToSettings();
+                        mStatusBar.switchToSettings();
+                    } else {
+                        // Do not flip if the drag event started within the top bar
+                        if (MotionEvent.ACTION_DOWN == event.getActionMasked() && event.getY(0) < mHandleBarHeight ) {
+                            mStatusBar.switchToSettings();
+                        } else {
+                            mStatusBar.flipToSettings();
+                        }
                     }
                     mOkToFlip = false;
                 }
@@ -264,7 +269,7 @@ public class NotificationPanelView extends PanelView {
                     original.getPressure(0), original.getSize(0), original.getMetaState(),
                     original.getXPrecision(), original.getYPrecision(), original.getDeviceId(),
                     original.getEdgeFlags());
-                
+
                 // The following two lines looks better than the chunk of code above, but,
                 // nevertheless, doesn't work. The view is not pinned down, and may close,
                 // just after the gesture is finished.
