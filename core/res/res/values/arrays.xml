@@ -435,7 +435,7 @@
         <item>@drawable/ic_lock_reboot</item>
         <item>@drawable/ic_lock_reboot_recovery</item>
         <item>@drawable/ic_lock_reboot_bootloader</item>
-        <item>@drawable/ic_lock_reboot</item>
+        <item>@drawable/ic_lock_hot</item>
     </array>
 
     <!-- Defines the mapping of notification package names

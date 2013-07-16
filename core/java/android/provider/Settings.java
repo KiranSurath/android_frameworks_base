@@ -277,7 +277,7 @@ public final class Settings {
     @SdkConstant(SdkConstantType.ACTIVITY_INTENT_ACTION)
     public static final String ACTION_DISPLAY_SETTINGS =
             "android.settings.DISPLAY_SETTINGS";
-            
+
     /**
      * Activity Action: Show settings to allow configuration of display.
      * <p>
@@ -2746,6 +2746,13 @@ public final class Settings {
         public static final String STATUS_BAR_TRAFFIC = "status_bar_traffic";
 
         /**
+         * statusbar signal traffic color
+         *
+         * @hide
+         */
+        public static final String STATUS_BAR_TRAFFIC_TEXT_COLOR = "status_bar_traffic_text_color";
+
+        /**
          * @hide
          */
         public static final String EXPANDED_VIEW_WIDGET = "expanded_view_widget";
@@ -3129,14 +3136,14 @@ public final class Settings {
          */
         public static final String USER_INTERFACE_STATE = "user_interface_state";
 
-        /**	
+        /**
          * Allows to show the background activity back the lockscreen
          * The value is boolean (1 or 0).
          * @hide
          */
         public static final String LOCKSCREEN_SEE_THROUGH = "lockscreen_see_through";
 
-        /**	
+        /**
          * Allows lockscreen to show homescreen widgets
          * The value is boolean (1 or 0).
          * @hide
@@ -3407,7 +3414,7 @@ public final class Settings {
          * @hide
          */
         public static final String STATUSBAR_CLOCK_WEEKDAY = "statusbar_clock_weekday";
-        
+
         /**
         * Shows date before clock time
         * 0 - No Date
@@ -3415,16 +3422,16 @@ public final class Settings {
         * @hide
         */
         public static final String STATUSBAR_CLOCK_DATE_DISPLAY = "statusbar_clock_date_display";
-        
+
         /**
         * Shows month before clock time
         * 0 - No Month
-        * 1 - Small Month 
-        * 2 - Normal/Long Month 
+        * 1 - Small Month
+        * 2 - Normal/Long Month
         * @hide
         */
         public static final String STATUSBAR_CLOCK_MONTH_DISPLAY = "statusbar_clock_month";
-        
+
         /**
         * Sets the date string style
         * 0 - Regular style
@@ -3527,7 +3534,7 @@ public final class Settings {
 
        /**
         * Key to store Torch state.
-        * @hide 
+        * @hide
         */
         public static final String TORCH_STATE = "torch_state";
 
@@ -3679,14 +3686,14 @@ public final class Settings {
 
         /**
          * How long to keep the notification LED on (in milliseconds)
-         * 
+         *
          * @hide
          */
         public static final String NOTIFICATION_LIGHT_ON = "notification_light_on";
 
         /**
          * How long to keep the notification LED off (in milliseconds)
-         * 
+         *
          * @hide
          */
         public static final String NOTIFICATION_LIGHT_OFF = "notification_light_off";
@@ -3786,7 +3793,7 @@ public final class Settings {
 
         /**
          * Current UI Mode
-         * 
+         *
          *  0 = Phone UI
          *  1 = Tablet UI
          *  2 = Phablet UI
@@ -3796,7 +3803,7 @@ public final class Settings {
 
         /**
          * User selected UI Mode
-         * 
+         *
          *  0 = Phone UI
          *  1 = Tablet UI
          *  2 = Phablet UI
@@ -4967,7 +4974,7 @@ public final class Settings {
          *  we always vibrate, even if no vibration was specified
          */
         public static final String NOTIFICATION_CONVERT_SOUND_TO_VIBRATION = "convert_sound_to_vibration";
-        
+
         /**
          * Whether to enable notification shortcuts (toggle)
          *
@@ -6691,7 +6698,7 @@ public final class Settings {
          * @hide
          */
         public static final String POWER_SAVER_SYNC_DATA_MODE = "power_saver_sync_data_mode";
-        
+
         /**
          * @hide
          */
@@ -7430,7 +7437,7 @@ public final class Settings {
         * @hide
         */
        public static final String WIFI_COUNTRY_CODE = "wifi_country_code";
-       
+
        /**
          * 802.11 country code in ISO 3166 format custom user value
          * @hide
