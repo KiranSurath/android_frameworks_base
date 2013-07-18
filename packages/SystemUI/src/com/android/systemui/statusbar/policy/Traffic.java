@@ -119,8 +119,8 @@ public class Traffic extends TextView {
 
         @Override
         public void onChange(boolean selfChange) {
-            updateSettings();
             updateTextColor();
+            updateSettings();
         }
     }
 
