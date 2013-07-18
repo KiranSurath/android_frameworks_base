@@ -283,8 +283,6 @@
     <dimen name="folder_height">480dp</dimen>
     <dimen name="setup_sidebar_width">90dp</dimen>
 
-    <dimen name="halo_content_max_width">250dp</dimen>
-
     <!-- Constant for hidden navbar drag handle -->
     <dimen name="drag_handle_height">10dp</dimen>
 
@@ -295,5 +293,16 @@
     <dimen name="notification_shortcuts_close_handle_height">26dp</dimen>
     <dimen name="notification_shortcuts_spacing_height">88dp</dimen>
     <dimen name="notification_shortcuts_drawer_margin">88dp</dimen>
+
+    <!-- HALO -->
+    <dimen name="halo_bubble_size">75dp</dimen>
+    <dimen name="halo_number_size">24dp</dimen>
+    <dimen name="halo_number_text_size">14sp</dimen>
+    <dimen name="halo_speech_text_size">15sp</dimen>
+    <dimen name="halo_speech_hpadding_short">18sp</dimen>
+    <dimen name="halo_speech_hpadding_wide">24dp</dimen>
+    <dimen name="halo_speech_vpadding_top">10dp</dimen>
+    <dimen name="halo_speech_vpadding_bottom">10dp</dimen>
+    <dimen name="halo_content_max_width">250dp</dimen>
 
 </resources>
