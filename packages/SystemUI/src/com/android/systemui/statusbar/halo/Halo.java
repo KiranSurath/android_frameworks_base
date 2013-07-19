@@ -887,7 +887,7 @@ public class Halo extends FrameLayout implements Ticker.TickerCallback, TabletTi
         protected int pingMaxRadius = 0;
         private boolean mPingAllowed = true;
 
-        private Bitmap mMarkerL, mMarkerT, mMarkerR, mMarkerB;
+        private Bitmap mMarker, mMarkerT, mMarkerB;
         private Bitmap mBigRed;
         private Paint mMarkerPaint = new Paint();
         private Paint xPaint = new Paint();
@@ -904,12 +904,10 @@ public class Halo extends FrameLayout implements Ticker.TickerCallback, TabletTi
 
             mBigRed = BitmapFactory.decodeResource(mContext.getResources(),
                     R.drawable.halo_bigred);
-            mMarkerL = BitmapFactory.decodeResource(mContext.getResources(),
-                    R.drawable.halo_marker_l);
+            mMarker = BitmapFactory.decodeResource(mContext.getResources(),
+                    R.drawable.halo_marker);
             mMarkerT = BitmapFactory.decodeResource(mContext.getResources(),
                     R.drawable.halo_marker_t);
-            mMarkerR = BitmapFactory.decodeResource(mContext.getResources(),
-                    R.drawable.halo_marker_r);
             mMarkerB = BitmapFactory.decodeResource(mContext.getResources(),
                     R.drawable.halo_marker_b);
 
@@ -964,11 +962,11 @@ public class Halo extends FrameLayout implements Ticker.TickerCallback, TabletTi
                 return;
             }
 
-            int shrt = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 
+            int shrt = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
                     18, getResources().getDisplayMetrics());
             int wide = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                     24, getResources().getDisplayMetrics());
-            int top = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
+            int top = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                     10, getResources().getDisplayMetrics());
             int bttm = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                     10, getResources().getDisplayMetrics());
@@ -1116,16 +1114,16 @@ public class Halo extends FrameLayout implements Ticker.TickerCallback, TabletTi
             // Horizontal Marker
             if (mGesture == Gesture.TASK) {
                 if (y > 0 && mNotificationData != null && mNotificationData.size() > 0) {
-                    int pulseY = mHaloY + mIconHalfSize - mMarkerR.getHeight() / 2;
+                    int pulseY = mHaloY + mIconHalfSize - mMarker.getHeight() / 2;
                     int items = mNotificationData.size();
                     int indexLength = ((int)(mScreenWidth * 0.9f) - mIconSize) / items;
 
                     for (int i = 0; i < items; i++) {
-                        float pulseX = mTickerLeft ? (mIconSize * 1.5f + indexLength * i)
-                                : (mScreenWidth - mIconSize * 1.5f - indexLength * i - mMarkerR.getWidth());
+                        float pulseX = mTickerLeft ? (mIconSize * 1.15f + indexLength * i)
+                                : (mScreenWidth - mIconSize * 1.15f - indexLength * i - mMarker.getWidth());
                         boolean markerState = mTickerLeft ? mMarkerIndex >= 0 && i < items-mMarkerIndex : i <= mMarkerIndex;
                         mMarkerPaint.setAlpha(markerState ? 255 : 100);
-                        canvas.drawBitmap(mTickerLeft ? mMarkerR : mMarkerL, pulseX, pulseY, mMarkerPaint);
+                        canvas.drawBitmap(mMarker, pulseX, pulseY, mMarkerPaint);
                     }
                 }
             }
