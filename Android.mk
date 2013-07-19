@@ -28,8 +28,8 @@ framework_res_source_path := APPS/framework-res_intermediates/src
 
 include $(CLEAR_VARS)
 
-ifdef WIFI_AP_DRIVER_MODULE_PATH	
-LOCAL_CFLAGS += -DWIFI_AP_HAS_OWN_DRIVER	
+ifdef WIFI_AP_DRIVER_MODULE_PATH
+LOCAL_CFLAGS += -DWIFI_AP_HAS_OWN_DRIVER
 endif
 
 # FRAMEWORKS_BASE_SUBDIRS comes from build/core/pathmap.mk
@@ -145,13 +145,10 @@ LOCAL_SRC_FILES += \
 	core/java/android/os/IRemoteCallback.aidl \
 	core/java/android/os/ISchedulingPolicyService.aidl \
 	core/java/android/os/IUpdateLock.aidl \
-        core/java/android/os/IUserManager.aidl \
+	core/java/android/os/IUserManager.aidl \
 	core/java/android/os/IVibratorService.aidl \
 	core/java/android/service/dreams/IDreamManager.aidl \
 	core/java/android/service/dreams/IDreamService.aidl \
-	core/java/android/service/pie/IPieService.aidl \
-	core/java/android/service/pie/IPieActivationListener.aidl \
-	core/java/android/service/pie/IPieHostCallback.aidl \
 	core/java/android/service/wallpaper/IWallpaperConnection.aidl \
 	core/java/android/service/wallpaper/IWallpaperEngine.aidl \
 	core/java/android/service/wallpaper/IWallpaperService.aidl \
