@@ -347,7 +347,10 @@ public final class PowerManagerService extends IPowerManager.Stub
     // The screen auto-brightness adjustment setting, from -1 to 1.
     // Use 0 if there is no adjustment.
     private float mScreenAutoBrightnessAdjustmentSetting;
-    
+
+    // The screen auto-brightness responsitivity factor, from 0.2 to 3.
+    private float mAutoBrightnessResponsitivityFactor;
+
     // The screen auto-brightness responsitivity factor, from 0.2 to 3.
     private float mAutoBrightnessResponsitivityFactor;
 
@@ -536,6 +539,7 @@ public final class PowerManagerService extends IPowerManager.Stub
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.AUTO_BRIGHTNESS_RESPONSIVENESS),
                     false, mSettingsObserver, UserHandle.USER_ALL);
+
             // Go.
             readConfigurationLocked();
             updateSettingsLocked();
@@ -620,12 +624,12 @@ public final class PowerManagerService extends IPowerManager.Stub
         if (oldScreenBrightnessModeSetting != mScreenBrightnessModeSetting) {
             mAutoBrightnessHandler.onAutoBrightnessChanged(mScreenBrightnessModeSetting);
         }
-        
+
         final float newAutoBrightnessResponsitivityFactor = Settings.System.getFloatForUser(resolver,
-            Settings.System.AUTO_BRIGHTNESS_RESPONSIVENESS, 1.0f,
-            UserHandle.USER_CURRENT);
+                Settings.System.AUTO_BRIGHTNESS_RESPONSIVENESS, 1.0f,
+                UserHandle.USER_CURRENT);
         mAutoBrightnessResponsitivityFactor =
-            Math.min(Math.max(newAutoBrightnessResponsitivityFactor, 0.2f), 3.0f);
+                Math.min(Math.max(newAutoBrightnessResponsitivityFactor, 0.2f), 3.0f);
 
         mDirty |= DIRTY_SETTINGS;
     }
@@ -1776,11 +1780,13 @@ public final class PowerManagerService extends IPowerManager.Stub
             mDisplayPowerRequest.useProximitySensor = shouldUseProximitySensorLocked();
 
             mDisplayPowerRequest.blockScreenOn = mScreenOnBlocker.isHeld();
-            
+
             mDisplayPowerRequest.responsitivityFactor = mAutoBrightnessResponsitivityFactor;
 
             mDisplayPowerRequest.electronBeamOffEnabled = mElectronBeamOffEnabled;
             mDisplayPowerRequest.electronBeamMode = mElectronBeamMode;
+
+            mDisplayPowerRequest.responsitivityFactor = mAutoBrightnessResponsitivityFactor;
 
             mDisplayReady = mDisplayPowerController.requestPowerState(mDisplayPowerRequest,
                     mRequestWaitForNegativeProximity);

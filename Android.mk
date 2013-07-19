@@ -149,6 +149,9 @@ LOCAL_SRC_FILES += \
 	core/java/android/os/IVibratorService.aidl \
 	core/java/android/service/dreams/IDreamManager.aidl \
 	core/java/android/service/dreams/IDreamService.aidl \
+	core/java/android/service/pie/IPieService.aidl \
+	core/java/android/service/pie/IPieActivationListener.aidl \
+	core/java/android/service/pie/IPieHostCallback.aidl \
 	core/java/android/service/wallpaper/IWallpaperConnection.aidl \
 	core/java/android/service/wallpaper/IWallpaperEngine.aidl \
 	core/java/android/service/wallpaper/IWallpaperService.aidl \
@@ -726,33 +729,6 @@ include $(BUILD_DROIDDOC)
 
 # explicitly specify that ds depends on framework-res and any generated docs
 $(full_target): framework-res-package-target
-
-
-#==== reference docs for GCM =======================
-
-include $(CLEAR_VARS)
-#
-gcm_docs_src_files += \
-        $(call all-java-files-under, ../../vendor/unbundled_google/libs/gcm/gcm-client/src) \
-        $(call all-java-files-under, ../../vendor/unbundled_google/libs/gcm/gcm-server/src) \
-        $(call all-html-files-under, ../../vendor/unbundled_google/libs/gcm/gcm-client/src) \
-        $(call all-html-files-under, ../../vendor/unbundled_google/libs/gcm/gcm-server/src) \
-
-LOCAL_SRC_FILES := $(gcm_docs_src_files)
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE:= online-gcm-ref
-LOCAL_MODULE_CLASS := JAVA_LIBRARIES
-LOCAL_IS_HOST_MODULE := false
-
-LOCAL_DROIDDOC_CUSTOM_TEMPLATE_DIR := build/tools/droiddoc/templates-sdk
-
-LOCAL_DROIDDOC_OPTIONS := \
-        -toroot / \
-        -gcmref \
-        -hdf android.whichdoc online \
-        -hdf template.showLanguageMenu true
-
-include $(BUILD_DROIDDOC)
 
 # ==== docs that have all of the stuff that's @hidden =======================
 include $(CLEAR_VARS)

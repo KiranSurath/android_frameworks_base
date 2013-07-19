@@ -62,6 +62,7 @@ import com.android.server.dreams.DreamManagerService;
 import com.android.server.input.InputManagerService;
 import com.android.server.net.NetworkPolicyManagerService;
 import com.android.server.net.NetworkStatsService;
+import com.android.server.pie.PieService;
 import com.android.server.pm.Installer;
 import com.android.server.pm.PackageManagerService;
 import com.android.server.pm.UserManagerService;
@@ -146,6 +147,7 @@ class ServerThread extends Thread {
         LightsService lights = null;
         PowerManagerService power = null;
         DisplayManagerService display = null;
+        DeviceHandlerService device = null;
         BatteryService battery = null;
         VibratorService vibrator = null;
         AlarmManagerService alarm = null;
@@ -278,7 +280,7 @@ class ServerThread extends Thread {
             }
 
             ActivityManagerService.setSystemProcess();
-            
+
             Slog.i(TAG, "User Service");
             ServiceManager.addService(Context.USER_SERVICE,
                     UserManagerService.getInstance());
@@ -302,11 +304,15 @@ class ServerThread extends Thread {
             Slog.i(TAG, "System Content Providers");
             ActivityManagerService.installSystemProviders();
 
+            // Requires context, activity manager y providers
+            Slog.i(TAG, "Device Handler Service");
+            device = new DeviceHandlerService(context);
+
             Slog.i(TAG, "Lights Service");
             lights = new LightsService(context);
 
             Slog.i(TAG, "Battery Service");
-            battery = new BatteryService(context, lights);
+            battery = new BatteryService(context, lights, device);
             ServiceManager.addService("battery", battery);
 
             Slog.i(TAG, "Vibrator Service");
@@ -331,7 +337,7 @@ class ServerThread extends Thread {
 
             Slog.i(TAG, "Window Manager");
             wm = WindowManagerService.main(context, power, display, inputManager,
-                    uiHandler, wmHandler,
+                    device, uiHandler, wmHandler,
                     factoryTest != SystemServer.FACTORY_TEST_LOW_LEVEL,
                     !firstBoot, onlyCore);
             ServiceManager.addService(Context.WINDOW_SERVICE, wm);
@@ -378,6 +384,7 @@ class ServerThread extends Thread {
         TextServicesManagerService tsms = null;
         LockSettingsService lockSettings = null;
         DreamManagerService dreamy = null;
+        PieService pieService = null;
 
         // Bring up services needed for UI.
         if (factoryTest != SystemServer.FACTORY_TEST_LOW_LEVEL) {
@@ -795,7 +802,7 @@ class ServerThread extends Thread {
             } catch (Throwable e) {
                 reportWtf("starting CertBlacklister", e);
             }
-            
+
             if (context.getResources().getBoolean(
                     com.android.internal.R.bool.config_dreamsSupported)) {
                 try {

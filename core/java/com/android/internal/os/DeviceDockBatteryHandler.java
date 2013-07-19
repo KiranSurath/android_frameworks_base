@@ -51,4 +51,3 @@ public interface DeviceDockBatteryHandler {
      */
     public boolean isPlugged();
 }
-

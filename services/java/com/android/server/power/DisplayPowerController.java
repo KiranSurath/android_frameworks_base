@@ -118,6 +118,7 @@ final class DisplayPowerController {
     private static final int MSG_UPDATE_POWER_STATE = 1;
     private static final int MSG_PROXIMITY_SENSOR_DEBOUNCED = 2;
     private static final int MSG_LIGHT_SENSOR_DEBOUNCED = 3;
+    private static final int MSG_UPDATE_BACKLIGHT_SETTINGS = 4;
 
     private static final int PROXIMITY_UNKNOWN = -1;
     private static final int PROXIMITY_NEGATIVE = 0;
@@ -394,14 +395,17 @@ final class DisplayPowerController {
 
         mUseSoftwareAutoBrightnessConfig = resources.getBoolean(
                 com.android.internal.R.bool.config_automatic_brightness_available);
+
         if (mUseSoftwareAutoBrightnessConfig) {
             final ContentResolver cr = mContext.getContentResolver();
             final ContentObserver observer = new ContentObserver(mHandler) {
                 @Override
                 public void onChange(boolean selfChange, Uri uri) {
-                    mAutoBrightnessSettingsChanged = true;
-                    updateAutomaticBrightnessSettings();
-                    updatePowerState();
+                    // As both LUX and BACKLIGHT might be changed at the same time, there's
+                    // a potential race condition. As the settings provider API doesn't give
+                    // us transactions to avoid them, wait a little until things settle down
+                    mHandler.removeMessages(MSG_UPDATE_BACKLIGHT_SETTINGS);
+                    mHandler.sendEmptyMessageDelayed(MSG_UPDATE_BACKLIGHT_SETTINGS, 1000);
                 }
             };
 
@@ -494,6 +498,10 @@ final class DisplayPowerController {
     }
 
     private static Spline createAutoBrightnessSpline(int[] lux, int[] brightness) {
+        if (lux.length < 2 || lux.length != (brightness.length - 1)) {
+            return null;
+        }
+
         try {
             final int n = brightness.length;
             float[] x = new float[n];
@@ -801,8 +809,9 @@ final class DisplayPowerController {
                         } else if (mPowerState.prepareElectronBeam(
                                 !mElectronBeamOffEnabled ?
                                         ElectronBeam.MODE_FADE :
-                                                ElectronBeam.MODE_COOL_DOWN)
-                                && mPowerState.isScreenOn()) {
+                                        ElectronBeam.MODE_COOL_DOWN)
+                                && mPowerState.isScreenOn()
+                                && useScreenOffAnimation()) {
                             mElectronBeamOffAnimator.start();
                         } else {
                             mElectronBeamOffAnimator.end();
@@ -1408,6 +1417,12 @@ final class DisplayPowerController {
                 case MSG_LIGHT_SENSOR_DEBOUNCED:
                     debounceLightSensor();
                     break;
+
+                case MSG_UPDATE_BACKLIGHT_SETTINGS:
+                    mAutoBrightnessSettingsChanged = true;
+                    updateAutomaticBrightnessSettings();
+                    updatePowerState();
+                    break;
             }
         }
     }
@@ -1453,4 +1468,9 @@ final class DisplayPowerController {
             updatePowerState();
         }
     };
+
+    private boolean useScreenOffAnimation() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.SCREEN_OFF_ANIMATION, 1) == 1;
+    }
 }

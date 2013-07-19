@@ -242,7 +242,6 @@ struct InputReaderConfiguration {
     // Touchpad status.
     int32_t touchpadStatus;
 
-
     // True to show the pointer icon when a stylus is used.
     bool stylusIconEnabled;
 

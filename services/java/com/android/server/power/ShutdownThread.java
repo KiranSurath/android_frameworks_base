@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2008 The Android Open Source Project
+ * Copyright (C) 2013 The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +15,17 @@
  * limitations under the License.
  */
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> cm/cm-10.1
 package com.android.server.power;
 
 import android.app.ActivityManagerNative;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.IActivityManager;
+import android.app.KeyguardManager;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.IBluetoothManager;
@@ -44,6 +49,7 @@ import android.os.Vibrator;
 import android.os.SystemVibrator;
 import android.os.storage.IMountService;
 import android.os.storage.IMountShutdownObserver;
+import android.provider.Settings;
 
 import com.android.internal.telephony.ITelephony;
 
@@ -118,14 +124,12 @@ public final class ShutdownThread extends Thread {
             }
         }
 
-        final int longPressBehavior = context.getResources().getInteger(
-                        com.android.internal.R.integer.config_longPressOnPowerBehavior);
-        final int resourceId = mRebootSafeMode
-                ? com.android.internal.R.string.reboot_safemode_confirm
-                : (longPressBehavior == 2
-                        ? com.android.internal.R.string.shutdown_confirm_question
-                        : com.android.internal.R.string.shutdown_confirm);
+        final int titleResourceId;
+        final int resourceId;
 
+        Log.d(TAG, "Notifying thread to start shutdown");
+
+<<<<<<< HEAD
          Log.d(TAG, "Notifying thread to start shutdown longPressBehavior=" + longPressBehavior);
 
         if (confirm) {
@@ -181,10 +185,109 @@ public final class ShutdownThread extends Thread {
             dialog.setOnDismissListener(closer);
             dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
             dialog.show();
+=======
+        if (mRebootSafeMode) {
+            titleResourceId = com.android.internal.R.string.reboot_safemode_title;
+            resourceId = com.android.internal.R.string.reboot_safemode_confirm;
+        } else if (mReboot) {
+            titleResourceId = com.android.internal.R.string.reboot_system;
+            resourceId = com.android.internal.R.string.reboot_confirm;
+        } else {
+
+            final int longPressBehavior = context.getResources().getInteger(
+                            com.android.internal.R.integer.config_longPressOnPowerBehavior);
+
+            titleResourceId = com.android.internal.R.string.power_off;
+            if (longPressBehavior == 2) {
+                resourceId = com.android.internal.R.string.shutdown_confirm_question;
+            } else {
+                resourceId = com.android.internal.R.string.shutdown_confirm;
+            }
+
+            Log.d(TAG, "longPressBehavior=" + longPressBehavior);
+        }
+
+        if (confirm) {
+            final CloseDialogReceiver closer = new CloseDialogReceiver(context);
+            if (sConfirmDialog != null) {
+                sConfirmDialog.dismiss();
+                sConfirmDialog = null;
+            }
+            if (mReboot && !mRebootSafeMode) {
+                // Determine if primary user is logged in
+                boolean isPrimary = UserHandle.getCallingUserId() == UserHandle.USER_OWNER;
+
+                // See if the advanced reboot menu is enabled (only if primary user) and check the keyguard state
+                boolean advancedReboot = isPrimary ? advancedRebootEnabled(context) : false;
+                KeyguardManager km = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+                boolean locked = km.inKeyguardRestrictedInputMode();
+
+                if (advancedReboot && !locked) {
+                    // Include options in power menu for rebooting into recovery or bootloader
+                    sConfirmDialog = new AlertDialog.Builder(context)
+                            .setTitle(titleResourceId)
+                            .setSingleChoiceItems(com.android.internal.R.array.shutdown_reboot_options, 0, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (which < 0)
+                                        return;
+
+                                    String actions[] = context.getResources().getStringArray(com.android.internal.R.array.shutdown_reboot_actions);
+
+                                    if (actions != null && which < actions.length)
+                                        mRebootReason = actions[which];
+                                }
+                            })
+                            .setPositiveButton(com.android.internal.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mReboot = true;
+                                    beginShutdownSequence(context);
+                                }
+                            })
+                            .setNegativeButton(com.android.internal.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mReboot = false;
+                                    dialog.cancel();
+                                }
+                            })
+                            .create();
+                            sConfirmDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                                public boolean onKey (DialogInterface dialog, int keyCode, KeyEvent event) {
+                                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                        mReboot = false;
+                                        dialog.cancel();
+                                    }
+                                    return true;
+                                }
+                            });
+                }
+            }
+
+            if (sConfirmDialog == null) {
+                sConfirmDialog = new AlertDialog.Builder(context)
+                        .setTitle(titleResourceId)
+                        .setMessage(resourceId)
+                        .setPositiveButton(com.android.internal.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                beginShutdownSequence(context);
+                            }
+                        })
+                        .setNegativeButton(com.android.internal.R.string.no, null)
+                        .create();
+            }
+
+            closer.dialog = sConfirmDialog;
+            sConfirmDialog.setOnDismissListener(closer);
+            sConfirmDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
+            sConfirmDialog.show();
+>>>>>>> cm/cm-10.1
 
         } else {
             beginShutdownSequence(context);
         }
+    }
+
+    private static boolean advancedRebootEnabled(Context context) {
+        return Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.ADVANCED_REBOOT, 0) == 1;
     }
 
     private static class CloseDialogReceiver extends BroadcastReceiver
@@ -250,6 +353,7 @@ public final class ShutdownThread extends Thread {
         // throw up an indeterminate system dialog to indicate radio is
         // shutting down.
         ProgressDialog pd = new ProgressDialog(context);
+<<<<<<< HEAD
         if (mRebootHot) {
             pd.setTitle(context.getText(com.android.internal.R.string.hot_reboot_title));
             pd.setMessage(context.getText(com.android.internal.R.string.hot_reboot_progress));
@@ -258,6 +362,14 @@ public final class ShutdownThread extends Thread {
                     com.android.internal.R.string.power_off));
             pd.setMessage(context.getText(mReboot ? com.android.internal.R.string.reboot_progress :
                     com.android.internal.R.string.shutdown_progress));
+=======
+        if (mReboot) {
+            pd.setTitle(context.getText(com.android.internal.R.string.reboot_system));
+            pd.setMessage(context.getText(com.android.internal.R.string.reboot_progress));
+        } else {
+            pd.setTitle(context.getText(com.android.internal.R.string.power_off));
+            pd.setMessage(context.getText(com.android.internal.R.string.shutdown_progress));
+>>>>>>> cm/cm-10.1
         }
         pd.setIndeterminate(true);
         pd.setCancelable(false);
@@ -338,6 +450,7 @@ public final class ShutdownThread extends Thread {
                 SystemProperties.set(REBOOT_SAFEMODE_PROPERTY, "1");
             }
 
+<<<<<<< HEAD
             Log.i(TAG, "Sending shutdown broadcast...");
 
             // First send the high-level shut down broadcast.
@@ -359,6 +472,26 @@ public final class ShutdownThread extends Thread {
                         mActionDoneSync.wait(delay);
                     } catch (InterruptedException e) {
                     }
+=======
+        Log.i(TAG, "Sending shutdown broadcast...");
+
+        // First send the high-level shut down broadcast.
+        mActionDone = false;
+        mContext.sendOrderedBroadcastAsUser(new Intent(Intent.ACTION_SHUTDOWN),
+                UserHandle.ALL, null, br, mHandler, 0, null, null);
+        
+        final long endTime = SystemClock.elapsedRealtime() + MAX_BROADCAST_TIME;
+        synchronized (mActionDoneSync) {
+            while (!mActionDone) {
+                long delay = endTime - SystemClock.elapsedRealtime();
+                if (delay <= 0) {
+                    Log.w(TAG, "Shutdown broadcast timed out");
+                    break;
+                }
+                try {
+                    mActionDoneSync.wait(delay);
+                } catch (InterruptedException e) {
+>>>>>>> cm/cm-10.1
                 }
             }
         }

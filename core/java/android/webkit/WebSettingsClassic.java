@@ -442,7 +442,17 @@ public class WebSettingsClassic extends WebSettings {
             com.android.internal.R.string.web_user_agent_target_content).toString();
         final String base = context.getResources().getText(
                 com.android.internal.R.string.web_user_agent).toString();
-        return String.format(base, buffer, mobile);
+
+        String cmtag = "";
+        final String cmversion = SystemProperties.get("ro.cm.version");
+        if (cmversion != null && cmversion.length() > 0) {
+            cmtag = " CyanogenMod/" + cmversion.replaceAll("([0-9\\.]+?)-.*","$1");
+            final String cmdevice = SystemProperties.get("ro.cm.device");
+            if (cmdevice != null && cmdevice.length() > 0)
+                cmtag = cmtag.concat("/" + cmdevice);
+        }
+
+        return String.format(base, buffer, mobile).concat(cmtag);
     }
 
     /**

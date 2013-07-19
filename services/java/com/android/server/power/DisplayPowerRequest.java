@@ -61,7 +61,7 @@ final class DisplayPowerRequest {
     // extra unnecessary latency) but we do prevent content on screen from becoming
     // visible to the user.
     public boolean blockScreenOn;
-    
+
     // Multiplication factor for delays used in auto-brightness computations
     // Lower values mean faster reaction to changing light conditions, but
     // potentially higher CPU usage and flicker.
@@ -70,6 +70,11 @@ final class DisplayPowerRequest {
     // Slim settings - override config for ElectronBeam on or off
     public int electronBeamMode;
     public boolean electronBeamOffEnabled;
+
+    // Multiplication factor for delays used in auto-brightness computations
+    // Lower values mean faster reaction to changing light conditions, but
+    // potentially higher CPU usage and flicker.
+    public float responsitivityFactor;
 
     public DisplayPowerRequest() {
         screenState = SCREEN_STATE_BRIGHT;
@@ -101,6 +106,7 @@ final class DisplayPowerRequest {
 
     public int getElectronBeamMode() {
         return electronBeamMode;
+        responsitivityFactor = other.responsitivityFactor;
     }
 
     @Override

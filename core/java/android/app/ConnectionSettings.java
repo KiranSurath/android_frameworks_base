@@ -12,7 +12,6 @@ import android.nfc.NfcAdapter;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.Settings;
-
 import com.android.internal.telephony.RILConstants;
 
 import org.xmlpull.v1.XmlPullParser;

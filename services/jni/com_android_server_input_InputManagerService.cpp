@@ -803,7 +803,7 @@ void NativeInputManager::setStylusIconEnabled(bool enabled) {
 }
 
 void NativeInputManager::setVolumeKeysRotation(int mode) {
-    // modes: 
+    // modes:
     // 0 volume key rotation disabled ~ rotation map start index 4
     // 1 phone or hybrid ~ start index 2
     // 2 tablet ~ start index 0
