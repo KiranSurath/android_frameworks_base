@@ -71,11 +71,6 @@ final class DisplayPowerRequest {
     public int electronBeamMode;
     public boolean electronBeamOffEnabled;
 
-    // Multiplication factor for delays used in auto-brightness computations
-    // Lower values mean faster reaction to changing light conditions, but
-    // potentially higher CPU usage and flicker.
-    public float responsitivityFactor;
-
     public DisplayPowerRequest() {
         screenState = SCREEN_STATE_BRIGHT;
         useProximitySensor = false;
@@ -106,7 +101,6 @@ final class DisplayPowerRequest {
 
     public int getElectronBeamMode() {
         return electronBeamMode;
-        responsitivityFactor = other.responsitivityFactor;
     }
 
     @Override

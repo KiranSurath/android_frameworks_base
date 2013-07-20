@@ -351,9 +351,6 @@ public final class PowerManagerService extends IPowerManager.Stub
     // The screen auto-brightness responsitivity factor, from 0.2 to 3.
     private float mAutoBrightnessResponsitivityFactor;
 
-    // The screen auto-brightness responsitivity factor, from 0.2 to 3.
-    private float mAutoBrightnessResponsitivityFactor;
-
     // The screen brightness mode.
     // One of the Settings.System.SCREEN_BRIGHTNESS_MODE_* constants.
     private int mScreenBrightnessModeSetting;
