@@ -319,7 +319,7 @@ public class TabletStatusBar extends BaseStatusBar implements
         }
 
         // Add QuickSettings
-        mNotificationPanel.setupQuickSettings(this, mNetworkController, mBluetoothController, 
+        mNotificationPanel.setupQuickSettings(this, mNetworkController, mBluetoothController,
                 mBatteryController, mLocationController);
 
         mStatusBarView.setIgnoreChildren(0, mNotificationTrigger, mNotificationPanel);
@@ -512,7 +512,7 @@ public class TabletStatusBar extends BaseStatusBar implements
         int numOriginalIcons = res.getInteger(R.integer.config_maxNotificationIcons);
         final int numIcons = numOriginalIcons == 2 ? Settings.System.getInt(mContext.getContentResolver(),
             Settings.System.MAX_NOTIFICATION_ICONS, 2) : numOriginalIcons;
-        
+
         if (numIcons != mMaxNotificationIcons) {
             mMaxNotificationIcons = numIcons;
             if (DEBUG) Slog.d(TAG, "max notification icons: " + mMaxNotificationIcons);
@@ -547,7 +547,7 @@ public class TabletStatusBar extends BaseStatusBar implements
         sb.setHandler(mHandler);
 
         // Overload screen with views that literally do nothing, thank you Google
-        int dummyGravity[] = {Gravity.LEFT, Gravity.TOP, Gravity.RIGHT, Gravity.BOTTOM};  
+        int dummyGravity[] = {Gravity.LEFT, Gravity.TOP, Gravity.RIGHT, Gravity.BOTTOM};
         for (int i = 0; i < 4; i++ ) {
             mPieDummytrigger[i] = new View(mContext);
             mWindowManager.addView(mPieDummytrigger[i], getDummyTriggerLayoutParams(mContext, dummyGravity[i]));
@@ -597,7 +597,6 @@ public class TabletStatusBar extends BaseStatusBar implements
                 (SignalClusterView)sb.findViewById(R.id.signal_cluster);
         mNetworkController.addSignalCluster(mSignalCluster);
         mSignalCluster.setNetworkController(mNetworkController);
-
         mBarView = (ViewGroup) mStatusBarView;
 
         mHasDockBattery = mContext.getResources().getBoolean(
