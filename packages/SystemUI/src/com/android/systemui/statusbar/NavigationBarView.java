@@ -408,7 +408,7 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
                 addLightsOutButton(lightsOut, v, landscape && !mLeftyMode, false);
 
                 if (v.getId() == R.id.back){
-                	mBackIcon = v.getDrawable();
+                ....mBackIcon = v.getDrawable();
                 }
                 if (mNumberOfButtons == 3 && j != (mNumberOfButtons - 1)) {
                     // add separator view here
@@ -759,7 +759,7 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
 
     public void setMenuVisibility(final boolean show, final boolean force) {
 
-    	if (!force && mShowMenu == show)
+    ....if (!force && mShowMenu == show)
             return;
 
         if (mMenuLocation == SHOW_DONT) {
@@ -907,7 +907,7 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
 
     @Override
     public void onFinishInflate() {
-    	 rot0 = (FrameLayout) findViewById(R.id.rot0);
+    .... rot0 = (FrameLayout) findViewById(R.id.rot0);
          rot90 = (FrameLayout) findViewById(R.id.rot90);
 
          mRotatedViews[Surface.ROTATION_0] =
