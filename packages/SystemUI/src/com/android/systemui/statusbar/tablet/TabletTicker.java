@@ -83,11 +83,11 @@ public class TabletTicker
 
     private TabletTickerCallback mEvent;
 
-    public interface TabletTickerCallback  
-    {  
+    public interface TabletTickerCallback
+    {
         public void updateTicker(StatusBarNotification notification);
         public void updateTicker(StatusBarNotification notification, String text);
-    }  
+    }
 
     public void setUpdateEvent(TabletTickerCallback event) {
         mEvent = event;
@@ -109,7 +109,7 @@ public class TabletTicker
         }
 
         if (isDisabled()) {
-            mEvent.updateTicker(notification, notification.notification.tickerText.toString());
+            if (mEvent != null) mEvent.updateTicker(notification, notification.notification.tickerText.toString());
             return;
         }
 
@@ -314,7 +314,7 @@ public class TabletTicker
                 return null;
             }
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, 
+                    ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
             content.addView(expanded, lp);
         } else if (n.tickerText != null) {
